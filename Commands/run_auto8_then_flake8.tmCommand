@@ -17,7 +17,7 @@ Pep8er::flake8
 	<key>inputFormat</key>
 	<string>text</string>
 	<key>keyEquivalent</key>
-	<string>@s</string>
+	<string>^S</string>
 	<key>name</key>
 	<string>Run: autopep8 then flake8</string>
 	<key>outputCaret</key>

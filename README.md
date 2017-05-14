@@ -1,9 +1,9 @@
 # Python Pep8er bundle for TextMate
 
 If you are a Python developer, this bundle will become really handy! When you
-save your source code in Python or Django scope, this bundle will run
-[autopep8][01] checker first, then [flake8][02] against checker against your
-current document.
+save your source code via <kbd>⌃</kbd> + <kbd>⇧</kbd> + <kbd>S</kbd> in Python
+or Django scope, this bundle will run [autopep8][01] checker first, then
+[flake8][02] against checker against your current document.
 
 Before and after **autopep8**:
 ![Pep8er for TextMate](Screenshots/before-and-after-autopep8.png "Pep8er for TextMate")
@@ -44,11 +44,19 @@ git clone https://github.com/vigo/textmate2-python-pep8er.git
 # restart your TextMate
 ```
 
-Now, when you save Python file, your source code will shine! :)
+Now It’s your turn to shine your Python code via kicking the keys!
 
 
 ---
 
+## Keyboard Shortcuts
+
+Key Combination | Function
+----------------|----------------
+<kbd>kntrl (⌃)</kbd> + <kbd>shift (⇧)</kbd> + <kbd>S</kbd> | Runs autopep8 and flake8 in-order.
+<kbd>kntrl (⌃)</kbd> + <kbd>S</kbd> | Let’s you run autopep8 or flake8 individually. 
+
+---
 
 ## TextMate Variables
 
@@ -129,6 +137,7 @@ This project is licensed under MIT
 
 * Updated: Success tooltip message now shows maximum characters value
 * Updated: Screenshot of `before-and-after-flake8.png`
+* Changed: Overriding default save keys (<kbd>⌘</kbd> + <kbd>S</kbd>) was a bad idea :)
 
 **2017-05-13**
 
