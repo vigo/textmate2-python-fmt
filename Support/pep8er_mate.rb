@@ -63,8 +63,16 @@ module Pep8er
     system(ENV['TM_MATE'], "--clear-mark=note", "--clear-mark=warning", "--clear-mark=error")
     
     lines = out.split("\n")
-    TextMate.exit_show_tool_tip(".\n  Source looks great 👍   .\n.") if lines.count == 0
-    
+    if lines.count == 0
+      
+      succes_tooltip_message = "#{"-"*64}\n"\
+        "Source looks great 👍\n"\
+        "Checked agains *#{MAXIMUM_CHARACTER_AMOUNT}* chars!\n"\
+        "#{"-"*64}"
+
+      TextMate.exit_show_tool_tip(succes_tooltip_message) 
+    end
+
     lines.each do |line|
       line_result   = line.split(" || ")
 

@@ -125,6 +125,11 @@ This project is licensed under MIT
 
 ## Change Log
 
+**2017-05-14**
+
+* Updated: Success tooltip message now shows maximum characters value
+* Updated: Screenshot of `before-and-after-flake8.png`
+
 **2017-05-13**
 
 * First release :)
