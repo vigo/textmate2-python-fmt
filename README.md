@@ -1,3 +1,7 @@
+![Version](https://img.shields.io/badge/version-1.0.0-orange.svg)
+![Plaftorm](https://img.shields.io/badge/platform-TextMate-blue.svg)
+
+
 # Python Pep8er bundle for TextMate
 
 If you are a Python developer, this bundle will become really handy! When you
@@ -6,9 +10,11 @@ or Django scope, this bundle will run [autopep8][01] checker first, then
 [flake8][02] against checker against your current document.
 
 Before and after **autopep8**:
+
 ![Pep8er for TextMate](Screenshots/before-and-after-autopep8.png "Pep8er for TextMate")
 
 Before and after **flake8**:
+
 ![Pep8er for TextMate](Screenshots/before-and-after-flake8.png "Pep8er for TextMate")
 
 
@@ -26,6 +32,25 @@ You can add custom TextMate variables from **TextMate > Preferences > Variables*
     TM_PEP8ER_AUTOPEP8 | /Users/vigo/.pyenv/shims/autopep8  # If you like to use pyenv
     TM_PEP8ER_FLAKE8   | /Users/vigo/.pyenv/shims/flake8
 
+or run this:
+
+```bash
+which autopep8 # grab this value and put instead of VAL1 below
+which flake8   # grab this value and put instead of VAL2 below
+
+defaults write com.macromates.textmate environmentVariables -array-add \
+    '{enabled = 1; value = "VAL1"; name = "TM_PEP8ER_AUTOPEP8"; }' \
+    '{enabled = 1; value = "VAL2"; name = "TM_PEP8ER_FLAKE8"; }'
+
+# example:
+defaults write com.macromates.textmate environmentVariables -array-add \
+    '{enabled = 1; value = "/usr/local/bin/autopep8"; name = "TM_PEP8ER_AUTOPEP8"; }' \
+    '{enabled = 1; value = "/usr/local/bin/flake8"; name = "TM_PEP8ER_FLAKE8"; }'
+
+# Restart TextMate
+```
+
+
 I recommend you to install these modules to different location rather than Homebrew’s
 or pyenv’s defaults:
 
@@ -39,9 +64,10 @@ sudo /usr/bin/easy_install --script-dir=/usr/bin/ autopep8
 When you finish required Python module installation, clone the repo:
 
 ```bash
-cd "~/Library/Application Support/TextMate/Bundles/"
-git clone https://github.com/vigo/textmate2-python-pep8er.git
-# restart your TextMate
+cd ~/Library/Application\ Support/TextMate/Bundles/
+git clone https://github.com/vigo/textmate2-python-pep8er.git Python-PEP8er.tmbundle
+
+# Restart TextMate
 ```
 
 Now It’s your turn to shine your Python code via kicking the keys!
@@ -132,6 +158,11 @@ This project is licensed under MIT
 
 
 ## Change Log
+
+**2017-07-02**
+
+* Updated: README file. Added useful setup instructions.
+* Added: Badges :)
 
 **2017-05-14**
 
