@@ -39,12 +39,25 @@ module Python
   # TM_PYTHON_FMT_FLAKE8_EXTRA_OPTIONS: Extra args
   # TM_PYTHON_FMT_FLAKE8_CUSTOM_OPTIONS: Overrides all
   
+  # TM_PYTHON_FMT_ISORT: binary of "isort" tool
+  
+  # callback.document.will-save
+  def Python::isort
+    shell_command = ENV['TM_PYTHON_FMT_ISORT'] || `command -v isort`.chomp
+    TextMate.exit_show_tool_tip(tooltip_box($ERROR_COMMAND_ENVVAR % ["isort", "TM_PYTHON_FMT_ISORT"])) if shell_command.empty?
+    
+    args = [
+      "--line-width",
+      MAXIMUM_CHARACTER_AMOUNT,
+      "-",
+    ]
+    
+    $OUTPUT, err = TextMate::Process.run(shell_command, args, :input => $DOCUMENT)
+    TextMate.exit_show_tool_tip(err) unless err.nil? || err == ""
+  end
+
   # callback.document.will-save
   def Python::autopep8
-    check_python = check_env("TM_PYTHON")
-    TextMate.exit_show_tool_tip(check_python) unless check_python.nil?
-    ENV['PATH'] = "#{File.dirname(ENV['TM_PYTHON'])}:#{ENV['PATH']}"
-
     shell_command = ENV['TM_PYTHON_FMT_AUTOPEP8'] || `command -v autopep8`.chomp
     TextMate.exit_show_tool_tip(tooltip_box($ERROR_COMMAND_ENVVAR % ["autopep8", "TM_PYTHON_FMT_AUTOPEP8"])) if shell_command.empty?
 
@@ -63,6 +76,15 @@ module Python
     args += ["-"]
     $OUTPUT, err = TextMate::Process.run(shell_command, args, :input => $DOCUMENT)
     TextMate.exit_show_tool_tip(err) unless err.nil? || err == ""
+  end
+
+  def Python::run_will_save
+    check_python = check_env("TM_PYTHON")
+    TextMate.exit_show_tool_tip(check_python) unless check_python.nil?
+    ENV['PATH'] = "#{File.dirname(ENV['TM_PYTHON'])}:#{ENV['PATH']}"
+    
+    self.autopep8
+    self.isort
     
     print $OUTPUT
   end

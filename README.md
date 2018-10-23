@@ -1,4 +1,4 @@
-![Version](https://img.shields.io/badge/version-2.0.0-orange.svg)
+![Version](https://img.shields.io/badge/version-2.1.0-orange.svg)
 ![Plaftorm](https://img.shields.io/badge/platform-TextMate-blue.svg)
 ![macOS](https://img.shields.io/badge/macos-HighSierra-yellow.svg)
 
@@ -14,6 +14,7 @@ Using:
 
 - [autopep8][01]
 - [flake8][02]
+- [isort][03]
 
 Todo:
 
@@ -40,7 +41,7 @@ $ pyenv which python
 Install packages:
 
 ```bash
-$ pip install autopep8
+$ pip install autopep8 isort
 $ pip install -e git+https://gitlab.com/pycqa/flake8#egg=flake8
 ```
 
@@ -64,7 +65,7 @@ Check you Python and set `TM_PYTHON` variable from **TextMate > Preferences > Va
 ```bash
 $ which python
 /usr/local/bin/python # example output
-$ pip install autopep8
+$ pip install autopep8 isort
 $ pip install -e git+https://gitlab.com/pycqa/flake8#egg=flake8
 ```
 
@@ -84,6 +85,7 @@ and restart TextMate!
 ```bash
 $ sudo /usr/bin/easy_install --script-dir=/usr/bin/ flake8
 $ sudo /usr/bin/easy_install --script-dir=/usr/bin/ autopep8
+$ sudo /usr/bin/easy_install --script-dir=/usr/bin/ isort
 ```
 
 You don’t need to set `TM_PYTHON` variable... Now clone repo:
@@ -105,10 +107,12 @@ set `TM_PYTHON` variable.
 `TM_PYTHON_FMT_CUSTOM_MAX_CHARS`  
 By default, maximum character limit is: `79`. Use this variable to set yours.
 
+
 `TM_PYTHON_FMT_DJANGO_MAX_CHARS`  
 Django allows `119` characters. If your scope is `source.django` and you would
 like to check against 119 chars (*or what number you’d like to*), you need to 
 set `TM_PYTHON_FMT_DJANGO_MAX_CHARS`.
+
 
 `TM_PYTHON_FMT_AUTOPEP8_EXTRA_OPTIONS`  
 By default, `autopep8` arguments are:
@@ -121,11 +125,18 @@ $ autopep8 --in-place --aggressive --aggressive --max-line-length 79
 You can add more parameters via `TM_PYTHON_FMT_AUTOPEP8_EXTRA_OPTIONS` variable.
 If you set, values will be appended to default parameters.
 
+
 `TM_PYTHON_FMT_AUTOPEP8_CUSTOM_OPTIONS`  
 If you like to run your own (*this will override defaults*) just use:
 `TM_PYTHON_FMT_AUTOPEP8_CUSTOM_OPTIONS` variable. Example:
 
     --max-line-length 79 --line-range 20 40
+
+
+`TM_PYTHON_FMT_FLAKE8`  
+It’s possible to set binary location of `flake8`. This is handy if you don’t
+set `TM_PYTHON` variable.
+
 
 `TM_PYTHON_FMT_FLAKE8_EXTRA_OPTIONS`  
 Will append extra options to `flake8` defaults. By defaults, `flake8`
@@ -136,9 +147,16 @@ $ flake8 --max-line-length 79 --format "%(row)d || %(col)d || %(code)s || %(text
 # 79 or what number you set via TM_PYTHON_FMT_CUSTOM_MAX_CHARS variable
 ```
 
+
 `TM_PYTHON_FMT_FLAKE8_CUSTOM_OPTIONS`  
 If you like to run your own (*this will override defaults*) just use:
 `TM_PYTHON_FMT_FLAKE8_CUSTOM_OPTIONS` variable.
+
+
+`TM_PYTHON_FMT_ISORT`  
+It’s possible to set binary location of `isort`. This is handy if you don’t
+set `TM_PYTHON` variable.
+
 
 ---
 
@@ -178,7 +196,8 @@ This project is licensed under MIT
 
 * Bundle re-written from scratch
 * Now using `callback.document.will-save` and `callback.document.did-save` hooks
-* Version is now `2.0.0`
+* `isort` support added
+* Version is now `2.1.0`
 
 **2017-07-02**
 
@@ -201,3 +220,4 @@ This project is licensed under MIT
 
 [01]: https://pypi.python.org/pypi/autopep8 "autopep8 PEP8 checker"
 [02]: https://pypi.python.org/pypi/flake8 "flake8 source code checker"
+[03]: https://pypi.python.org/pypi/isort "isort fixes import order"
