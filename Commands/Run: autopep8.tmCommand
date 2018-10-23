@@ -7,27 +7,25 @@
 	<key>command</key>
 	<string>#!/usr/bin/env ruby18
 
-require "#{ENV['TM_BUNDLE_SUPPORT']}/pep8er_mate"
+require "#{ENV['TM_BUNDLE_SUPPORT']}/python_helper"
 
-Pep8er::autopep8
-Pep8er::flake8
-</string>
+Python::autopep8</string>
 	<key>input</key>
 	<string>document</string>
 	<key>inputFormat</key>
 	<string>text</string>
-	<key>keyEquivalent</key>
-	<string>^S</string>
 	<key>name</key>
-	<string>Run: autopep8 then flake8</string>
+	<string>Run: autopep8</string>
 	<key>outputCaret</key>
 	<string>interpolateByChar</string>
 	<key>outputFormat</key>
 	<string>text</string>
 	<key>outputLocation</key>
-	<string>discard</string>
+	<string>replaceDocument</string>
 	<key>scope</key>
 	<string>source.python</string>
+	<key>semanticClass</key>
+	<string>callback.document.will-save</string>
 	<key>uuid</key>
 	<string>58FC0F23-F526-4BF7-A9B4-DD5EF63BA0EB</string>
 	<key>version</key>

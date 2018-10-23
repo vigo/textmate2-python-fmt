@@ -1,131 +1,146 @@
-![Version](https://img.shields.io/badge/version-1.0.0-orange.svg)
+![Version](https://img.shields.io/badge/version-2.0.0-orange.svg)
 ![Plaftorm](https://img.shields.io/badge/platform-TextMate-blue.svg)
+![macOS](https://img.shields.io/badge/macos-HighSierra-yellow.svg)
 
 
-# Python Pep8er bundle for TextMate
+# Python FMT bundle for TextMate
 
-If you are a Python developer, this bundle will become really handy! When you
-save your source code via <kbd>⌃</kbd> + <kbd>⇧</kbd> + <kbd>S</kbd> in Python
-or Django scope, this bundle will run [autopep8][01] checker first, then
-[flake8][02] against checker against your current document.
+Hit <kbd>⌘</kbd> + <kbd>S</kbd> I’ll handle the rest!
+
+While writing Python code in `Python` or `Django` scope, this bundle
+handles before and after save events and formats/lints/checks your code.
+
+Using:
+
+- [autopep8][01]
+- [flake8][02]
+
+Todo:
+
+- Black integration...
 
 Before and after **autopep8**:
 
-![Pep8er for TextMate](Screenshots/before-and-after-autopep8.png "Pep8er for TextMate")
+![Python FMT for TextMate](Screenshots/before-and-after-autopep8.png "autopep8 filtering")
 
 Before and after **flake8**:
 
-![Pep8er for TextMate](Screenshots/before-and-after-flake8.png "Pep8er for TextMate")
+![Python FMT for TextMate](Screenshots/before-and-after-flake8.png "flake8 filtering")
 
 
-## Installation
+## Installation: `pyenv` Users
 
-You need to install `autopep8` and `flake8` Python modules according to your
-Python environment. Example:
-
-```bash
-pip install autopep8 flake8 # good for Homebrew Python installation.
-```
-
-You can add custom TextMate variables from **TextMate > Preferences > Variables**
-
-    TM_PEP8ER_AUTOPEP8 | /Users/vigo/.pyenv/shims/autopep8  # If you like to use pyenv
-    TM_PEP8ER_FLAKE8   | /Users/vigo/.pyenv/shims/flake8
-
-or run this:
+Checker your Python binary:
 
 ```bash
-which autopep8 # grab this value and put instead of VAL1 below
-which flake8   # grab this value and put instead of VAL2 below
-
-defaults write com.macromates.textmate environmentVariables -array-add \
-    '{enabled = 1; value = "VAL1"; name = "TM_PEP8ER_AUTOPEP8"; }' \
-    '{enabled = 1; value = "VAL2"; name = "TM_PEP8ER_FLAKE8"; }'
-
-# example:
-defaults write com.macromates.textmate environmentVariables -array-add \
-    '{enabled = 1; value = "/usr/local/bin/autopep8"; name = "TM_PEP8ER_AUTOPEP8"; }' \
-    '{enabled = 1; value = "/usr/local/bin/flake8"; name = "TM_PEP8ER_FLAKE8"; }'
-
-# Restart TextMate
+$ pyenv which python
+/Users/vigo/.pyenv/versions/3.6.4/bin/python # example output
 ```
 
-
-I recommend you to install these modules to different location rather than Homebrew’s
-or pyenv’s defaults:
+Install packages:
 
 ```bash
-sudo /usr/bin/easy_install --script-dir=/usr/bin/ flake8
-sudo /usr/bin/easy_install --script-dir=/usr/bin/ autopep8
-
-# Now you you don’t need to set anything from TextMate variables.
+$ pip install autopep8
+$ pip install -e git+https://gitlab.com/pycqa/flake8#egg=flake8
 ```
 
-When you finish required Python module installation, clone the repo:
+Then set `TM_PYTHON` variable from **TextMate > Preferences > Variables**:
+
+    TM_PYTHON    /Users/vigo/.pyenv/versions/3.6.4/bin/python
+
+Now bundle auto discovers the packages. Now clone repo:
 
 ```bash
-cd ~/Library/Application\ Support/TextMate/Bundles/
-git clone https://github.com/vigo/textmate2-python-pep8er.git Python-PEP8er.tmbundle
-
-# Restart TextMate
+$ cd ~/Library/Application\ Support/TextMate/Bundles/
+$ git clone https://github.com/vigo/textmate2-python-fmt.git
 ```
 
-Now It’s your turn to shine your Python code via kicking the keys!
+and restart TextMate!
 
+## Installation: `homebrew` Users
 
----
+Check you Python and set `TM_PYTHON` variable from **TextMate > Preferences > Variables**:
 
-## Keyboard Shortcuts
+```bash
+$ which python
+/usr/local/bin/python # example output
+$ pip install autopep8
+$ pip install -e git+https://gitlab.com/pycqa/flake8#egg=flake8
+```
 
-Key Combination | Function
-----------------|----------------
-<kbd>kntrl (⌃)</kbd> + <kbd>shift (⇧)</kbd> + <kbd>S</kbd> | Runs autopep8 and flake8 in-order.
-<kbd>kntrl (⌃)</kbd> + <kbd>S</kbd> | Let’s you run autopep8 or flake8 individually. 
+    TM_PYTHON    /usr/local/bin/python
 
----
+Now clone repo:
+
+```bash
+$ cd ~/Library/Application\ Support/TextMate/Bundles/
+$ git clone https://github.com/vigo/textmate2-python-fmt.git
+```
+
+and restart TextMate!
+
+## Installation: macOS Defaults
+
+```bash
+$ sudo /usr/bin/easy_install --script-dir=/usr/bin/ flake8
+$ sudo /usr/bin/easy_install --script-dir=/usr/bin/ autopep8
+```
+
+You don’t need to set `TM_PYTHON` variable... Now clone repo:
+
+```bash
+$ cd ~/Library/Application\ Support/TextMate/Bundles/
+$ git clone https://github.com/vigo/textmate2-python-fmt.git
+```
+
+and restart TextMate!
 
 ## TextMate Variables
 
-### `TM_PEP8ER_CUSTOM_MAX_CHARS`
+`TM_PYTHON_FMT_AUTOPEP8`  
+It’s possible to set binary location of `autopep8`. This is handy if you don’t
+set `TM_PYTHON` variable.
 
-By default, maximum character limit is: `79`. You can change it via using
-`TM_PEP8ER_CUSTOM_MAX_CHARS` TextMate variable.
 
-### `TM_PEP8ER_DJANGO_MAX_CHARS`
+`TM_PYTHON_FMT_CUSTOM_MAX_CHARS`  
+By default, maximum character limit is: `79`. Use this variable to set yours.
 
+`TM_PYTHON_FMT_DJANGO_MAX_CHARS`  
 Django allows `119` characters. If your scope is `source.django` and you would
 like to check against 119 chars (*or what number you’d like to*), you need to 
-set `TM_PEP8ER_DJANGO_MAX_CHARS`.
+set `TM_PYTHON_FMT_DJANGO_MAX_CHARS`.
 
-### `TM_PEP8ER_AUTOPEP8` and `TM_PEP8ER_FLAKE8`
-
-Executable binary locations will be used from these variables if they are set.
-
-### `TM_PEP8ER_AUTOPEP8_EXTRA_OPTIONS` and `TM_PEP8ER_AUTOPEP8_CUSTOM_OPTIONS`
-
+`TM_PYTHON_FMT_AUTOPEP8_EXTRA_OPTIONS`  
 By default, `autopep8` arguments are:
 
 ```bash
-autopep8 --in-place --aggressive --aggressive --max-line-length 79 # or what number you set via TM variable
+$ autopep8 --in-place --aggressive --aggressive --max-line-length 79
+# 79 or what number you set via TM_PYTHON_FMT_CUSTOM_MAX_CHARS variable
 ```
 
-You can add more parameters via `TM_PEP8ER_AUTOPEP8_EXTRA_OPTIONS` variable.
+You can add more parameters via `TM_PYTHON_FMT_AUTOPEP8_EXTRA_OPTIONS` variable.
 If you set, values will be appended to default parameters.
 
+`TM_PYTHON_FMT_AUTOPEP8_CUSTOM_OPTIONS`  
 If you like to run your own (*this will override defaults*) just use:
-`TM_PEP8ER_AUTOPEP8_CUSTOM_OPTIONS` variable. Example:
+`TM_PYTHON_FMT_AUTOPEP8_CUSTOM_OPTIONS` variable. Example:
 
-    TM_PEP8ER_AUTOPEP8_CUSTOM_OPTIONS | --max-line-length 79 --line-range 20 40
+    --max-line-length 79 --line-range 20 40
 
-### `TM_PEP8ER_FLAKE8_EXTRA_OPTIONS` and `TM_PEP8ER_FLAKE8_CUSTOM_OPTIONS`
+`TM_PYTHON_FMT_FLAKE8_EXTRA_OPTIONS`  
+Will append extra options to `flake8` defaults. By defaults, `flake8`
+arguments are:
 
-Same as previous variable. `TM_PEP8ER_FLAKE8_EXTRA_OPTIONS` will be appended to
-default parameters of `flake8`. Custom options will override defaults via
-`TM_PEP8ER_FLAKE8_CUSTOM_OPTIONS` variable. (*Not recommended*)
+```bash
+$ flake8 --max-line-length 79 --format "%(row)d || %(col)d || %(code)s || %(text)s"
+# 79 or what number you set via TM_PYTHON_FMT_CUSTOM_MAX_CHARS variable
+```
 
+`TM_PYTHON_FMT_FLAKE8_CUSTOM_OPTIONS`  
+If you like to run your own (*this will override defaults*) just use:
+`TM_PYTHON_FMT_FLAKE8_CUSTOM_OPTIONS` variable.
 
 ---
-
 
 ## Contributer(s)
 
@@ -139,7 +154,7 @@ default parameters of `flake8`. Custom options will override defaults via
 
 All PR’s are welcome!
 
-1. `fork` (https://github.com/vigo/textmate2-python-pep8er/fork)
+1. `fork` (https://github.com/vigo/textmate2-python-fmt/fork)
 1. Create your `branch` (`git checkout -b my-features`)
 1. `commit` yours (`git commit -am 'added killer options'`)
 1. `push` your `branch` (`git push origin my-features`)
@@ -158,6 +173,12 @@ This project is licensed under MIT
 
 
 ## Change Log
+
+**2018-10-24**
+
+* Bundle re-written from scratch
+* Now using `callback.document.will-save` and `callback.document.did-save` hooks
+* Version is now `2.0.0`
 
 **2017-07-02**
 

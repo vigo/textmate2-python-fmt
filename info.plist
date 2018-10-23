@@ -7,24 +7,18 @@
 	<key>contactName</key>
 	<string>Uğur "vigo" Özyılmazel</string>
 	<key>description</key>
-	<string>Python source code helper bundle. By default, `⌘ + S` runs:
-
-- `autopep8`
-- `flake8`
-
-You can run individually via: `⌃ + P`.
+	<string>Python FMT - Inspired from `gofmt`. Press `⌘ + S` then I handle the rest.
 </string>
 	<key>mainMenu</key>
 	<dict>
 		<key>items</key>
 		<array>
 			<string>58FC0F23-F526-4BF7-A9B4-DD5EF63BA0EB</string>
-			<string>B8C8F9EA-FC24-4B3B-9A92-870ABEFE5937</string>
-			<string>4A3E3C86-E1D5-4FC0-BA20-0705507F591D</string>
+			<string>93307C94-7EDE-4D70-9608-17DB31D9FA42</string>
 		</array>
 	</dict>
 	<key>name</key>
-	<string>Python Pep8er</string>
+	<string>Python FMT</string>
 	<key>uuid</key>
 	<string>6CAFEF90-868F-46D0-AC9E-AB70DACED414</string>
 </dict>
