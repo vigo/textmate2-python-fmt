@@ -1,4 +1,4 @@
-![Version](https://img.shields.io/badge/version-2.1.1-orange.svg)
+![Version](https://img.shields.io/badge/version-2.1.2-orange.svg)
 ![Plaftorm](https://img.shields.io/badge/platform-TextMate-blue.svg)
 ![macOS](https://img.shields.io/badge/macos-HighSierra-yellow.svg)
 
@@ -157,6 +157,8 @@ If you like to run your own (*this will override defaults*) just use:
 It’s possible to set binary location of `isort`. This is handy if you don’t
 set `TM_PYTHON` variable.
 
+`TM_PYTHON_FMT_ISORT_EXTRA_OPTIONS`  
+Will append extra options to `isort` defaults.
 
 ---
 
@@ -195,7 +197,7 @@ This project is licensed under MIT
 **2018-10-24**
 
 * Fix: Added missing `git clone` information
-* Version is now `2.1.1`
+* Version is now `2.1.2`
 
 **2018-10-24**
 

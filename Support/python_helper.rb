@@ -40,6 +40,7 @@ module Python
   # TM_PYTHON_FMT_FLAKE8_CUSTOM_OPTIONS: Overrides all
   
   # TM_PYTHON_FMT_ISORT: binary of "isort" tool
+  # TM_PYTHON_FMT_ISORT_EXTRA_OPTIONS: Extra args
   
   # callback.document.will-save
   def Python::isort
@@ -47,13 +48,23 @@ module Python
     TextMate.exit_show_tool_tip(tooltip_box($ERROR_COMMAND_ENVVAR % ["isort", "TM_PYTHON_FMT_ISORT"])) if shell_command.empty?
     
     args = [
+      "--quiet",
       "--line-width",
       MAXIMUM_CHARACTER_AMOUNT,
-      "-",
     ]
     
-    $OUTPUT, err = TextMate::Process.run(shell_command, args, :input => $DOCUMENT)
-    TextMate.exit_show_tool_tip(err) unless err.nil? || err == ""
+    args += ENV['TM_PYTHON_FMT_ISORT_EXTRA_OPTIONS'].split if ENV['TM_PYTHON_FMT_ISORT_EXTRA_OPTIONS']
+    args += ["-"]
+
+    skip_operation = false
+    args.each_index.select{|i| args[i] == "--skip"}.each do |i|
+      skip_operation = true if args[i+1] == ENV['TM_FILENAME']
+    end
+    
+    unless skip_operation
+      $OUTPUT, err = TextMate::Process.run(shell_command, args, :input => $DOCUMENT)
+      TextMate.exit_show_tool_tip(err) unless err.nil? || err == ""
+    end
   end
 
   # callback.document.will-save
@@ -68,7 +79,7 @@ module Python
       MAXIMUM_CHARACTER_AMOUNT,
     ]
     
-    args += [ENV['TM_PYTHON_FMT_AUTOPEP8_EXTRA_OPTIONS']] if ENV['TM_PYTHON_FMT_AUTOPEP8_EXTRA_OPTIONS']
+    args += ENV['TM_PYTHON_FMT_AUTOPEP8_EXTRA_OPTIONS'].split if ENV['TM_PYTHON_FMT_AUTOPEP8_EXTRA_OPTIONS']
     
     # TM_PYTHON_FMT_AUTOPEP8_CUSTOM_OPTIONS will override everything...
     args = ENV['TM_PYTHON_FMT_AUTOPEP8_CUSTOM_OPTIONS'] if ENV['TM_PYTHON_FMT_AUTOPEP8_CUSTOM_OPTIONS']
@@ -131,7 +142,7 @@ module Python
       "%(row)d || %(col)d || %(code)s || %(text)s",
     ]
     
-    args += [ENV['TM_PYTHON_FMT_FLAKE8_EXTRA_OPTIONS']] if ENV['TM_PYTHON_FMT_FLAKE8_EXTRA_OPTIONS']
+    args += ENV['TM_PYTHON_FMT_FLAKE8_EXTRA_OPTIONS'].split if ENV['TM_PYTHON_FMT_FLAKE8_EXTRA_OPTIONS']
     
     # TM_PYTHON_FMT_FLAKE8_CUSTOM_OPTIONS will override everything!
     args = ENV['TM_PYTHON_FMT_FLAKE8_CUSTOM_OPTIONS'] if ENV['TM_PYTHON_FMT_FLAKE8_CUSTOM_OPTIONS']
