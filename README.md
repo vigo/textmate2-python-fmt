@@ -1,4 +1,4 @@
-![Version](https://img.shields.io/badge/version-2.1.0-orange.svg)
+![Version](https://img.shields.io/badge/version-2.1.1-orange.svg)
 ![Plaftorm](https://img.shields.io/badge/platform-TextMate-blue.svg)
 ![macOS](https://img.shields.io/badge/macos-HighSierra-yellow.svg)
 
@@ -53,7 +53,7 @@ Now bundle auto discovers the packages. Now clone repo:
 
 ```bash
 $ cd ~/Library/Application\ Support/TextMate/Bundles/
-$ git clone https://github.com/vigo/textmate2-python-fmt.git
+$ git clone https://github.com/vigo/textmate2-python-fmt.git Python-FMT.tmbundle
 ```
 
 and restart TextMate!
@@ -75,7 +75,7 @@ Now clone repo:
 
 ```bash
 $ cd ~/Library/Application\ Support/TextMate/Bundles/
-$ git clone https://github.com/vigo/textmate2-python-fmt.git
+$ git clone https://github.com/vigo/textmate2-python-fmt.git Python-FMT.tmbundle
 ```
 
 and restart TextMate!
@@ -92,7 +92,7 @@ You don’t need to set `TM_PYTHON` variable... Now clone repo:
 
 ```bash
 $ cd ~/Library/Application\ Support/TextMate/Bundles/
-$ git clone https://github.com/vigo/textmate2-python-fmt.git
+$ git clone https://github.com/vigo/textmate2-python-fmt.git Python-FMT.tmbundle
 ```
 
 and restart TextMate!
@@ -191,6 +191,11 @@ This project is licensed under MIT
 
 
 ## Change Log
+
+**2018-10-24**
+
+* Fix: Added missing `git clone` information
+* Version is now `2.1.1`
 
 **2018-10-24**
 
