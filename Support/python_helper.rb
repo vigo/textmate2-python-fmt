@@ -42,64 +42,6 @@ module Python
   # TM_PYTHON_FMT_ISORT: binary of "isort" tool
   # TM_PYTHON_FMT_ISORT_EXTRA_OPTIONS: Extra args
   
-  # callback.document.will-save
-  def Python::isort
-    shell_command = ENV['TM_PYTHON_FMT_ISORT'] || `command -v isort`.chomp
-    TextMate.exit_show_tool_tip(tooltip_box($ERROR_COMMAND_ENVVAR % ["isort", "TM_PYTHON_FMT_ISORT"])) if shell_command.empty?
-    
-    args = [
-      "--quiet",
-      "--line-width",
-      MAXIMUM_CHARACTER_AMOUNT,
-    ]
-    
-    args += ENV['TM_PYTHON_FMT_ISORT_EXTRA_OPTIONS'].split if ENV['TM_PYTHON_FMT_ISORT_EXTRA_OPTIONS']
-    args += ["-"]
-
-    skip_operation = false
-    args.each_index.select{|i| args[i] == "--skip"}.each do |i|
-      skip_operation = true if args[i+1] == ENV['TM_FILENAME']
-    end
-    
-    unless skip_operation
-      $OUTPUT, err = TextMate::Process.run(shell_command, args, :input => $DOCUMENT)
-      TextMate.exit_show_tool_tip(err) unless err.nil? || err == ""
-    end
-  end
-
-  # callback.document.will-save
-  def Python::autopep8
-    shell_command = ENV['TM_PYTHON_FMT_AUTOPEP8'] || `command -v autopep8`.chomp
-    TextMate.exit_show_tool_tip(tooltip_box($ERROR_COMMAND_ENVVAR % ["autopep8", "TM_PYTHON_FMT_AUTOPEP8"])) if shell_command.empty?
-
-    args = [
-      "--aggressive",
-      "--aggressive",
-      "--max-line-length",
-      MAXIMUM_CHARACTER_AMOUNT,
-    ]
-    
-    args += ENV['TM_PYTHON_FMT_AUTOPEP8_EXTRA_OPTIONS'].split if ENV['TM_PYTHON_FMT_AUTOPEP8_EXTRA_OPTIONS']
-    
-    # TM_PYTHON_FMT_AUTOPEP8_CUSTOM_OPTIONS will override everything...
-    args = ENV['TM_PYTHON_FMT_AUTOPEP8_CUSTOM_OPTIONS'] if ENV['TM_PYTHON_FMT_AUTOPEP8_CUSTOM_OPTIONS']
-    
-    args += ["-"]
-    $OUTPUT, err = TextMate::Process.run(shell_command, args, :input => $DOCUMENT)
-    TextMate.exit_show_tool_tip(err) unless err.nil? || err == ""
-  end
-
-  def Python::run_will_save
-    check_python = check_env("TM_PYTHON")
-    TextMate.exit_show_tool_tip(check_python) unless check_python.nil?
-    ENV['PATH'] = "#{File.dirname(ENV['TM_PYTHON'])}:#{ENV['PATH']}"
-    
-    self.autopep8
-    self.isort
-    
-    print $OUTPUT
-  end
-
   def Python::reset_markers
     system(ENV['TM_MATE'], "--uuid", ENV['TM_DOCUMENT_UUID'], "--clear-mark=note", "--clear-mark=warning", "--clear-mark=error")
   end
@@ -123,7 +65,66 @@ module Python
       ]
       system(ENV['TM_MATE'], *tm_args)
     end
+  end
+
+  # callback.document.will-save
+  def Python::isort
+    shell_command = ENV['TM_PYTHON_FMT_ISORT'] || `command -v isort`.chomp
+    TextMate.exit_show_tool_tip(tooltip_box($ERROR_COMMAND_ENVVAR % ["isort", "TM_PYTHON_FMT_ISORT"])) if shell_command.empty?
     
+    args = [
+      "--quiet",
+      "--line-width",
+      MAXIMUM_CHARACTER_AMOUNT,
+    ]
+    
+    args += ENV['TM_PYTHON_FMT_ISORT_EXTRA_OPTIONS'].split if ENV['TM_PYTHON_FMT_ISORT_EXTRA_OPTIONS']
+    args += ["-"]
+
+    skip_operation = false
+    args.each_index.select{|i| args[i] == "--skip"}.each do |i|
+      skip_operation = true if args[i+1] == ENV['TM_FILENAME']
+    end
+    
+    unless skip_operation
+      $OUTPUT, err = TextMate::Process.run(shell_command, args, :input => $DOCUMENT)
+      TextMate.exit_show_tool_tip(err) unless err.nil? || err == ""
+      $DOCUMENT = $OUTPUT
+    end
+  end
+
+  # callback.document.will-save
+  def Python::autopep8
+    shell_command = ENV['TM_PYTHON_FMT_AUTOPEP8'] || `command -v autopep8`.chomp
+    TextMate.exit_show_tool_tip(tooltip_box($ERROR_COMMAND_ENVVAR % ["autopep8", "TM_PYTHON_FMT_AUTOPEP8"])) if shell_command.empty?
+
+    args = [
+      "--aggressive",
+      "--aggressive",
+      "--max-line-length",
+      MAXIMUM_CHARACTER_AMOUNT,
+    ]
+    
+    args += ENV['TM_PYTHON_FMT_AUTOPEP8_EXTRA_OPTIONS'].split if ENV['TM_PYTHON_FMT_AUTOPEP8_EXTRA_OPTIONS']
+    
+    # TM_PYTHON_FMT_AUTOPEP8_CUSTOM_OPTIONS will override everything...
+    args = ENV['TM_PYTHON_FMT_AUTOPEP8_CUSTOM_OPTIONS'] if ENV['TM_PYTHON_FMT_AUTOPEP8_CUSTOM_OPTIONS']
+    
+    args += ["-"]
+    $OUTPUT, err = TextMate::Process.run(shell_command, args, :input => $DOCUMENT)
+    TextMate.exit_show_tool_tip(err) unless err.nil? || err == ""
+    $DOCUMENT = $OUTPUT
+  end
+
+  def Python::run_will_save
+    check_python = check_env("TM_PYTHON")
+    TextMate.exit_show_tool_tip(check_python) unless check_python.nil?
+    ENV['PATH'] = "#{File.dirname(ENV['TM_PYTHON'])}:#{ENV['PATH']}"
+    
+    self.autopep8
+    self.isort
+    
+    print $OUTPUT
   end
 
   # callback.document.did-save

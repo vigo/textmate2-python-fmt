@@ -1,4 +1,4 @@
-![Version](https://img.shields.io/badge/version-2.1.2-orange.svg)
+![Version](https://img.shields.io/badge/version-2.1.3-orange.svg)
 ![Plaftorm](https://img.shields.io/badge/platform-TextMate-blue.svg)
 ![macOS](https://img.shields.io/badge/macos-HighSierra-yellow.svg)
 
@@ -20,13 +20,17 @@ Todo:
 
 - Black integration...
 
-Before and after **autopep8**:
+## Screenshots
 
-![Python FMT for TextMate](Screenshots/before-and-after-autopep8.png "autopep8 filtering")
+Before Python FMT for TextMate:
 
-Before and after **flake8**:
+![Before Python FMT for TextMate bundle](Screenshots/before.png "before Python FMT for TextMate")
 
-![Python FMT for TextMate](Screenshots/before-and-after-flake8.png "flake8 filtering")
+After Python FMT for TextMate bundle:
+
+![After Python FMT for TextMate](Screenshots/after.png "after Python FMT for TextMate")
+
+![After Python FMT for TextMate](Screenshots/after-flake8.png "after Python FMT for TextMate")
 
 
 ## Installation: `pyenv` Users
@@ -158,7 +162,36 @@ It’s possible to set binary location of `isort`. This is handy if you don’t
 set `TM_PYTHON` variable.
 
 `TM_PYTHON_FMT_ISORT_EXTRA_OPTIONS`  
-Will append extra options to `isort` defaults.
+Will append extra options to `isort` defaults. By defaults, `isort`
+arguments are:
+
+```bash
+$ isort --quiet --line-width 79
+# 79 or what number you set via TM_PYTHON_FMT_CUSTOM_MAX_CHARS variable
+```
+
+I like **Vertical Hanging Ident**, my custom `TM_PYTHON_FMT_ISORT_EXTRA_OPTIONS`
+variable is set to: `--line-width 60 --multi-line 3 --use-parentheses`.
+This will output something like this:
+
+```python
+from django.contrib.postgres.fields import (
+    ArrayField,
+    JSONField
+)
+from django.db import models
+from django.utils.translation import ugettext_lazy as _
+from mptt.models import (
+    MPTTModel,
+    TreeForeignKey,
+    TreeManyToManyField
+)
+
+from ..models import (
+    BaseModelWithSoftDelete,
+    BaseModelWithSoftDeleteQuerySet
+)
+```
 
 ---
 
@@ -197,7 +230,8 @@ This project is licensed under MIT
 **2018-10-24**
 
 * Fix: Added missing `git clone` information
-* Version is now `2.1.2`
+* Fix: runners.
+* Version is now `2.1.3`
 
 **2018-10-24**
 

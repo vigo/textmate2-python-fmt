@@ -9,7 +9,10 @@
 
 require "#{ENV['TM_BUNDLE_SUPPORT']}/python_helper"
 
-Python::run_will_save</string>
+Python::run_will_save
+# runs:
+#   - autopep8
+#   - isort</string>
 	<key>input</key>
 	<string>document</string>
 	<key>inputFormat</key>
