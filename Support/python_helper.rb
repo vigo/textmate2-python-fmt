@@ -29,6 +29,7 @@ end
 module Python
   # Environment Variables:
   #
+  # TM_PYTHON_FMT_DEBUG: If set, this means true...
   # TM_PYTHON_FMT_AUTOPEP8: binary of "autopep8" tool.
   # TM_PYTHON_FMT_CUSTOM_MAX_CHARS: If it's not set, 79 used by default.
   # TM_PYTHON_FMT_DJANGO_MAX_CHARS: If scope is django and this set...
@@ -89,6 +90,7 @@ module Python
     unless skip_operation
       $OUTPUT, err = TextMate::Process.run(shell_command, args, :input => $DOCUMENT)
       TextMate.exit_show_tool_tip(err) unless err.nil? || err == ""
+      $OUTPUT += "# isort #{args.join(' ')}" if ENV['TM_PYTHON_FMT_DEBUG']
       $DOCUMENT = $OUTPUT
     end
   end
@@ -113,6 +115,8 @@ module Python
     args += ["-"]
     $OUTPUT, err = TextMate::Process.run(shell_command, args, :input => $DOCUMENT)
     TextMate.exit_show_tool_tip(err) unless err.nil? || err == ""
+    
+    $OUTPUT += "\n# autopep8 #{args.join(' ')}" if ENV['TM_PYTHON_FMT_DEBUG']
     $DOCUMENT = $OUTPUT
   end
 
@@ -149,12 +153,14 @@ module Python
     args = ENV['TM_PYTHON_FMT_FLAKE8_CUSTOM_OPTIONS'] if ENV['TM_PYTHON_FMT_FLAKE8_CUSTOM_OPTIONS']
     
     self.reset_markers
-
+    
     out, err = TextMate::Process.run(shell_command, args, ENV['TM_FILEPATH'])
     TextMate.exit_show_tool_tip(err) unless err.nil? || err == ""
 
     if out.empty?
-      TextMate.exit_show_tool_tip(tooltip_box "Source looks great 👍\nChecked agains \"#{MAXIMUM_CHARACTER_AMOUNT}\" chars!")
+      success_message = "Source looks great 👍\nChecked agains \"#{MAXIMUM_CHARACTER_AMOUNT}\" chars!"
+      success_message += "\n\nflake8 #{args.join(' ')}" if ENV['TM_PYTHON_FMT_DEBUG']
+      TextMate.exit_show_tool_tip(tooltip_box(success_message))
     else
       self.set_markers(out)
       TextMate.exit_show_tool_tip("Fix error(s)!")

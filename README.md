@@ -1,4 +1,4 @@
-![Version](https://img.shields.io/badge/version-2.1.3-orange.svg)
+![Version](https://img.shields.io/badge/version-2.1.4-orange.svg)
 ![Plaftorm](https://img.shields.io/badge/platform-TextMate-blue.svg)
 ![macOS](https://img.shields.io/badge/macos-HighSierra-yellow.svg)
 
@@ -226,6 +226,11 @@ This project is licensed under MIT
 
 
 ## Change Log
+
+**2018-10-28**
+
+* `TM_PYTHON_FMT_DEBUG` if set, you’ll see running commands
+* Version is now `2.1.4`
 
 **2018-10-24**
 
