@@ -74,6 +74,7 @@ module Python
     TextMate.exit_show_tool_tip(tooltip_box($ERROR_COMMAND_ENVVAR % ["isort", "TM_PYTHON_FMT_ISORT"])) if shell_command.empty?
     
     args = [
+      "--trailing-comma",
       "--quiet",
       "--line-width",
       MAXIMUM_CHARACTER_AMOUNT,

@@ -1,6 +1,7 @@
-![Version](https://img.shields.io/badge/version-2.1.4-orange.svg)
+![Version](https://img.shields.io/badge/version-2.1.5-orange.svg)
 ![Plaftorm](https://img.shields.io/badge/platform-TextMate-blue.svg)
 ![macOS](https://img.shields.io/badge/macos-HighSierra-yellow.svg)
+![macOS](https://img.shields.io/badge/macos-Mojave-yellow.svg)
 
 
 # Python FMT bundle for TextMate
@@ -101,11 +102,30 @@ $ git clone https://github.com/vigo/textmate2-python-fmt.git Python-FMT.tmbundle
 
 and restart TextMate!
 
+---
+
 ## Recommended flake8 plugins
 
-* `flake8-blind-except`
-* `flake8-builtins`
-* `flake8-import-order`
+* `flake8-blind-except`: Checks for blind, catch-all `except:` statements.
+* `flake8-builtins`: Check for python builtins being used as variables or parameters
+* `flake8-import-order`: Check invalid import order (*double checks after isort*)
+* `flake8-commas`: Add trailing commas
+* `flake8-quotes`: Install this if you are single quote person like me!
+* `flake8-string-format`: Checks for strings and parameters using `str.format`
+* `flake8-print`: Checks for `print` statements in python files.
+* `flake8-bugbear`: A plugin for Flake8 finding likely bugs and design problems in your program.
+
+To install all:
+
+```bash
+# Homebrew or pyenv
+$ pip install flake8-blind-except flake8-builtins flake8-import-order flake8-commas flake8-quotes flake8-string-format flake8-bugbear # or
+
+# macOS Defaults
+$ sudo /usr/bin/easy_install --script-dir=/usr/bin/ flake8-blind-except flake8-builtins flake8-import-order flake8-commas flake8-quotes flake8-string-format flake8-bugbear
+```
+
+---
 
 ## TextMate Variables
 
@@ -232,6 +252,11 @@ This project is licensed under MIT
 
 
 ## Change Log
+
+**2018-11-14**
+
+* Fix: Added `--trailing-comma` for isort imports
+* Added: List of `flake8` plugins
 
 **2018-10-28**
 
