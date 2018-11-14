@@ -101,6 +101,12 @@ $ git clone https://github.com/vigo/textmate2-python-fmt.git Python-FMT.tmbundle
 
 and restart TextMate!
 
+## Recommended flake8 plugins
+
+* `flake8-blind-except`
+* `flake8-builtins`
+* `flake8-import-order`
+
 ## TextMate Variables
 
 `TM_PYTHON_FMT_AUTOPEP8`  
