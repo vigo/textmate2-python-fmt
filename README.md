@@ -119,10 +119,10 @@ To install all:
 
 ```bash
 # Homebrew or pyenv
-$ pip install flake8-blind-except flake8-builtins flake8-import-order flake8-commas flake8-quotes flake8-string-format flake8-bugbear # or
+$ pip install flake8-{blind-except,builtins,import-order,commas,quotes,string-format,print,bugbear} # or
 
 # macOS Defaults
-$ sudo /usr/bin/easy_install --script-dir=/usr/bin/ flake8-blind-except flake8-builtins flake8-import-order flake8-commas flake8-quotes flake8-string-format flake8-bugbear
+$ sudo /usr/bin/easy_install --script-dir=/usr/bin/ flake8-{blind-except,builtins,import-order,commas,quotes,string-format,print,bugbear}
 ```
 
 ---
