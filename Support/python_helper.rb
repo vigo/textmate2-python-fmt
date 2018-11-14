@@ -26,6 +26,24 @@ def check_env(env_var)
   end
 end
 
+def apply_config_if_exist(args, cmd)
+  project_level_config_file = File.join(ENV['TM_PROJECT_DIRECTORY'], 'setup.cfg')
+  folder_level_config_file = File.join(ENV['TM_DIRECTORY'], 'setup.cfg')
+  
+  arg_config = "--settings-path"
+  arg_config = "--config" if cmd == :flake8
+  arg_config = "--global-config" if cmd == :autopep8
+
+  arg_config_val = folder_level_config_file
+  
+  return_args = args
+  return_args = [arg_config, folder_level_config_file] if File.exist?(folder_level_config_file)
+  return_args = [arg_config, project_level_config_file] if File.exist?(project_level_config_file)
+  return_args << "--format" << "%(row)d || %(col)d || %(code)s || %(text)s" if cmd == :flake8
+  return_args
+end
+
+
 module Python
   # Environment Variables:
   #
@@ -81,6 +99,10 @@ module Python
     ]
     
     args += ENV['TM_PYTHON_FMT_ISORT_EXTRA_OPTIONS'].split if ENV['TM_PYTHON_FMT_ISORT_EXTRA_OPTIONS']
+
+    # this will override everything
+    args = apply_config_if_exist(args, :isort)
+
     args += ["-"]
 
     skip_operation = false
@@ -113,6 +135,9 @@ module Python
     # TM_PYTHON_FMT_AUTOPEP8_CUSTOM_OPTIONS will override everything...
     args = ENV['TM_PYTHON_FMT_AUTOPEP8_CUSTOM_OPTIONS'] if ENV['TM_PYTHON_FMT_AUTOPEP8_CUSTOM_OPTIONS']
     
+    # this will override everything
+    args = apply_config_if_exist(args, :autopep8)
+
     args += ["-"]
     $OUTPUT, err = TextMate::Process.run(shell_command, args, :input => $DOCUMENT)
     TextMate.exit_show_tool_tip(err) unless err.nil? || err == ""
@@ -152,6 +177,9 @@ module Python
     
     # TM_PYTHON_FMT_FLAKE8_CUSTOM_OPTIONS will override everything!
     args = ENV['TM_PYTHON_FMT_FLAKE8_CUSTOM_OPTIONS'] if ENV['TM_PYTHON_FMT_FLAKE8_CUSTOM_OPTIONS']
+    
+    # this will override everything
+    args = apply_config_if_exist(args, :flake8)
     
     self.reset_markers
     
