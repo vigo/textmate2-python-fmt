@@ -40,6 +40,11 @@ def apply_config_if_exist(args, cmd)
   return_args = [arg_config, folder_level_config_file] if File.exist?(folder_level_config_file)
   return_args = [arg_config, project_level_config_file] if File.exist?(project_level_config_file)
   return_args << "--format" << "%(row)d || %(col)d || %(code)s || %(text)s" if cmd == :flake8
+  
+  if cmd == :isort && ENV['TM_PYTHON_FMT_VENV'] && return_args.index('--settings-path') > -1
+    file_data = File.read(return_args[return_args.index('--settings-path')+1])
+    return_args << "--virtual-env" << ENV['TM_PYTHON_FMT_VENV'] unless file_data.include?('virtual_env')
+  end
   return_args
 end
 
@@ -61,6 +66,10 @@ module Python
   # TM_PYTHON_FMT_ISORT: binary of "isort" tool
   # TM_PYTHON_FMT_ISORT_EXTRA_OPTIONS: Extra args
   
+  # TM_PYTHON_FMT_VENV: Pass your active virtual-env path
+  #                     example:
+  #                     /Users/YOU/.virtualenvs/NAME
+  #
   def Python::reset_markers
     system(ENV['TM_MATE'], "--uuid", ENV['TM_DOCUMENT_UUID'], "--clear-mark=note", "--clear-mark=warning", "--clear-mark=error")
   end

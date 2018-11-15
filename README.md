@@ -1,4 +1,4 @@
-![Version](https://img.shields.io/badge/version-2.2.0-orange.svg)
+![Version](https://img.shields.io/badge/version-2.2.1-orange.svg)
 ![Plaftorm](https://img.shields.io/badge/platform-TextMate-blue.svg)
 ![macOS](https://img.shields.io/badge/macos-HighSierra-yellow.svg)
 ![macOS](https://img.shields.io/badge/macos-Mojave-yellow.svg)
@@ -144,7 +144,7 @@ max-line-length = 119
 [isort]
 known_django = django
 sections = FUTURE,STDLIB,DJANGO,THIRDPARTY,FIRSTPARTY,LOCALFOLDER
-virtual_env = /Users/vigo/.virtualenvs/py370-biges-refactor
+virtual_env = /path/to/.virtualenvs/name
 line_length = 60
 multi_line_output = 3
 use_parentheses = true
@@ -166,7 +166,7 @@ Again, if you user config file, this will by-pass everything.
 | `TM_PYTHON_FMT_FLAKE8_CUSTOM_OPTIONS` | If you like to run your own (*this will override defaults*) just use: `TM_PYTHON_FMT_FLAKE8_CUSTOM_OPTIONS` variable. |
 | `TM_PYTHON_FMT_ISORT` | It’s possible to set binary location of `isort`. This is handy if you don’t set `TM_PYTHON` variable. |
 | `TM_PYTHON_FMT_ISORT_EXTRA_OPTIONS` | Will append extra options to `isort` defaults. By defaults, `isort` arguments are: `--quiet --line-width 79` (79 or what number you set via `TM_PYTHON_FMT_CUSTOM_MAX_CHARS` variable) |
-
+| `TM_PYTHON_FMT_VENV` | Good for `isort`. Better to set this in you project based `.tm_properties` file |
 
 You can add more parameters via `TM_PYTHON_FMT_AUTOPEP8_EXTRA_OPTIONS` variable.
 If you set, values will be appended to default parameters.
@@ -231,6 +231,7 @@ This project is licensed under MIT
 **2018-11-15**
 
 * Update: `setup.cfg` config file support added.
+* Update: Use `TM_PYTHON_FMT_VENV` to tell you virtual-env as TextMate variable
 
 **2018-11-14**
 
