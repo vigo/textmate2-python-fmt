@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>content</key>
+	<string># noqa${1:: ${2|A002,A003,C812,F401,F403,F405,N802,P103|}}$0</string>
+	<key>name</key>
+	<string>noqa</string>
+	<key>scope</key>
+	<string>source.python</string>
+	<key>tabTrigger</key>
+	<string>noq</string>
+	<key>uuid</key>
+	<string>37058BE3-26A7-4546-8D8E-7FFC6AA8D3DA</string>
+</dict>
+</plist>

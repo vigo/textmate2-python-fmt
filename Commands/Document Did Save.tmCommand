@@ -9,28 +9,26 @@
 
 require "#{ENV['TM_BUNDLE_SUPPORT']}/python_helper"
 
-Python::run_will_save
-# runs:
-#   - autopep8
-#   - isort</string>
+Python.run_document_did_save
+</string>
 	<key>input</key>
-	<string>document</string>
+	<string>none</string>
 	<key>inputFormat</key>
 	<string>text</string>
 	<key>name</key>
-	<string>Run: autopep8</string>
+	<string>Document Did Save</string>
 	<key>outputCaret</key>
 	<string>interpolateByChar</string>
 	<key>outputFormat</key>
 	<string>text</string>
 	<key>outputLocation</key>
-	<string>replaceDocument</string>
+	<string>discard</string>
 	<key>scope</key>
 	<string>source.python</string>
 	<key>semanticClass</key>
-	<string>callback.document.will-save</string>
+	<string>callback.document.did-save</string>
 	<key>uuid</key>
-	<string>58FC0F23-F526-4BF7-A9B4-DD5EF63BA0EB</string>
+	<string>A884AA08-C483-4484-980B-852D4352256D</string>
 	<key>version</key>
 	<integer>2</integer>
 </dict>

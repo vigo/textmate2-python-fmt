@@ -1,60 +1,66 @@
-![Version](https://img.shields.io/badge/version-2.2.1-orange.svg)
+![Version](https://img.shields.io/badge/version-3.0.0-orange.svg)
 ![Plaftorm](https://img.shields.io/badge/platform-TextMate-blue.svg)
 ![macOS](https://img.shields.io/badge/macos-HighSierra-yellow.svg)
 ![macOS](https://img.shields.io/badge/macos-Mojave-yellow.svg)
-
+![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)
 
 # Python FMT bundle for TextMate
 
-Hit <kbd>⌘</kbd> + <kbd>S</kbd> I’ll handle the rest!
+> Hit <kbd>⌘</kbd> + <kbd>S</kbd> I’ll handle the rest!
 
-While writing Python code in `Python` or `Django` scope, this bundle
-handles before and after save events and formats/lints/checks your code.
+This little TextMate bundle helps you to write better and safer Python code.
+Using TextMate’s before/after event callbacks to check/format/lint your
+Python code. Integrated tools are:
 
-Using:
+| Tool         | Descriptiopn                             |
+|:-------------|:-----------------------------------------|
+| [isort][01]  | Sorts `import` statements                |
+| [black][02]  | Format source code                       |
+| [pylint][03] | Check errors before run it!              |
+| [flake8][04] | Linting, checking source code with ease! |
 
-- [autopep8][01]
-- [flake8][02]
-- [isort][03]
+---
 
-Todo:
+Before Python FMT for TextMate
 
-- Black integration...
+![Before Python FMT for TextMate bundle](Screenshots/before.png?2 "before Python FMT for TextMate")
 
-## Screenshots
+After Python FMT for TextMate
 
-Before Python FMT for TextMate:
+![After Python FMT for TextMate](Screenshots/after.png?2 "after Python FMT for TextMate")
 
-![Before Python FMT for TextMate bundle](Screenshots/before.png "before Python FMT for TextMate")
+After pylint/flake8 running
 
-After Python FMT for TextMate bundle:
+![After Python FMT for TextMate](Screenshots/after-checks.png?2 "after Python FMT for TextMate")
 
-![After Python FMT for TextMate](Screenshots/after.png "after Python FMT for TextMate")
+Error information
 
-![After Python FMT for TextMate](Screenshots/after-flake8.png "after Python FMT for TextMate")
+![After Python FMT for TextMate](Screenshots/after-checks-errors.png?2 "after Python FMT for TextMate")
 
+---
 
 ## Installation: `pyenv` Users
 
-Checker your Python binary:
+Checker your Python binary. Python 3+ recommended:
 
 ```bash
 $ pyenv which python
-/Users/vigo/.pyenv/versions/3.6.4/bin/python # example output
+/Users/vigo/.pyenv/versions/3.7.0/bin/python     # example output, use this for TM_PYTHON
 ```
 
-Install packages:
+Check your `TM_PYTHON` variable from **TextMate > Preferences > Variables**.
+Set to:
+
+        TM_PYTHON    /Users/vigo/.pyenv/versions/3.7.0/bin/python
+
+Now install packages:
 
 ```bash
-$ pip install autopep8 isort
-$ pip install -e git+https://gitlab.com/pycqa/flake8#egg=flake8
+$ pip install isort black flake8 pylint
 ```
 
-Then set `TM_PYTHON` variable from **TextMate > Preferences > Variables**:
 
-    TM_PYTHON    /Users/vigo/.pyenv/versions/3.6.4/bin/python
-
-Now bundle auto discovers the packages. Now clone repo:
+Now clone the repo:
 
 ```bash
 $ cd ~/Library/Application\ Support/TextMate/Bundles/
@@ -65,18 +71,25 @@ and restart TextMate!
 
 ## Installation: `homebrew` Users
 
-Check you Python and set `TM_PYTHON` variable from **TextMate > Preferences > Variables**:
+Check your Python binary:
 
 ```bash
 $ which python
-/usr/local/bin/python # example output
-$ pip install autopep8 isort
-$ pip install -e git+https://gitlab.com/pycqa/flake8#egg=flake8
+/usr/local/bin/python              # example output
 ```
+
+Set `TM_PYTHON` variable from  **TextMate > Preferences > Variables**:
 
     TM_PYTHON    /usr/local/bin/python
 
-Now clone repo:
+Now install packages:
+
+```bash
+$ pip install isort black flake8 pylint
+```
+
+
+And finally clone the repo:
 
 ```bash
 $ cd ~/Library/Application\ Support/TextMate/Bundles/
@@ -87,10 +100,14 @@ and restart TextMate!
 
 ## Installation: macOS Defaults
 
+macOS ships with **Python 2.7.10** which is not good but you can still
+use the bundle...
+
 ```bash
-$ sudo /usr/bin/easy_install --script-dir=/usr/bin/ flake8
-$ sudo /usr/bin/easy_install --script-dir=/usr/bin/ autopep8
 $ sudo /usr/bin/easy_install --script-dir=/usr/bin/ isort
+$ sudo /usr/bin/easy_install --script-dir=/usr/bin/ black
+$ sudo /usr/bin/easy_install --script-dir=/usr/bin/ flake8
+$ sudo /usr/bin/easy_install --script-dir=/usr/bin/ pylint
 ```
 
 You don’t need to set `TM_PYTHON` variable... Now clone repo:
@@ -109,71 +126,113 @@ and restart TextMate!
 * `flake8-blind-except`: Checks for blind, catch-all `except:` statements.
 * `flake8-builtins`: Check for python builtins being used as variables or parameters
 * `flake8-import-order`: Check invalid import order (*double checks after isort*)
-* `flake8-commas`: Add trailing commas
 * `flake8-quotes`: Install this if you are single quote person like me!
 * `flake8-string-format`: Checks for strings and parameters using `str.format`
 * `flake8-print`: Checks for `print` statements in python files.
 * `flake8-bugbear`: A plugin for Flake8 finding likely bugs and design problems in your program.
+* `flake8-bandit`: For writing secure code!
 
 To install all:
 
 ```bash
 # Homebrew or pyenv
-$ pip install flake8-{blind-except,builtins,import-order,commas,quotes,string-format,print,bugbear} # or
+$ pip install flake8-{blind-except,builtins,import-order,quotes,string-format,print,bugbear,bandit} # or
+```
 
-# macOS Defaults
-$ sudo /usr/bin/easy_install --script-dir=/usr/bin/ flake8-{blind-except,builtins,import-order,commas,quotes,string-format,print,bugbear}
+Check your installation after:
+
+```bass
+$ flake8 -h
+
+# you’ll see all of the options. at the last part you’ll find the list of installed
+# plugins
+Installed plugins: flake8-bandit: v1.0.2, flake8-blind-except: 0.1.1,
+flake8-bugbear: 18.8.0, flake8-print: 3.1.0, flake8-string-format: 0.2.3,
+flake8_builtins: 1.4.1, flake8_quotes: 1.0.0, import-order: 0.18, mccabe:
+0.6.1, pycodestyle: 2.4.0, pyflakes: 2.0.0
 ```
 
 ---
 
-## TextMate Variables or `setup.cfg`
+## TextMate Variables
 
-You can add `setup.cfg` file to your project. This is directory level based.
-Works as expected. When you set this file, none of the TextMate variables
-will work work. **Config file overrides everything**. Here is an example
-file:
+| Variable                             | Information                                                                                                         |
+|:-------------------------------------|:--------------------------------------------------------------------------------------------------------------------|
+| `TM_PYTHON`                          | To run everything :)                                                                                                |
+| `TM_PYTHON_FMT_ISORT`                | Binary location for `isort`. To set custom binary, enter full path here. Example: `/path/to/isort`                  |
+| `TM_PYTHON_FMT_VIRTUAL_ENV`          | Good for `isort`. Use `.tm_properties` file to set this. If set, passes `--virtual-env` to `isort` with given value |
+| `TM_PYTHON_FMT_BLACK`                | Binary location for `black`. To set custom binary, enter full path here. Example: `/path/to/black`                  |
+| `TM_PYTHON_FMT_FLAKE8`               | Binary location for `flake8`. To set custom binary, enter full path here. Example: `/path/to/black`                 |
+| `TM_PYTHON_FMT_PYLINT`               | Binary location for `pylint`. To set custom binary, enter full path here. Example: `/path/to/pylint`                |
+| `TM_PYTHON_FMT_PYLINT_EXTRA_OPTIONS` | You can pass additional options/params to `pylint`.                                                                 |
 
-```ini
-[pycodestyle]
-max_line_length = 119
+Using `pylint` to display compile-time errors only. This means, using
+`--errors-only` option. Also, for `flake8` and `pylint` using same
+error output format:
 
+    LINE_NUMBER || COLUMN_NUMBER || ERROR_CODE || ERROR_MESSAGE
+
+You can pass extra arguments via `TM_PYTHON_FMT_PYLINT_EXTRA_OPTIONS`. Set this
+variable in TextMate’s global settings (**TextMate > Preferences > Variables**.)
+or set it in `.tm_properties`. Space delimited arguments required...
+
+Example `.tm_properties` for `TM_PYTHON_FMT_VIRTUAL_ENV` and 
+`TM_PYTHON_FMT_PYLINT_EXTRA_OPTIONS` usage:
+
+    TM_PYTHON_FMT_VIRTUAL_ENV=~/.virtualenvs/YOUR_VENV
+    TM_PYTHON_FMT_PYLINT_EXTRA_OPTIONS=--py3k
+
+Also, you can set project based configurations for all of the tools. Check
+their official documentations:
+
+- https://github.com/timothycrosley/isort/wiki/isort-Settings
+- https://github.com/ambv/black#pyprojecttoml
+- http://flake8.pycqa.org/en/latest/user/configuration.html#configuration-locations
+- https://pylint.readthedocs.io/en/latest/user_guide/run.html#command-line-options
+
+### Example Configurations
+
+For a Django project, `pyproject.toml`:
+
+```toml
+[tool.black]
+line-length = 119
+py36 = true
+skip-string-normalization = true
+quiet = true
+exclude='''
+/(
+    \.git
+  | \.hg
+  | \.tox
+  | \.venv
+  | _build
+  | buck-out
+  | build
+  | dist
+)/
+'''
+```
+
+and `setup.cfg`:
+
+```toml
 [flake8]
 max-line-length = 119
 
 [isort]
-known_django = django
-sections = FUTURE,STDLIB,DJANGO,THIRDPARTY,FIRSTPARTY,LOCALFOLDER
-virtual_env = /path/to/.virtualenvs/name
 line_length = 60
 multi_line_output = 3
 use_parentheses = true
 include_trailing_comma = true
 quiet = true
+force_grid_wrap = 0
+known_django = django
+sections = FUTURE,STDLIB,DJANGO,THIRDPARTY,FIRSTPARTY,LOCALFOLDER
 ```
 
-Again, if you user config file, this will by-pass everything.
-
-| TextMate Variable | Description |
-|:------------------|:------------|
-| `TM_PYTHON_FMT_AUTOPEP8` | It’s possible to set binary location of `autopep8`. This is handy if you don’t set `TM_PYTHON` variable. |
-| `TM_PYTHON_FMT_CUSTOM_MAX_CHARS` | By default, maximum character limit is: `79`. Use this variable to set yours. |
-| `TM_PYTHON_FMT_DJANGO_MAX_CHARS` | Django allows `119` characters. If your scope is `source.django` and you would like to check against 119 chars (*or what number you’d like to*), you need to  set `TM_PYTHON_FMT_DJANGO_MAX_CHARS`. |
-| `TM_PYTHON_FMT_AUTOPEP8_EXTRA_OPTIONS` | By default, `autopep8` arguments are: `--in-place --aggressive --aggressive --max-line-length 79` (79 or what number you set via `TM_PYTHON_FMT_CUSTOM_MAX_CHARS` variable) |
-| `TM_PYTHON_FMT_AUTOPEP8_CUSTOM_OPTIONS` | If you like to run your own (*this will override defaults*) just use: `TM_PYTHON_FMT_AUTOPEP8_CUSTOM_OPTIONS` variable. Example: `--max-line-length 79 --line-range 20 40` |
-| `TM_PYTHON_FMT_FLAKE8` | It’s possible to set binary location of `flake8`. This is handy if you don’t set `TM_PYTHON` variable. |
-| `TM_PYTHON_FMT_FLAKE8_EXTRA_OPTIONS` | Will append extra options to `flake8` defaults. By defaults, `flake8` arguments are: `--max-line-length 79 --format "%(row)d || %(col)d || %(code)s || %(text)s"` (79 or what number you set via `TM_PYTHON_FMT_CUSTOM_MAX_CHARS` variable) |
-| `TM_PYTHON_FMT_FLAKE8_CUSTOM_OPTIONS` | If you like to run your own (*this will override defaults*) just use: `TM_PYTHON_FMT_FLAKE8_CUSTOM_OPTIONS` variable. |
-| `TM_PYTHON_FMT_ISORT` | It’s possible to set binary location of `isort`. This is handy if you don’t set `TM_PYTHON` variable. |
-| `TM_PYTHON_FMT_ISORT_EXTRA_OPTIONS` | Will append extra options to `isort` defaults. By defaults, `isort` arguments are: `--quiet --line-width 79` (79 or what number you set via `TM_PYTHON_FMT_CUSTOM_MAX_CHARS` variable) |
-| `TM_PYTHON_FMT_VENV` | Good for `isort`. Better to set this in you project based `.tm_properties` file |
-
-You can add more parameters via `TM_PYTHON_FMT_AUTOPEP8_EXTRA_OPTIONS` variable.
-If you set, values will be appended to default parameters.
-
-I like **Vertical Hanging Ident**, my custom `TM_PYTHON_FMT_ISORT_EXTRA_OPTIONS`
-variable is set to: `--line-width 60 --multi-line 3 --use-parentheses`.
-This will output something like this:
+I like **Vertical Hanging Ident**, If you use this `isort` configuration,
+you’ll have something like this:
 
 ```python
 from django.contrib.postgres.fields import (
@@ -193,6 +252,10 @@ from ..models import (
     BaseModelWithSoftDeleteQuerySet
 )
 ```
+
+
+---
+
 
 ---
 
@@ -228,10 +291,18 @@ This project is licensed under MIT
 
 ## Change Log
 
+**2018-11-18**
+
+* Upgrade: Rewritten from scratch. `autopep8` removed.
+
+**2018-11-17**
+
+* Update: `black` integration
+* `flake8-commas` removed.
+
 **2018-11-15**
 
 * Update: `setup.cfg` config file support added.
-* Update: Use `TM_PYTHON_FMT_VENV` to tell you virtual-env as TextMate variable
 
 **2018-11-14**
 
@@ -275,6 +346,8 @@ This project is licensed under MIT
 
 * Initial commit
 
-[01]: https://pypi.python.org/pypi/autopep8 "autopep8 PEP8 checker"
-[02]: https://pypi.python.org/pypi/flake8 "flake8 source code checker"
-[03]: https://pypi.python.org/pypi/isort "isort fixes import order"
+
+[01]: https://pypi.python.org/pypi/isort "isort fixes import order"
+[02]: https://pypi.python.org/pypi/black "black code formatter"
+[03]: https://pypi.python.org/pypi/pylint "pylint source code checker"
+[04]: https://pypi.python.org/pypi/flake8 "flake8 source code checker"
