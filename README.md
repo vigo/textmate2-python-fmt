@@ -1,4 +1,4 @@
-![Version](https://img.shields.io/badge/version-3.0.4-orange.svg)
+![Version](https://img.shields.io/badge/version-3.0.5-orange.svg)
 ![Plaftorm](https://img.shields.io/badge/platform-TextMate-blue.svg)
 ![macOS](https://img.shields.io/badge/macos-HighSierra-yellow.svg)
 ![macOS](https://img.shields.io/badge/macos-Mojave-yellow.svg)
@@ -160,7 +160,7 @@ flake8_builtins: 1.4.1, flake8_quotes: 1.0.0, import-order: 0.18, mccabe:
 |:--------------------------------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | <kbd>⌘</kbd> + <kbd>{</kbd>    | Bypass selection while formatting with `black`. This adds `# fmt: off` and `# fmt: on` to beginning and ending of selection.<br>Used James Edward Gray II’s commenting tool which ships with TextMate. |
 | <kbd>noq</kbd> + <kbd>⇥</kbd>  | Choose desired bypass method |
-| <kbd>env</kbd> + <kbd>⇥</kbd>  | Inserts `TM_PYTHON_FMT_VIRTUAL_ENV` variable if you are editing on `.tm_properties` file. |
+| <kbd>env</kbd> + <kbd>⇥</kbd>  | Inserts helpful environment variables if you are editing on `.tm_properties` file. Try :) |
 
 ## TextMate Variables
 
@@ -172,6 +172,7 @@ flake8_builtins: 1.4.1, flake8_quotes: 1.0.0, import-order: 0.18, mccabe:
 | `TM_PYTHON_FMT_BLACK`                | Binary location for `black`. To set custom binary, enter full path here. Example: `/path/to/black`                  |
 | `TM_PYTHON_FMT_FLAKE8`               | Binary location for `flake8`. To set custom binary, enter full path here. Example: `/path/to/black`                 |
 | `TM_PYTHON_FMT_PYLINT`               | Binary location for `pylint`. To set custom binary, enter full path here. Example: `/path/to/pylint`                |
+| `TM_PYTHON_FMT_PYLINTRC`             | Location of `pylintrc` or `.pylintrc` file if you like to set                                                       |
 | `TM_PYTHON_FMT_PYLINT_EXTRA_OPTIONS` | You can pass additional options/params to `pylint`.                                                                 |
 
 Using `pylint` to display compile-time errors only. This means, using
@@ -184,11 +185,15 @@ You can pass extra arguments via `TM_PYTHON_FMT_PYLINT_EXTRA_OPTIONS`. Set this
 variable in TextMate’s global settings (**TextMate > Preferences > Variables**.)
 or set it in `.tm_properties`. Space delimited arguments required...
 
-Example `.tm_properties` for `TM_PYTHON_FMT_VIRTUAL_ENV` and 
-`TM_PYTHON_FMT_PYLINT_EXTRA_OPTIONS` usage:
+Example `.tm_properties` usage:
 
-    TM_PYTHON_FMT_VIRTUAL_ENV=/Users/YOU/.virtualenvs/YOUR_VENV   # Please use full path. Do not use ~/ ...
+    TM_PYTHON_FMT_VIRTUAL_ENV=/Users/YOU/.virtualenvs/YOUR_VENV   # or
+    TM_PYTHON_FMT_VIRTUAL_ENV=$HOME/.virtualenvs/YOUR_VENV        # or
+                                                                  # It’s ok to use shell variables and TextMate variables but
+                                                                  # never user like this: `~/.virtualenvs/ENV`
     TM_PYTHON_FMT_PYLINT_EXTRA_OPTIONS=--py3k
+    TM_PYTHON_FMT_PYLINTRC=$TM_PROJECT_DIRECTORY/.pylintrc        # or
+    TM_PYTHON_FMT_PYLINTRC=/path/to/.pylintrc                     # or
 
 Also, you can set project based configurations for all of the tools. Check
 their official documentations:
@@ -303,10 +308,11 @@ This project is licensed under MIT
 
 * Update: Added missing information on `README.md`
 * Update: Virtual Environmet support for `pylint`
+* Update: `pylintrc` support for `pylint`
 * Fix: `isort:skip_file` bug
-* Addition: <kbd>env</kbd> + <kbd>⇥</kbd>
+* Addition: <kbd>env</kbd> + <kbd>⇥</kbd> for environment variables
 * Change: All the bypass declarations are using <kbd>noq</kbd> + <kbd>⇥</kbd>
-* Version bump to: 3.0.4
+* Version bump to: 3.0.5
 
 **2018-11-18**
 

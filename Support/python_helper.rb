@@ -144,7 +144,12 @@ module Python
       "--msg-template",
       "{line} || {column} || {msg_id} || {msg}",
     ]
-
+    
+    pylintrc = nil
+    pylintrc = ENV["TM_PYTHON_FMT_PYLINTRC"] if ENV["TM_PYTHON_FMT_PYLINTRC"]
+    
+    args << "--rcfile" << pylintrc if pylintrc
+    
     args += ENV["TM_PYTHON_FMT_PYLINT_EXTRA_OPTIONS"].split if ENV["TM_PYTHON_FMT_PYLINT_EXTRA_OPTIONS"]
 
     out, err = TextMate::Process.run(cmd, args, ENV["TM_FILEPATH"])

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>content</key>
+	<string>TM_PYTHON_FMT_PYLINTRC=$TM_PROJECT_DIRECTORY/.pylintrc</string>
+	<key>name</key>
+	<string>Insert TM_PYTHON_FMT_PYLINTRC</string>
+	<key>scope</key>
+	<string>source.tm-properties</string>
+	<key>tabTrigger</key>
+	<string>env</string>
+	<key>uuid</key>
+	<string>3DFD8284-8AEA-44FB-941A-2E1E6EB354FB</string>
+</dict>
+</plist>
