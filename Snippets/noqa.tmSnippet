@@ -5,7 +5,7 @@
 	<key>content</key>
 	<string># noqa${1:: ${2|A002,A003,C812,F401,F403,F405,N802,P103|}}$0</string>
 	<key>name</key>
-	<string>noqa</string>
+	<string>flake8: noqa</string>
 	<key>scope</key>
 	<string>source.python</string>
 	<key>tabTrigger</key>

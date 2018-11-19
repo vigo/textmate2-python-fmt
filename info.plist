@@ -7,7 +7,7 @@
 	<key>contactName</key>
 	<string>Uğur "vigo" Özyılmazel</string>
 	<key>description</key>
-	<string>Python FMT - Inspired from `gofmt`. Press `⌘ + S` then I handle the rest.
+	<string>Python FMT is a python linter/formatter/checker for TextMate. Press `⌘ + S` then I handle the rest.
 </string>
 	<key>mainMenu</key>
 	<dict>
@@ -15,12 +15,17 @@
 		<array>
 			<string>6B263143-3077-464A-A9DB-EB5C58AB7161</string>
 			<string>A884AA08-C483-4484-980B-852D4352256D</string>
-            <string>------------------------------------</string>
-            <string>3CBBBB4E-0975-4F3A-BBC0-1427684081AD</string>
-            <string>------------------------------------</string>
-            <string>37058BE3-26A7-4546-8D8E-7FFC6AA8D3DA</string>
-            <string>EF4428FA-72C6-410C-9C11-C0228E4A6D08</string>
-            <string>851B49B5-557C-4C43-A680-ED74C10CB894</string>
+			<string>------------------------------------</string>
+			<string>3CBBBB4E-0975-4F3A-BBC0-1427684081AD</string>
+			<string>------------------------------------</string>
+			<string>37058BE3-26A7-4546-8D8E-7FFC6AA8D3DA</string>
+			<string>99D7428B-7380-44A5-86F5-9DAE79969B14</string>
+			<string>544FAE2D-E3CA-4F22-A444-E8122BDBED35</string>
+			<string>------------------------------------</string>
+			<string>EF4428FA-72C6-410C-9C11-C0228E4A6D08</string>
+			<string>6B636093-3B46-468D-ABC9-10A3BD07E151</string>
+			<string>------------------------------------</string>
+			<string>851B49B5-557C-4C43-A680-ED74C10CB894</string>
 		</array>
 	</dict>
 	<key>name</key>

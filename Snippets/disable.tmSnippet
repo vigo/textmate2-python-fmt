@@ -5,11 +5,11 @@
 	<key>content</key>
 	<string># pylint: disable=${1|E1101|}$0</string>
 	<key>name</key>
-	<string>disable</string>
+	<string>pylint: disable</string>
 	<key>scope</key>
 	<string>source.python</string>
 	<key>tabTrigger</key>
-	<string>pyl</string>
+	<string>noq</string>
 	<key>uuid</key>
 	<string>851B49B5-557C-4C43-A680-ED74C10CB894</string>
 </dict>

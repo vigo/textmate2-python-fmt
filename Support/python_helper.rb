@@ -90,8 +90,12 @@ module Python
 
     $OUTPUT, err = TextMate::Process.run(cmd, args, :input => $DOCUMENT)
     TextMate.exit_show_tool_tip(err) unless err.nil? || err == ""
-
-    $DOCUMENT = $OUTPUT
+    
+    unless $OUTPUT.empty?
+      $DOCUMENT = $OUTPUT
+    else
+      $OUTPUT = $DOCUMENT
+    end
   end
 
   # callback.document.will-save

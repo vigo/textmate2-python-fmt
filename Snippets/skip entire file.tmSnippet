@@ -3,14 +3,14 @@
 <plist version="1.0">
 <dict>
 	<key>content</key>
-	<string># isort:skip$0</string>
+	<string># isort:skip_file$0</string>
 	<key>name</key>
-	<string>isort: skip</string>
+	<string>isort: skip + entire file</string>
 	<key>scope</key>
 	<string>source.python</string>
 	<key>tabTrigger</key>
 	<string>noq</string>
 	<key>uuid</key>
-	<string>EF4428FA-72C6-410C-9C11-C0228E4A6D08</string>
+	<string>6B636093-3B46-468D-ABC9-10A3BD07E151</string>
 </dict>
 </plist>

@@ -3,14 +3,14 @@
 <plist version="1.0">
 <dict>
 	<key>content</key>
-	<string># isort:skip$0</string>
+	<string># noqa pylint: disable=${1|E1101|}$0</string>
 	<key>name</key>
-	<string>isort: skip</string>
+	<string>flake8: noqa + pylint</string>
 	<key>scope</key>
 	<string>source.python</string>
 	<key>tabTrigger</key>
 	<string>noq</string>
 	<key>uuid</key>
-	<string>EF4428FA-72C6-410C-9C11-C0228E4A6D08</string>
+	<string>99D7428B-7380-44A5-86F5-9DAE79969B14</string>
 </dict>
 </plist>

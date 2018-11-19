@@ -1,4 +1,4 @@
-![Version](https://img.shields.io/badge/version-3.0.2-orange.svg)
+![Version](https://img.shields.io/badge/version-3.0.3-orange.svg)
 ![Plaftorm](https://img.shields.io/badge/platform-TextMate-blue.svg)
 ![macOS](https://img.shields.io/badge/macos-HighSierra-yellow.svg)
 ![macOS](https://img.shields.io/badge/macos-Mojave-yellow.svg)
@@ -158,10 +158,8 @@ flake8_builtins: 1.4.1, flake8_quotes: 1.0.0, import-order: 0.18, mccabe:
 
 | Hot Keys and TAB Completions    | Description                                                                                                                                                                                        |
 |:--------------------------------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| <kbd>⌘</kbd> + <kbd>{</kbd>    | Bypass selection while formatting with `black`. This adds `# fmt: off` and `# fmt: on` to beginning and ending of selection. Used James Edward Gray II’s commenting tool which ships with TextMate. |
-| <kbd>noq</kbd> + <kbd>⇥</kbd>  | Inserts `# noqa` with error numbers                                                                                                                                                                 |
-| <kbd>ski</kbd> + <kbd>⇥</kbd>  | Inserts `# isort: skip`                                                                                                                                                                             |
-| <kbd>pyl</kbd> + <kbd>⇥</kbd>  | Inserts `# pylint: disable` with error numbers                                                                                                                                                      |
+| <kbd>⌘</kbd> + <kbd>{</kbd>    | Bypass selection while formatting with `black`. This adds `# fmt: off` and `# fmt: on` to beginning and ending of selection.<br>Used James Edward Gray II’s commenting tool which ships with TextMate. |
+| <kbd>noq</kbd> + <kbd>⇥</kbd>  | Choose desired bypass method                                                                                                                                                                        |
 
 ## TextMate Variables
 
@@ -304,7 +302,9 @@ This project is licensed under MIT
 
 * Update: Added missing information on README
 * Update: Virtual Environmet support for `pylint`
-* Version bump to: 3.0.2
+* Fix: `isort:skip_file` bug
+* Change: All the bypass declarations are using `noq` + <TAB>
+* Version bump to: 3.0.3
 
 **2018-11-18**
 
