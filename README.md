@@ -1,4 +1,4 @@
-![Version](https://img.shields.io/badge/version-3.0.3-orange.svg)
+![Version](https://img.shields.io/badge/version-3.0.4-orange.svg)
 ![Plaftorm](https://img.shields.io/badge/platform-TextMate-blue.svg)
 ![macOS](https://img.shields.io/badge/macos-HighSierra-yellow.svg)
 ![macOS](https://img.shields.io/badge/macos-Mojave-yellow.svg)
@@ -159,7 +159,8 @@ flake8_builtins: 1.4.1, flake8_quotes: 1.0.0, import-order: 0.18, mccabe:
 | Hot Keys and TAB Completions    | Description                                                                                                                                                                                        |
 |:--------------------------------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | <kbd>⌘</kbd> + <kbd>{</kbd>    | Bypass selection while formatting with `black`. This adds `# fmt: off` and `# fmt: on` to beginning and ending of selection.<br>Used James Edward Gray II’s commenting tool which ships with TextMate. |
-| <kbd>noq</kbd> + <kbd>⇥</kbd>  | Choose desired bypass method                                                                                                                                                                        |
+| <kbd>noq</kbd> + <kbd>⇥</kbd>  | Choose desired bypass method |
+| <kbd>env</kbd> + <kbd>⇥</kbd>  | Inserts `TM_PYTHON_FMT_VIRTUAL_ENV` variable if you are editing on `.tm_properties` file. |
 
 ## TextMate Variables
 
@@ -186,7 +187,7 @@ or set it in `.tm_properties`. Space delimited arguments required...
 Example `.tm_properties` for `TM_PYTHON_FMT_VIRTUAL_ENV` and 
 `TM_PYTHON_FMT_PYLINT_EXTRA_OPTIONS` usage:
 
-    TM_PYTHON_FMT_VIRTUAL_ENV=~/.virtualenvs/YOUR_VENV
+    TM_PYTHON_FMT_VIRTUAL_ENV=/Users/YOU/.virtualenvs/YOUR_VENV   # Please use full path. Do not use ~/ ...
     TM_PYTHON_FMT_PYLINT_EXTRA_OPTIONS=--py3k
 
 Also, you can set project based configurations for all of the tools. Check
@@ -300,11 +301,12 @@ This project is licensed under MIT
 
 **2018-11-19**
 
-* Update: Added missing information on README
+* Update: Added missing information on `README.md`
 * Update: Virtual Environmet support for `pylint`
 * Fix: `isort:skip_file` bug
-* Change: All the bypass declarations are using `noq` + <TAB>
-* Version bump to: 3.0.3
+* Addition: <kbd>env</kbd> + <kbd>⇥</kbd>
+* Change: All the bypass declarations are using <kbd>noq</kbd> + <kbd>⇥</kbd>
+* Version bump to: 3.0.4
 
 **2018-11-18**
 
