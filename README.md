@@ -51,7 +51,7 @@ $ pyenv which python
 Check your `TM_PYTHON` variable from **TextMate > Preferences > Variables**.
 Set to:
 
-        TM_PYTHON    /Users/vigo/.pyenv/versions/3.7.0/bin/python
+    TM_PYTHON    /Users/vigo/.pyenv/versions/3.7.0/bin/python
 
 Now install packages:
 
@@ -229,7 +229,7 @@ exclude='''
 
 and `setup.cfg`:
 
-```toml
+```cfg
 [flake8]
 max-line-length = 119
 
