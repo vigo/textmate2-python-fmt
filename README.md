@@ -1,4 +1,4 @@
-![Version](https://img.shields.io/badge/version-3.0.1-orange.svg)
+![Version](https://img.shields.io/badge/version-3.0.2-orange.svg)
 ![Plaftorm](https://img.shields.io/badge/platform-TextMate-blue.svg)
 ![macOS](https://img.shields.io/badge/macos-HighSierra-yellow.svg)
 ![macOS](https://img.shields.io/badge/macos-Mojave-yellow.svg)
@@ -303,7 +303,8 @@ This project is licensed under MIT
 **2018-11-19**
 
 * Update: Added missing information on README
-* Version bump to: 3.0.1
+* Update: Virtual Environmet support for `pylint`
+* Version bump to: 3.0.2
 
 **2018-11-18**
 

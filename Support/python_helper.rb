@@ -128,6 +128,12 @@ module Python
   
   def pylint
     cmd = ENV["TM_PYTHON_FMT_PYLINT"] || `command -v pylint`.chomp
+    if ENV["TM_PYTHON_FMT_VIRTUAL_ENV"]
+      pylint_path_venv = "#{ENV["TM_PYTHON_FMT_VIRTUAL_ENV"]}/bin/pylint"
+      pylint_cmd_exist = `command -v #{pylint_path_venv}`.chomp
+      cmd = pylint_path_venv unless pylint_cmd_exist.empty?
+    end
+
     TextMate.exit_show_tool_tip(boxify("pylint binary not found!")) if cmd.empty?
     args = [
       "--errors-only",
