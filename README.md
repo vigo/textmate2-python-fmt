@@ -1,4 +1,4 @@
-![Version](https://img.shields.io/badge/version-3.0.0-orange.svg)
+![Version](https://img.shields.io/badge/version-3.0.1-orange.svg)
 ![Plaftorm](https://img.shields.io/badge/platform-TextMate-blue.svg)
 ![macOS](https://img.shields.io/badge/macos-HighSierra-yellow.svg)
 ![macOS](https://img.shields.io/badge/macos-Mojave-yellow.svg)
@@ -154,6 +154,15 @@ flake8_builtins: 1.4.1, flake8_quotes: 1.0.0, import-order: 0.18, mccabe:
 
 ---
 
+## Hot Keys and Snippets
+
+| Hot Keys and TAB Completions    | Description                                                                                                                                                                                        |
+|:--------------------------------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| <kbd>⌘</kbd> + <kbd>{</kbd>    | Bypass selection while formatting with `black`. This adds `# fmt: off` and `# fmt: on` to beginning and ending of selection. Used James Edward Gray II’s commenting tool which ships with TextMate. |
+| <kbd>noq</kbd> + <kbd>⇥</kbd>  | Inserts `# noqa` with error numbers                                                                                                                                                                 |
+| <kbd>ski</kbd> + <kbd>⇥</kbd>  | Inserts `# isort: skip`                                                                                                                                                                             |
+| <kbd>pyl</kbd> + <kbd>⇥</kbd>  | Inserts `# pylint: disable` with error numbers                                                                                                                                                      |
+
 ## TextMate Variables
 
 | Variable                             | Information                                                                                                         |
@@ -290,6 +299,11 @@ This project is licensed under MIT
 
 
 ## Change Log
+
+**2018-11-19**
+
+* Update: Added missing information on README
+* Version bump to: 3.0.1
 
 **2018-11-18**
 

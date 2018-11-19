@@ -21,16 +21,7 @@ def out(*args)
   end )
 end
 
-# find all available comment variables
 var_suffixes = [""]
-2.upto(1.0/0.0) do |n|
-  if ENV.include? "TM_COMMENT_START_#{n}"
-    var_suffixes &lt;&lt; "_#{n}"
-  else
-    break
-  end
-end
-
 text    = STDIN.read
 default = nil  # the comment we will insert, if none are removed
 
