@@ -121,8 +121,9 @@ module Python
     ]
     
     out, err = TextMate::Process.run(cmd, args, ENV["TM_FILEPATH"])
+    err = nil if err and err.split("\n").first.downcase.start_with?("possible nested set")
     TextMate.exit_show_tool_tip(err) unless err.nil? || err == ""
-    
+
     if out.empty?
       $TOOLTIP_OUTPUT << "\t flake8 👍"
     else

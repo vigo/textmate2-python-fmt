@@ -1,5 +1,6 @@
-![Version](https://img.shields.io/badge/version-3.0.5-orange.svg)
+![Version](https://img.shields.io/badge/version-3.1.0-orange.svg)
 ![Plaftorm](https://img.shields.io/badge/platform-TextMate-blue.svg)
+![Python 3.7+](https://img.shields.io/badge/python-3.7+-blue.svg)
 ![macOS](https://img.shields.io/badge/macos-HighSierra-yellow.svg)
 ![macOS](https://img.shields.io/badge/macos-Mojave-yellow.svg)
 ![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)
@@ -39,89 +40,33 @@ Error information
 
 ---
 
-## Installation: `pyenv` Users
+## Installation
 
-Checker your Python binary. Python 3+ recommended:
-
-```bash
-$ pyenv which python
-/Users/vigo/.pyenv/versions/3.7.0/bin/python     # example output, use this for TM_PYTHON
-```
-
-Check your `TM_PYTHON` variable from **TextMate > Preferences > Variables**.
-Set to:
-
-    TM_PYTHON    /Users/vigo/.pyenv/versions/3.7.0/bin/python
-
-Now install packages:
-
-```bash
-$ pip install isort black flake8 pylint
-```
-
-
-Now clone the repo:
-
-```bash
-$ cd ~/Library/Application\ Support/TextMate/Bundles/
-$ git clone https://github.com/vigo/textmate2-python-fmt.git Python-FMT.tmbundle
-```
-
-and restart TextMate!
-
-## Installation: `homebrew` Users
-
-Check your Python binary:
+Checker your Python binary. You need Python 3+.
 
 ```bash
 $ which python
-/usr/local/bin/python              # example output
+/Users/vigo/.pyenv/shims/python                  # or
+$ pyenv which python
+/Users/vigo/.pyenv/versions/3.7.0/bin/python
 ```
 
-Set `TM_PYTHON` variable from  **TextMate > Preferences > Variables**:
-
-    TM_PYTHON    /usr/local/bin/python
-
-Now install packages:
-
-```bash
-$ pip install isort black flake8 pylint
-```
-
-
-And finally clone the repo:
+Check your `TM_PYTHON` variable from **TextMate > Preferences > Variables**
+then clone the repo:
 
 ```bash
 $ cd ~/Library/Application\ Support/TextMate/Bundles/
 $ git clone https://github.com/vigo/textmate2-python-fmt.git Python-FMT.tmbundle
 ```
 
-and restart TextMate!
-
-## Installation: macOS Defaults
-
-macOS ships with **Python 2.7.10** which is not good but you can still
-use the bundle...
+Now install python packages:
 
 ```bash
-$ sudo /usr/bin/easy_install --script-dir=/usr/bin/ isort
-$ sudo /usr/bin/easy_install --script-dir=/usr/bin/ black
-$ sudo /usr/bin/easy_install --script-dir=/usr/bin/ flake8
-$ sudo /usr/bin/easy_install --script-dir=/usr/bin/ pylint
+$ cd Python-FMT.tmbundle/
+$ pip install -r requirements.txt
 ```
 
-You don’t need to set `TM_PYTHON` variable... Now clone repo:
-
-```bash
-$ cd ~/Library/Application\ Support/TextMate/Bundles/
-$ git clone https://github.com/vigo/textmate2-python-fmt.git Python-FMT.tmbundle
-```
-
-and restart TextMate!
-
----
-
-## Recommended flake8 plugins
+Bundled `flake8` plugins are:
 
 * `flake8-blind-except`: Checks for blind, catch-all `except:` statements.
 * `flake8-builtins`: Check for python builtins being used as variables or parameters
@@ -132,25 +77,7 @@ and restart TextMate!
 * `flake8-bugbear`: A plugin for Flake8 finding likely bugs and design problems in your program.
 * `flake8-bandit`: For writing secure code!
 
-To install all:
-
-```bash
-# Homebrew or pyenv
-$ pip install flake8-{blind-except,builtins,import-order,quotes,string-format,print,bugbear,bandit} # or
-```
-
-Check your installation after:
-
-```bass
-$ flake8 -h
-
-# you’ll see all of the options. at the last part you’ll find the list of installed
-# plugins
-Installed plugins: flake8-bandit: v1.0.2, flake8-blind-except: 0.1.1,
-flake8-bugbear: 18.8.0, flake8-print: 3.1.0, flake8-string-format: 0.2.3,
-flake8_builtins: 1.4.1, flake8_quotes: 1.0.0, import-order: 0.18, mccabe:
-0.6.1, pycodestyle: 2.4.0, pyflakes: 2.0.0
-```
+Now you can restart TextMate!
 
 ---
 
@@ -303,6 +230,11 @@ This project is licensed under MIT
 
 
 ## Change Log
+
+**2018-11-21**
+
+* Monkeypath: `flake8-bandit` causes warning: `Possible nested set at position 1`
+* Version bump to: 3.1.0
 
 **2018-11-19**
 
