@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>content</key>
-	<string>TM_PYTHON_FMT_PYLINTRC=$TM_PROJECT_DIRECTORY/.pylintrc</string>
+	<string>TM_PYTHON_FMT_PYLINTRC="${TM_PROJECT_DIRECTORY}/.pylintrc"</string>
 	<key>name</key>
 	<string>Insert TM_PYTHON_FMT_PYLINTRC</string>
 	<key>scope</key>
