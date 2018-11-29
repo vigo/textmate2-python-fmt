@@ -1,4 +1,4 @@
-![Version](https://img.shields.io/badge/version-3.1.0-orange.svg)
+![Version](https://img.shields.io/badge/version-3.1.1-orange.svg)
 ![Plaftorm](https://img.shields.io/badge/platform-TextMate-blue.svg)
 ![Python 3.7+](https://img.shields.io/badge/python-3.7+-blue.svg)
 ![macOS](https://img.shields.io/badge/macos-HighSierra-yellow.svg)
@@ -68,14 +68,13 @@ $ pip install -r requirements.txt
 
 Bundled `flake8` plugins are:
 
+* `flake8-bandit`: For writing secure code!
 * `flake8-blind-except`: Checks for blind, catch-all `except:` statements.
+* `flake8-bugbear`: A plugin for Flake8 finding likely bugs and design problems in your program.
 * `flake8-builtins`: Check for python builtins being used as variables or parameters
-* `flake8-import-order`: Check invalid import order (*double checks after isort*)
+* `flake8-print`: Checks for `print` statements in python files.
 * `flake8-quotes`: Install this if you are single quote person like me!
 * `flake8-string-format`: Checks for strings and parameters using `str.format`
-* `flake8-print`: Checks for `print` statements in python files.
-* `flake8-bugbear`: A plugin for Flake8 finding likely bugs and design problems in your program.
-* `flake8-bandit`: For writing secure code!
 
 Now you can restart TextMate!
 
@@ -101,6 +100,8 @@ Now you can restart TextMate!
 | `TM_PYTHON_FMT_PYLINT`               | Binary location for `pylint`. To set custom binary, enter full path here. Example: `/path/to/pylint`                |
 | `TM_PYTHON_FMT_PYLINTRC`             | Location of `pylintrc` or `.pylintrc` file if you like to set                                                       |
 | `TM_PYTHON_FMT_PYLINT_EXTRA_OPTIONS` | You can pass additional options/params to `pylint`.                                                                 |
+| `TM_PYTHON_FMT_BLACK_DEFAULTS`       | unless `pyproject.toml` doesn’t exists, this parameters will be used if provided                                    |
+| `TM_PYTHON_FMT_ISORT_DEFAULTS`       | unless `.isort.cfg` doesn’t exists, this parameters will be used if provided                                        |
 
 Using `pylint` to display compile-time errors only. This means, using
 `--errors-only` option. Also, for `flake8` and `pylint` using same
@@ -231,9 +232,16 @@ This project is licensed under MIT
 
 ## Change Log
 
+**2018-11-29**
+
+* `TM_PYTHON_FMT_BLACK_DEFAULTS` env-var for setting `black` defaults.
+* `TM_PYTHON_FMT_ISORT_DEFAULTS` env-var for setting `isort` defaults.
+* `TM_PYTHON_FMT_DEBUG` env-var for debugging.
+
+
 **2018-11-21**
 
-* Monkeypath: `flake8-bandit` causes warning: `Possible nested set at position 1`
+* Monkeypatch: `flake8-bandit` causes warning: `Possible nested set at position 1`
 * Version bump to: 3.1.0
 
 **2018-11-19**

@@ -9,11 +9,16 @@ $OUTPUT = ""
 $TOOLTIP_OUTPUT = []
 $DOCUMENT = STDIN.read
 $ERROR_LINES = {}
+$DEBUG_OUT = []
 
 module Python
   module_function
   def env_err(var)
     "err: #{var}"
+  end
+
+  def config_file_exist?(filename)
+    return File.exists?(File.join(ENV['TM_PROJECT_DIRECTORY'], filename))
   end
 
   def check_env(var)
@@ -86,8 +91,11 @@ module Python
 
     args = []
     args << "--virtual-env" << ENV["TM_PYTHON_FMT_VIRTUAL_ENV"] if ENV["TM_PYTHON_FMT_VIRTUAL_ENV"]
+    args += ENV["TM_PYTHON_FMT_ISORT_DEFAULTS"].split if ENV["TM_PYTHON_FMT_ISORT_DEFAULTS"] and !config_file_exist?('.isort.cfg')
     args << "-"
-
+    
+    $DEBUG_OUT << "isort args: #{args.join(' ')}" if ENV['TM_PYTHON_FMT_DEBUG']
+    
     $OUTPUT, err = TextMate::Process.run(cmd, args, :input => $DOCUMENT)
     TextMate.exit_show_tool_tip(err) unless err.nil? || err == ""
     
@@ -103,9 +111,11 @@ module Python
     cmd = ENV["TM_PYTHON_FMT_BLACK"] || `command -v black`.chomp
     TextMate.exit_show_tool_tip(boxify("black binary not found!")) if cmd.empty?
     
-    args = [
-      "-",
-    ]
+    args = []
+    args += ENV["TM_PYTHON_FMT_BLACK_DEFAULTS"].split if ENV["TM_PYTHON_FMT_BLACK_DEFAULTS"] and !config_file_exist?('pyproject.toml')
+    args << "-"
+    
+    $DEBUG_OUT << "black args: #{args.join(' ')}" if ENV['TM_PYTHON_FMT_DEBUG']
     
     $OUTPUT, err = TextMate::Process.run(cmd, args, :input => $DOCUMENT)
     $DOCUMENT = $OUTPUT
@@ -120,6 +130,8 @@ module Python
       "%(row)d || %(col)d || %(code)s || %(text)s",
     ]
     
+    $DEBUG_OUT << "flake8 args: #{args.join(' ')}" if ENV['TM_PYTHON_FMT_DEBUG']
+    
     out, err = TextMate::Process.run(cmd, args, ENV["TM_FILEPATH"])
     
     err = nil if err && err.include?("\n") && err.split("\n").first && err.split("\n").first.downcase.start_with?("possible nested set")
@@ -132,6 +144,7 @@ module Python
     end
   end
   
+  # callback.document.did-save
   def pylint
     cmd = ENV["TM_PYTHON_FMT_PYLINT"] || `command -v pylint`.chomp
     if ENV["TM_PYTHON_FMT_VIRTUAL_ENV"]
@@ -153,7 +166,9 @@ module Python
     args << "--rcfile" << pylintrc if pylintrc
     
     args += ENV["TM_PYTHON_FMT_PYLINT_EXTRA_OPTIONS"].split if ENV["TM_PYTHON_FMT_PYLINT_EXTRA_OPTIONS"]
-
+    
+    $DEBUG_OUT << "pylint args: #{args.join(' ')}" if ENV['TM_PYTHON_FMT_DEBUG']
+    
     out, err = TextMate::Process.run(cmd, args, ENV["TM_FILEPATH"])
     TextMate.exit_show_tool_tip(err) unless err.nil? || err == ""
 
@@ -172,6 +187,7 @@ module Python
     black
     isort
 
+    puts "#{$DEBUG_OUT.map{|i| "# #{i}"}.join("\n")}" if ENV['TM_PYTHON_FMT_DEBUG']
     print $OUTPUT
   end
   
@@ -202,7 +218,9 @@ module Python
       end
       result = result.join("\n")
     end
-
+    
+    result = "#{result}\n\n#{$DEBUG_OUT.map{|i| "# #{i}"}.join("\n")}" if ENV['TM_PYTHON_FMT_DEBUG']
+    
     TextMate.exit_show_tool_tip(boxify(result))
   end
 end
