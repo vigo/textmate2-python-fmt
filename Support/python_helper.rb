@@ -129,6 +129,7 @@ module Python
       "--format",
       "%(row)d || %(col)d || %(code)s || %(text)s",
     ]
+    args += ENV["TM_PYTHON_FMT_FLAKE8_DEFAULTS"].split if ENV["TM_PYTHON_FMT_FLAKE8_DEFAULTS"] and [!config_file_exist?('setup.cfg'), !config_file_exist?('.flake8')].any?
     
     $DEBUG_OUT << "flake8 args: #{args.join(' ')}" if ENV['TM_PYTHON_FMT_DEBUG']
     

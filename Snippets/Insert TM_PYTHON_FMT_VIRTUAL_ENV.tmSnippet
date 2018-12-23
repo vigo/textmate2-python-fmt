@@ -9,7 +9,7 @@
 	<key>scope</key>
 	<string>source.tm-properties</string>
 	<key>tabTrigger</key>
-	<string>env</string>
+	<string>envi</string>
 	<key>uuid</key>
 	<string>6279B27A-93B7-4126-BCB0-F560DE805793</string>
 </dict>

@@ -2,46 +2,62 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>contactEmailRot13</key>
-	<string>hthebmlvyznmry@tznvy.pbz</string>
-	<key>contactName</key>
-	<string>Uğur "vigo" Özyılmazel</string>
-	<key>description</key>
-	<string>Python FMT is a python linter/formatter/checker for TextMate. Press `⌘ + S` then I handle the rest.
+    <key>contactEmailRot13</key>
+    <string>hthebmlvyznmry@tznvy.pbz</string>
+    <key>contactName</key>
+    <string>Uğur "vigo" Özyılmazel</string>
+    <key>description</key>
+    <string>Python FMT is a python linter/formatter/checker for TextMate. Press `⌘ + S` then I handle the rest.
 </string>
-	<key>mainMenu</key>
-	<dict>
-		<key>items</key>
-		<array>
-			<string>6B263143-3077-464A-A9DB-EB5C58AB7161</string>
-			<string>A884AA08-C483-4484-980B-852D4352256D</string>
-			<string>------------------------------------</string>
-			<string>3CBBBB4E-0975-4F3A-BBC0-1427684081AD</string>
-			<string>------------------------------------</string>
-			<string>37058BE3-26A7-4546-8D8E-7FFC6AA8D3DA</string>
-			<string>99D7428B-7380-44A5-86F5-9DAE79969B14</string>
-			<string>544FAE2D-E3CA-4F22-A444-E8122BDBED35</string>
-			<string>------------------------------------</string>
-			<string>EF4428FA-72C6-410C-9C11-C0228E4A6D08</string>
-			<string>6B636093-3B46-468D-ABC9-10A3BD07E151</string>
-			<string>------------------------------------</string>
-			<string>851B49B5-557C-4C43-A680-ED74C10CB894</string>
-			<string>------------------------------------</string>
-            <string>6279B27A-93B7-4126-BCB0-F560DE805793</string>
-            <string>3DFD8284-8AEA-44FB-941A-2E1E6EB354FB</string>
+    <key>mainMenu</key>
+    <dict>
+        <key>items</key>
+        <array>
+            <string>6B263143-3077-464A-A9DB-EB5C58AB7161</string>
+            <string>A884AA08-C483-4484-980B-852D4352256D</string>
             <string>------------------------------------</string>
-            <string>03D4205B-78D0-49D3-8A4E-E71CF14A0E83</string>
-            <string>241851FB-D968-43E1-B42F-4267FE469771</string>
-            <string>AF80F1AB-AFF3-410A-AFC5-790AF243D064</string>
-            <string>B017C504-9D4E-4EB5-8084-CE02CE5C34E9</string>
+            <string>3CBBBB4E-0975-4F3A-BBC0-1427684081AD</string>
             <string>------------------------------------</string>
-            <string>5F4A5627-EF83-40A4-8FEC-C52D6F7B6A02</string>
+            <string>37058BE3-26A7-4546-8D8E-7FFC6AA8D3DA</string>
+            <string>99D7428B-7380-44A5-86F5-9DAE79969B14</string>
+            <string>544FAE2D-E3CA-4F22-A444-E8122BDBED35</string>
             <string>------------------------------------</string>
-		</array>
-	</dict>
-	<key>name</key>
-	<string>Python FMT</string>
-	<key>uuid</key>
-	<string>6CAFEF90-868F-46D0-AC9E-AB70DACED414</string>
+            <string>EF4428FA-72C6-410C-9C11-C0228E4A6D08</string>
+            <string>6B636093-3B46-468D-ABC9-10A3BD07E151</string>
+            <string>------------------------------------</string>
+            <string>851B49B5-557C-4C43-A680-ED74C10CB894</string>
+            <string>------------------------------------</string>
+            <string>87248C7B-254C-4013-A14B-A3C34D74FEC1</string>
+        </array>
+        
+        <key>submenus</key>
+        <dict>
+
+            <key>87248C7B-254C-4013-A14B-A3C34D74FEC1</key>
+            <dict>
+                <key>items</key>
+                <array>
+                    <string>6279B27A-93B7-4126-BCB0-F560DE805793</string>
+                    <string>3DFD8284-8AEA-44FB-941A-2E1E6EB354FB</string>
+                    <string>------------------------------------</string>
+                    <string>03D4205B-78D0-49D3-8A4E-E71CF14A0E83</string>
+                    <string>241851FB-D968-43E1-B42F-4267FE469771</string>
+                    <string>AF80F1AB-AFF3-410A-AFC5-790AF243D064</string>
+                    <string>B017C504-9D4E-4EB5-8084-CE02CE5C34E9</string>
+                    <string>------------------------------------</string>
+                    <string>5F4A5627-EF83-40A4-8FEC-C52D6F7B6A02</string>
+                    <string>------------------------------------</string>
+                </array>
+                <key>name</key>
+                <string>tm_properties Helper</string>
+            </dict>
+
+        </dict>
+        
+    </dict>
+    <key>name</key>
+    <string>Python FMT</string>
+    <key>uuid</key>
+    <string>6CAFEF90-868F-46D0-AC9E-AB70DACED414</string>
 </dict>
 </plist>

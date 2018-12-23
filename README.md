@@ -1,4 +1,4 @@
-![Version](https://img.shields.io/badge/version-3.1.1-orange.svg)
+![Version](https://img.shields.io/badge/version-3.1.2-orange.svg)
 ![Plaftorm](https://img.shields.io/badge/platform-TextMate-blue.svg)
 ![Python 3.7+](https://img.shields.io/badge/python-3.7+-blue.svg)
 ![macOS](https://img.shields.io/badge/macos-HighSierra-yellow.svg)
@@ -82,11 +82,11 @@ Now you can restart TextMate!
 
 ## Hot Keys and Snippets
 
-| Hot Keys and TAB Completions    | Description                                                                                                                                                                                        |
-|:--------------------------------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Hot Keys and TAB Completions    | Description                                                                                                                                                                                           |
+|:--------------------------------|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | <kbd>⌘</kbd> + <kbd>{</kbd>    | Bypass selection while formatting with `black`. This adds `# fmt: off` and `# fmt: on` to beginning and ending of selection.<br>Used James Edward Gray II’s commenting tool which ships with TextMate. |
-| <kbd>noq</kbd> + <kbd>⇥</kbd>  | Choose desired bypass method |
-| <kbd>env</kbd> + <kbd>⇥</kbd>  | Inserts helpful environment variables if you are editing on `.tm_properties` file. Try :) |
+| <kbd>noq</kbd> + <kbd>⇥</kbd>  | Choose desired bypass method                                                                                                                                                                           |
+| <kbd>envi</kbd> + <kbd>⇥</kbd> | Inserts helpful environment variables if you are editing on `.tm_properties` file. Try :)                                                                                                              |
 
 ## TextMate Variables
 
@@ -97,11 +97,12 @@ Now you can restart TextMate!
 | `TM_PYTHON_FMT_VIRTUAL_ENV`          | Good for `isort`. Use `.tm_properties` file to set this. If set, passes `--virtual-env` to `isort` with given value |
 | `TM_PYTHON_FMT_BLACK`                | Binary location for `black`. To set custom binary, enter full path here. Example: `/path/to/black`                  |
 | `TM_PYTHON_FMT_FLAKE8`               | Binary location for `flake8`. To set custom binary, enter full path here. Example: `/path/to/black`                 |
+| `TM_PYTHON_FMT_FLAKE8_DEFAULTS`      | Unless `.flake8` or `setup.cfg` doesn’t exists, this parameters will be used as defaults for `flake8` configuration |
 | `TM_PYTHON_FMT_PYLINT`               | Binary location for `pylint`. To set custom binary, enter full path here. Example: `/path/to/pylint`                |
 | `TM_PYTHON_FMT_PYLINTRC`             | Location of `pylintrc` or `.pylintrc` file if you like to set                                                       |
 | `TM_PYTHON_FMT_PYLINT_EXTRA_OPTIONS` | You can pass additional options/params to `pylint`.                                                                 |
-| `TM_PYTHON_FMT_BLACK_DEFAULTS`       | unless `pyproject.toml` doesn’t exists, this parameters will be used if provided                                    |
-| `TM_PYTHON_FMT_ISORT_DEFAULTS`       | unless `.isort.cfg` doesn’t exists, this parameters will be used if provided                                        |
+| `TM_PYTHON_FMT_BLACK_DEFAULTS`       | Unless `pyproject.toml` doesn’t exists, this parameters will be used if provided                                    |
+| `TM_PYTHON_FMT_ISORT_DEFAULTS`       | Unless `.isort.cfg` doesn’t exists, this parameters will be used if provided                                        |
 
 Using `pylint` to display compile-time errors only. This means, using
 `--errors-only` option. Also, for `flake8` and `pylint` using same
@@ -231,6 +232,12 @@ This project is licensed under MIT
 
 
 ## Change Log
+
+**2018-12-23**
+
+* `TM_PYTHON_FMT_FLAKE8_DEFAULTS` env-var for setting defaults for `flake8`
+* `env` + <kbd>⇥</kbd> changed to `envi` + <kbd>⇥</kbd> due to other TM bundle collision.
+* Bundle menu grouping for `tm_properties` helper
 
 **2018-11-29**
 
