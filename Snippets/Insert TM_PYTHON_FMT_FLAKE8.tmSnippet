@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>content</key>
-	<string>TM_PYTHON_FMT_FLAKE8=`command -v flake8 || echo $TM_PYTHON_FMT_VIRTUAL_ENV/bin/flake8`$</string>
+	<string>TM_PYTHON_FMT_FLAKE8=`command -v flake8 || echo $TM_PYTHON_FMT_VIRTUAL_ENV/bin/flake8`$0</string>
 	<key>name</key>
 	<string>Insert TM_PYTHON_FMT_FLAKE8</string>
 	<key>scope</key>
