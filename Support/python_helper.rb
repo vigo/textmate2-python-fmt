@@ -129,8 +129,10 @@ module Python
       "--format",
       "%(row)d || %(col)d || %(code)s || %(text)s",
     ]
-    args += ENV["TM_PYTHON_FMT_FLAKE8_DEFAULTS"].split if ENV["TM_PYTHON_FMT_FLAKE8_DEFAULTS"] and [!config_file_exist?('setup.cfg'), !config_file_exist?('.flake8')].any?
-    
+    unless [!config_file_exist?('setup.cfg'), !config_file_exist?('.flake8')].any?
+      args += ENV["TM_PYTHON_FMT_FLAKE8_DEFAULTS"].split if ENV["TM_PYTHON_FMT_FLAKE8_DEFAULTS"]
+    end
+
     $DEBUG_OUT << "flake8 args: #{args.join(' ')}" if ENV['TM_PYTHON_FMT_DEBUG']
     
     out, err = TextMate::Process.run(cmd, args, ENV["TM_FILEPATH"])
