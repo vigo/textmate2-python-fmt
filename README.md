@@ -1,4 +1,4 @@
-![Version](https://img.shields.io/badge/version-3.1.3-orange.svg)
+![Version](https://img.shields.io/badge/version-3.4.0-orange.svg)
 ![Plaftorm](https://img.shields.io/badge/platform-TextMate-blue.svg)
 ![Python 3.7+](https://img.shields.io/badge/python-3.7+-blue.svg)
 ![macOS](https://img.shields.io/badge/macos-HighSierra-yellow.svg)
@@ -51,8 +51,9 @@ $ pyenv which python
 /Users/vigo/.pyenv/versions/3.7.0/bin/python
 ```
 
-Check your `TM_PYTHON` variable from **TextMate > Preferences > Variables**
-then clone the repo:
+You need to set `TM_PYTHON_FMT_PYTHON_PATH` variable (**TextMate > Preferences > Variables**)
+and set the value according to the result above.
+
 
 ```bash
 $ cd ~/Library/Application\ Support/TextMate/Bundles/
@@ -232,6 +233,11 @@ This project is licensed under MIT
 
 
 ## Change Log
+
+**2018-12-27**
+
+* Now using `TM_PYTHON_FMT_PYTHON_PATH` instead of `TM_PYTHON`. You must fix
+  this, otherwise your bundle will not work!
 
 **2018-12-23**
 

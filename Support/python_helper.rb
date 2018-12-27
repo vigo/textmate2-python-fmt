@@ -27,8 +27,8 @@ module Python
   end
 
   def setup
-    err = check_env("TM_PYTHON")
-    ENV["PATH"] = "#{File.dirname(ENV["TM_PYTHON"])}:#{ENV["PATH"]}" if err.nil?
+    err = check_env("TM_PYTHON_FMT_PYTHON_PATH")
+    ENV["PATH"] = "#{File.dirname(ENV["TM_PYTHON_FMT_PYTHON_PATH"])}:#{ENV["PATH"]}" if err.nil?
     err
   end
   
