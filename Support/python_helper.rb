@@ -129,7 +129,7 @@ module Python
       "--format",
       "%(row)d || %(col)d || %(code)s || %(text)s",
     ]
-    unless [!config_file_exist?('setup.cfg'), !config_file_exist?('.flake8')].any?
+    unless [config_file_exist?('setup.cfg'), config_file_exist?('.flake8')].any?
       args += ENV["TM_PYTHON_FMT_FLAKE8_DEFAULTS"].split if ENV["TM_PYTHON_FMT_FLAKE8_DEFAULTS"]
     end
 
