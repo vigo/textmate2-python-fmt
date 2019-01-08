@@ -1,4 +1,4 @@
-![Version](https://img.shields.io/badge/version-3.4.0-orange.svg)
+![Version](https://img.shields.io/badge/version-3.4.1-orange.svg)
 ![Plaftorm](https://img.shields.io/badge/platform-TextMate-blue.svg)
 ![Python 3.7+](https://img.shields.io/badge/python-3.7+-blue.svg)
 ![macOS](https://img.shields.io/badge/macos-HighSierra-yellow.svg)
@@ -93,7 +93,7 @@ Now you can restart TextMate!
 
 | Variable                             | Information                                                                                                         |
 |:-------------------------------------|:--------------------------------------------------------------------------------------------------------------------|
-| `TM_PYTHON`                          | To run everything :)                                                                                                |
+| `TM_PYTHON_FMT_PYTHON_PATH`          | Binary location of your `python` executable :)                                                                      |
 | `TM_PYTHON_FMT_ISORT`                | Binary location for `isort`. To set custom binary, enter full path here. Example: `/path/to/isort`                  |
 | `TM_PYTHON_FMT_VIRTUAL_ENV`          | Good for `isort`. Use `.tm_properties` file to set this. If set, passes `--virtual-env` to `isort` with given value |
 | `TM_PYTHON_FMT_BLACK`                | Binary location for `black`. To set custom binary, enter full path here. Example: `/path/to/black`                  |
@@ -104,6 +104,7 @@ Now you can restart TextMate!
 | `TM_PYTHON_FMT_PYLINT_EXTRA_OPTIONS` | You can pass additional options/params to `pylint`.                                                                 |
 | `TM_PYTHON_FMT_BLACK_DEFAULTS`       | Unless `pyproject.toml` doesn’t exists, this parameters will be used if provided                                    |
 | `TM_PYTHON_FMT_ISORT_DEFAULTS`       | Unless `.isort.cfg` doesn’t exists, this parameters will be used if provided                                        |
+| `TM_PYTHON_FMT_DISABLE`              | You this variable if you need to disable this bundle temporarily                                                    |
 
 Using `pylint` to display compile-time errors only. This means, using
 `--errors-only` option. Also, for `flake8` and `pylint` using same
@@ -233,6 +234,11 @@ This project is licensed under MIT
 
 
 ## Change Log
+
+**2019-01-08**
+
+* Fix missing environment variable for python executable: `TM_PYTHON_FMT_PYTHON_PATH`
+* You can disable this bundle temporarily via `TM_PYTHON_FMT_DISABLE` variable.
 
 **2018-12-27**
 

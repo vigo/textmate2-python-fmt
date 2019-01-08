@@ -184,6 +184,7 @@ module Python
   
   # before save
   def run_document_will_save
+    TextMate.exit_show_tool_tip('disabled via TM_PYTHON_FMT_DISABLE') if ENV["TM_PYTHON_FMT_DISABLE"]
     err = setup
     TextMate.exit_show_tool_tip(err) unless err.nil?
     
@@ -196,6 +197,7 @@ module Python
   
   # after save
   def run_document_did_save
+    TextMate.exit_show_tool_tip('disabled via TM_PYTHON_FMT_DISABLE') if ENV["TM_PYTHON_FMT_DISABLE"]
     err = setup
     TextMate.exit_show_tool_tip(err) unless err.nil?
     
