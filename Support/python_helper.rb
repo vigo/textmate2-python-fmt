@@ -184,7 +184,7 @@ module Python
   
   # before save
   def run_document_will_save
-    TextMate.exit_show_tool_tip('disabled via TM_PYTHON_FMT_DISABLE') if ENV["TM_PYTHON_FMT_DISABLE"]
+    TextMate.exit_discard if ENV["TM_PYTHON_FMT_DISABLE"] or $DOCUMENT.split('\n').first.include?('# TM_PYTHON_FMT_DISABLE')
     err = setup
     TextMate.exit_show_tool_tip(err) unless err.nil?
     
@@ -197,10 +197,10 @@ module Python
   
   # after save
   def run_document_did_save
-    TextMate.exit_show_tool_tip('disabled via TM_PYTHON_FMT_DISABLE') if ENV["TM_PYTHON_FMT_DISABLE"]
+    TextMate.exit_discard if ENV["TM_PYTHON_FMT_DISABLE"] or $DOCUMENT.split('\n').first.include?('# TM_PYTHON_FMT_DISABLE')
     err = setup
     TextMate.exit_show_tool_tip(err) unless err.nil?
-    
+
     reset_markers
 
     pylint
@@ -208,7 +208,6 @@ module Python
 
     set_markers
 
-    
     if $ERROR_LINES.empty?
       $TOOLTIP_OUTPUT.unshift("Following checks completed:\n")
       $TOOLTIP_OUTPUT << "\nGood to go! ✨ 🍰 ✨"
@@ -223,9 +222,9 @@ module Python
       end
       result = result.join("\n")
     end
-    
+
     result = "#{result}\n\n#{$DEBUG_OUT.map{|i| "# #{i}"}.join("\n")}" if ENV['TM_PYTHON_FMT_DEBUG']
-    
+
     TextMate.exit_show_tool_tip(boxify(result))
   end
 end

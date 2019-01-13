@@ -12,7 +12,7 @@ require "#{ENV['TM_BUNDLE_SUPPORT']}/python_helper"
 Python.run_document_did_save
 </string>
 	<key>input</key>
-	<string>none</string>
+	<string>document</string>
 	<key>inputFormat</key>
 	<string>text</string>
 	<key>name</key>
