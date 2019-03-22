@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>content</key>
+	<string>TM_PYTHON_FMT_DISABLE=1</string>
+	<key>name</key>
+	<string>Insert TM_PYTHON_FMT_DISABLE</string>
+	<key>scope</key>
+	<string>source.tm-properties</string>
+	<key>tabTrigger</key>
+	<string>envi</string>
+	<key>uuid</key>
+	<string>890B2E3A-E9B7-4F7C-8756-4D8C6587C53D</string>
+</dict>
+</plist>

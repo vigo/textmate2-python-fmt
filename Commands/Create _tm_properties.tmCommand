@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>beforeRunningCommand</key>
+	<string>nop</string>
+	<key>command</key>
+	<string>#!/usr/bin/env ruby18 -wKU
+
+TM_PROPERTIES_TEMPLATE = %{# TM_PYTHON_FMT_VIRTUAL_ENV="#{ENV['HOME']}/.virtualenvs/"
+# TM_PYTHON_FMT_PYLINTRC="#{ENV['TM_PROJECT_DIRECTORY']}/.pylintrc"
+# TM_PYTHON_FMT_DISABLE=1
+# TM_PYTHON_FMT_PYTHON_PATH="#{ENV['HOME']}/.virtualenvs/ENV_NAME/bin/python"
+}
+
+TM_PROPERTY_FILE = "#{ENV['TM_PROJECT_DIRECTORY']}/.tm_properties"
+
+f = File.open(TM_PROPERTY_FILE, "w")
+f.puts(TM_PROPERTIES_TEMPLATE)
+f.close
+
+puts "  .tm_properties created at: \n\n"
+puts "  #{TM_PROPERTY_FILE}"
+
+</string>
+	<key>input</key>
+	<string>none</string>
+	<key>inputFormat</key>
+	<string>text</string>
+	<key>keyEquivalent</key>
+	<string>~t</string>
+	<key>name</key>
+	<string>Create .tm_properties</string>
+	<key>outputCaret</key>
+	<string>afterOutput</string>
+	<key>outputFormat</key>
+	<string>text</string>
+	<key>outputLocation</key>
+	<string>toolTip</string>
+	<key>uuid</key>
+	<string>90FC9364-C414-4F62-9E16-05CB2B7A0EBD</string>
+	<key>version</key>
+	<integer>2</integer>
+</dict>
+</plist>

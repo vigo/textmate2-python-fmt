@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>content</key>
+	<string>TM_PYTHON_FMT_PYTHON_PATH="${HOME}/.virtualenvs/${1:ENV_NAME}/bin/python"</string>
+	<key>name</key>
+	<string>Insert TM_PYTHON_FMT_PYTHON_PATH</string>
+	<key>scope</key>
+	<string>source.tm-properties</string>
+	<key>tabTrigger</key>
+	<string>envi</string>
+	<key>uuid</key>
+	<string>416DB53C-FC39-4218-9730-09D6403F8788</string>
+</dict>
+</plist>

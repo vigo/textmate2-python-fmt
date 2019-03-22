@@ -1,4 +1,4 @@
-![Version](https://img.shields.io/badge/version-3.4.2-orange.svg)
+![Version](https://img.shields.io/badge/version-3.4.3-orange.svg)
 ![Plaftorm](https://img.shields.io/badge/platform-TextMate-blue.svg)
 ![Python 3.7+](https://img.shields.io/badge/python-3.7+-blue.svg)
 ![macOS](https://img.shields.io/badge/macos-HighSierra-yellow.svg)
@@ -83,12 +83,14 @@ Now you can restart TextMate!
 
 ## Hot Keys and Snippets
 
-| Hot Keys and TAB Completions    | Description                                                                                                                                                                                           |
-|:--------------------------------|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| <kbd>⌘</kbd> + <kbd>{</kbd>    | Bypass selection while formatting with `black`. This adds `# fmt: off` and `# fmt: on` to beginning and ending of selection.<br>Used James Edward Gray II’s commenting tool which ships with TextMate. |
-| <kbd>noq</kbd> + <kbd>⇥</kbd>  | Choose desired bypass method                                                                                                                                                                           |
-| <kbd>envi</kbd> + <kbd>⇥</kbd> | Inserts helpful environment variables if you are editing on `.tm_properties` file. Try :)                                                                                                              |
-| <kbd>disable</kbd> + <kbd>⇥</kbd> | Inserts `# TM_PYTHON_FMT_DISABLE`, put this in to first line if you want to disable this bundle                                                                                                     |
+| Hot Keys and TAB Completions       | Description                                                                                                                                                                                           |
+|:-----------------------------------|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| <kbd>⌘</kbd> + <kbd>{</kbd>       | Bypass selection while formatting with `black`. This adds `# fmt: off` and `# fmt: on` to beginning and ending of selection.<br>Used James Edward Gray II’s commenting tool which ships with TextMate. |
+| <kbd>noq</kbd> + <kbd>⇥</kbd>     | Choose desired bypass method                                                                                                                                                                           |
+| <kbd>envi</kbd> + <kbd>⇥</kbd>    | Inserts helpful environment variables if you are editing on `.tm_properties` file. Try :)                                                                                                              |
+| <kbd>disable</kbd> + <kbd>⇥</kbd> | Inserts `# TM_PYTHON_FMT_DISABLE`, put this in to first line if you want to disable this bundle                                                                                                        |
+| <kbd>⌥</kbd> + <kbd>T</kbd>       | Create `.tm_properties` file to project root directory                                                                                                                                                 |
+
 
 ## TextMate Variables
 
@@ -235,6 +237,11 @@ This project is licensed under MIT
 
 
 ## Change Log
+
+**2019-03-22**
+
+* You can create `.tm_properties` file
+* Extra snippets for tm_properties helper
 
 **2019-01-13**
 
