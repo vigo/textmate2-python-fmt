@@ -1,4 +1,4 @@
-![Version](https://img.shields.io/badge/version-3.4.3-orange.svg)
+![Version](https://img.shields.io/badge/version-3.5.0-orange.svg)
 ![Plaftorm](https://img.shields.io/badge/platform-TextMate-blue.svg)
 ![Python 3.7+](https://img.shields.io/badge/python-3.7+-blue.svg)
 ![macOS](https://img.shields.io/badge/macos-HighSierra-yellow.svg)
@@ -109,15 +109,17 @@ Now you can restart TextMate!
 | `TM_PYTHON_FMT_ISORT_DEFAULTS`       | Unless `.isort.cfg` doesn’t exists, this parameters will be used if provided                                        |
 | `TM_PYTHON_FMT_DISABLE`              | You this variable if you need to disable this bundle temporarily                                                    |
 
-Using `pylint` to display compile-time errors only. This means, using
-`--errors-only` option. Also, for `flake8` and `pylint` using same
-error output format:
+
+`pylint` now shows every available error. You can set extra options to
+display compile-time errors only via `TM_PYTHON_FMT_PYLINT_EXTRA_OPTIONS` set
+the value to: (**TextMate > Preferences > Variables**.) or `.tm_properties`.
+Space delimited arguments required...
+
+    --errors-only
+
+`flake8` and `pylint` using same error output format:
 
     LINE_NUMBER || COLUMN_NUMBER || ERROR_CODE || ERROR_MESSAGE
-
-You can pass extra arguments via `TM_PYTHON_FMT_PYLINT_EXTRA_OPTIONS`. Set this
-variable in TextMate’s global settings (**TextMate > Preferences > Variables**.)
-or set it in `.tm_properties`. Space delimited arguments required...
 
 Example `.tm_properties` usage:
 
@@ -238,108 +240,113 @@ This project is licensed under MIT
 
 ## Change Log
 
+**2019-04-05**
+
+- Fix: `pylint` configuration
+- Update: Python packages
+
 **2019-03-22**
 
-* You can create `.tm_properties` file
-* Extra snippets for tm_properties helper
+- You can create `.tm_properties` file
+- Extra snippets for tm_properties helper
 
 **2019-01-13**
 
-* Put `# TM_PYTHON_FMT_DISABLE` as first line in to your code to disable bundle (or hit `disable` + <kbd>⇥</kbd>)
-* When bundle is disabled from code or from env, nothing will pop! All silent now!
+- Put `# TM_PYTHON_FMT_DISABLE` as first line in to your code to disable bundle (or hit `disable` + <kbd>⇥</kbd>)
+- When bundle is disabled from code or from env, nothing will pop! All silent now!
 
 **2019-01-08**
 
-* Fix missing environment variable for python executable: `TM_PYTHON_FMT_PYTHON_PATH`
-* You can disable this bundle temporarily via `TM_PYTHON_FMT_DISABLE` variable.
+- Fix missing environment variable for python executable: `TM_PYTHON_FMT_PYTHON_PATH`
+- You can disable this bundle temporarily via `TM_PYTHON_FMT_DISABLE` variable.
 
 **2018-12-27**
 
-* Now using `TM_PYTHON_FMT_PYTHON_PATH` instead of `TM_PYTHON`. You must fix
+- Now using `TM_PYTHON_FMT_PYTHON_PATH` instead of `TM_PYTHON`. You must fix
   this, otherwise your bundle will not work!
 
 **2018-12-23**
 
-* `TM_PYTHON_FMT_FLAKE8_DEFAULTS` env-var for setting defaults for `flake8`
-* `env` + <kbd>⇥</kbd> changed to `envi` + <kbd>⇥</kbd> due to other TM bundle collision.
-* Bundle menu grouping for `tm_properties` helper
+- `TM_PYTHON_FMT_FLAKE8_DEFAULTS` env-var for setting defaults for `flake8`
+- `env` + <kbd>⇥</kbd> changed to `envi` + <kbd>⇥</kbd> due to other TM bundle collision.
+- Bundle menu grouping for `tm_properties` helper
 
 **2018-11-29**
 
-* `TM_PYTHON_FMT_BLACK_DEFAULTS` env-var for setting `black` defaults.
-* `TM_PYTHON_FMT_ISORT_DEFAULTS` env-var for setting `isort` defaults.
-* `TM_PYTHON_FMT_DEBUG` env-var for debugging.
+- `TM_PYTHON_FMT_BLACK_DEFAULTS` env-var for setting `black` defaults.
+- `TM_PYTHON_FMT_ISORT_DEFAULTS` env-var for setting `isort` defaults.
+- `TM_PYTHON_FMT_DEBUG` env-var for debugging.
 
 
 **2018-11-21**
 
-* Monkeypatch: `flake8-bandit` causes warning: `Possible nested set at position 1`
-* Version bump to: 3.1.0
+- Monkeypatch: `flake8-bandit` causes warning: `Possible nested set at position 1`
+- Version bump to: 3.1.0
 
 **2018-11-19**
 
-* Update: Added missing information on `README.md`
-* Update: Virtual Environmet support for `pylint`
-* Update: `pylintrc` support for `pylint`
-* Fix: `isort:skip_file` bug
-* Addition: <kbd>env</kbd> + <kbd>⇥</kbd> for environment variables
-* Change: All the bypass declarations are using <kbd>noq</kbd> + <kbd>⇥</kbd>
-* Version bump to: 3.0.5
+- Update: Added missing information on `README.md`
+- Update: Virtual Environmet support for `pylint`
+- Update: `pylintrc` support for `pylint`
+- Fix: `isort:skip_file` bug
+- Addition: <kbd>env</kbd> + <kbd>⇥</kbd> for environment variables
+- Change: All the bypass declarations are using <kbd>noq</kbd> + <kbd>⇥</kbd>
+- Version bump to: 3.0.5
 
 **2018-11-18**
 
-* Upgrade: Rewritten from scratch. `autopep8` removed.
+- Upgrade: Rewritten from scratch. `autopep8` removed.
 
 **2018-11-17**
 
-* Update: `black` integration
-* `flake8-commas` removed.
+- Update: `black` integration
+- `flake8-commas` removed.
 
 **2018-11-15**
 
-* Update: `setup.cfg` config file support added.
+- Update: `setup.cfg` config file support added.
 
 **2018-11-14**
 
-* Fix: Added `--trailing-comma` for isort imports
-* Added: List of `flake8` plugins
+- Fix: Added `--trailing-comma` for isort imports
+- Added: List of `flake8` plugins
 
 **2018-10-28**
 
-* `TM_PYTHON_FMT_DEBUG` if set, you’ll see running commands
-* Version is now `2.1.4`
+- `TM_PYTHON_FMT_DEBUG` if set, you’ll see running commands
+- Version is now `2.1.4`
 
 **2018-10-24**
 
-* Fix: Added missing `git clone` information
-* Fix: runners.
-* Version is now `2.1.3`
+- Fix: Added missing `git clone` information
+- Fix: runners.
+- Version is now `2.1.3`
 
 **2018-10-24**
 
-* Bundle re-written from scratch
-* Now using `callback.document.will-save` and `callback.document.did-save` hooks
-* `isort` support added
-* Version is now `2.1.0`
+- Bundle re-written from scratch
+- Now using `callback.document.will-save` and `callback.document.did-save` hooks
+- `isort` support added
+- Version is now `2.1.0`
 
 **2017-07-02**
 
-* Updated: README file. Added useful setup instructions.
-* Added: Badges :)
+- Updated: README file. Added useful setup instructions.
+- Added: Badges :)
 
 **2017-05-14**
 
-* Updated: Success tooltip message now shows maximum characters value
-* Updated: Screenshot of `before-and-after-flake8.png`
-* Changed: Overriding default save keys (<kbd>⌘</kbd> + <kbd>S</kbd>) was a bad idea :)
+- Updated: Success tooltip message now shows maximum characters value
+- Updated: Screenshot of `before-and-after-flake8.png`
+- Changed: Overriding default save keys (<kbd>⌘</kbd> + <kbd>S</kbd>) was a bad idea :)
 
 **2017-05-13**
 
-* First release :)
+- First release :)
 
 **2017-05-06**
 
-* Initial commit
+- Initial commit
 
 
 [01]: https://pypi.python.org/pypi/isort "isort fixes import order"

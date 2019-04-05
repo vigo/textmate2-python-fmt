@@ -158,7 +158,6 @@ module Python
 
     TextMate.exit_show_tool_tip(boxify("pylint binary not found!")) if cmd.empty?
     args = [
-      "--errors-only",
       "--msg-template",
       "{line} || {column} || {msg_id} || {msg}",
     ]
