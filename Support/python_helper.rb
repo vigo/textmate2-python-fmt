@@ -173,16 +173,32 @@ module Python
     
     out, err = TextMate::Process.run(cmd, args, ENV["TM_FILEPATH"])
     TextMate.exit_show_tool_tip(err) unless err.nil? || err == ""
-    if out.empty? or out.include?('has been rated')
-      pylint_msg = ""
-      if out.include?('has been rated')
-        pylint_msg += "\t" + out.gsub(/[-\n]/, '') + "\n"
-      end
-      pylint_msg += "\t pylint 👍"
-      $TOOLTIP_OUTPUT << pylint_msg
-    else
+
+    if out.include?("||")
       update_errors(out)
     end
+    
+    success_msg = ""
+    if out.include?("has been rated")
+      success_msg += "\t" + out.gsub(/[-\n]/, '') + "\n\n"
+    end
+    success_msg+= "\t pylint 👍" if out.empty? or !args.include?("--errors-only")
+
+    
+    $TOOLTIP_OUTPUT << success_msg unless success_msg.empty?
+    
+    puts 
+    
+    # if out.empty? or out.include?('has been rated')
+    #   pylint_msg = ""
+    #   if out.include?('has been rated')
+    #     pylint_msg += "\t" + out.gsub(/[-\n]/, '') + "\n"
+    #   end
+    #   pylint_msg += "\t pylint 👍"
+    #   $TOOLTIP_OUTPUT << pylint_msg
+    # else
+    #   update_errors(out)
+    # end
   end
   
   # before save
