@@ -33,7 +33,7 @@ module Python
   end
   
   def boxify(text)
-    "#{"-" * 64}\n #{text}\n#{"-" * 64}"
+    "#{"-" * 80}\n #{text}\n#{"-" * 80}"
   end
 
   def reset_markers
@@ -173,9 +173,13 @@ module Python
     
     out, err = TextMate::Process.run(cmd, args, ENV["TM_FILEPATH"])
     TextMate.exit_show_tool_tip(err) unless err.nil? || err == ""
-
-    if out.empty?
-      $TOOLTIP_OUTPUT << "\t pylint 👍"
+    if out.empty? or out.include?('has been rated')
+      pylint_msg = ""
+      if out.include?('has been rated')
+        pylint_msg += "\t" + out.gsub(/[-\n]/, '') + "\n"
+      end
+      pylint_msg += "\t pylint 👍"
+      $TOOLTIP_OUTPUT << pylint_msg
     else
       update_errors(out)
     end
