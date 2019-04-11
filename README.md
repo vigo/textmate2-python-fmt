@@ -240,6 +240,11 @@ This project is licensed under MIT
 
 ## Change Log
 
+**2019-04-11**
+
+- Create `.tm_properties` file to current working directory <kbd>⌥</kbd> + <kbd>T</kbd>
+- Create `.tm_properties` file to project root directory <kbd>⌥</kbd> + <kbd>T</kbd>
+
 **2019-04-05**
 
 - Fix: `pylint` configuration

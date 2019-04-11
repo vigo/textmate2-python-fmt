@@ -13,7 +13,7 @@ TM_PROPERTIES_TEMPLATE = %{# TM_PYTHON_FMT_VIRTUAL_ENV="#{ENV['HOME']}/.virtuale
 # TM_PYTHON_FMT_PYTHON_PATH="#{ENV['HOME']}/.virtualenvs/ENV_NAME/bin/python"
 }
 
-TM_PROPERTY_FILE = "#{ENV['TM_PROJECT_DIRECTORY']}/.tm_properties"
+TM_PROPERTY_FILE = "#{ENV['PWD']}/.tm_properties"
 
 f = File.open(TM_PROPERTY_FILE, "w")
 f.puts(TM_PROPERTIES_TEMPLATE)
@@ -30,7 +30,7 @@ puts "  #{TM_PROPERTY_FILE}"
 	<key>keyEquivalent</key>
 	<string>~t</string>
 	<key>name</key>
-	<string>Create .tm_properties</string>
+	<string>Create .tm_properties to current working directory</string>
 	<key>outputCaret</key>
 	<string>afterOutput</string>
 	<key>outputFormat</key>
