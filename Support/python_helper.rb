@@ -186,23 +186,12 @@ module Python
 
     
     $TOOLTIP_OUTPUT << success_msg unless success_msg.empty?
-    
-    puts 
-    
-    # if out.empty? or out.include?('has been rated')
-    #   pylint_msg = ""
-    #   if out.include?('has been rated')
-    #     pylint_msg += "\t" + out.gsub(/[-\n]/, '') + "\n"
-    #   end
-    #   pylint_msg += "\t pylint 👍"
-    #   $TOOLTIP_OUTPUT << pylint_msg
-    # else
-    #   update_errors(out)
-    # end
   end
   
   # before save
   def run_document_will_save
+    return if $DOCUMENT.empty?
+
     TextMate.exit_discard if ENV["TM_PYTHON_FMT_DISABLE"] or $DOCUMENT.split('\n').first.include?('# TM_PYTHON_FMT_DISABLE')
     err = setup
     TextMate.exit_show_tool_tip(err) unless err.nil?
@@ -216,6 +205,8 @@ module Python
   
   # after save
   def run_document_did_save
+    return if $DOCUMENT.empty?
+
     TextMate.exit_discard if ENV["TM_PYTHON_FMT_DISABLE"] or $DOCUMENT.split('\n').first.include?('# TM_PYTHON_FMT_DISABLE')
     err = setup
     TextMate.exit_show_tool_tip(err) unless err.nil?
