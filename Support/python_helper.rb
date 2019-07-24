@@ -165,6 +165,8 @@ module Python
     pylintrc = nil
     pylintrc = ENV["TM_PYTHON_FMT_PYLINTRC"] if ENV["TM_PYTHON_FMT_PYLINTRC"]
     
+    TextMate.exit_show_tool_tip(boxify("pylintrc not found")) unless File.exists?(pylintrc)
+    
     args << "--rcfile" << pylintrc if pylintrc
     
     args += ENV["TM_PYTHON_FMT_PYLINT_EXTRA_OPTIONS"].split if ENV["TM_PYTHON_FMT_PYLINT_EXTRA_OPTIONS"]

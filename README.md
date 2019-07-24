@@ -1,4 +1,4 @@
-![Version](https://img.shields.io/badge/version-3.5.1-orange.svg)
+![Version](https://img.shields.io/badge/version-3.5.2-orange.svg)
 ![Plaftorm](https://img.shields.io/badge/platform-TextMate-blue.svg)
 ![Python 3.7+](https://img.shields.io/badge/python-3.7+-blue.svg)
 ![macOS](https://img.shields.io/badge/macos-HighSierra-yellow.svg)
@@ -239,6 +239,10 @@ This project is licensed under MIT
 
 
 ## Change Log
+
+**2019-07-24**
+
+- Skip pylint check unless `pylintrc` exists
 
 **2019-04-11**
 
