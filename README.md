@@ -1,4 +1,4 @@
-![Version](https://img.shields.io/badge/version-3.5.2-orange.svg)
+![Version](https://img.shields.io/badge/version-3.5.3-orange.svg)
 ![Plaftorm](https://img.shields.io/badge/platform-TextMate-blue.svg)
 ![Python 3.7+](https://img.shields.io/badge/python-3.7+-blue.svg)
 ![macOS](https://img.shields.io/badge/macos-HighSierra-yellow.svg)
@@ -131,6 +131,12 @@ Example `.tm_properties` usage:
     TM_PYTHON_FMT_PYLINTRC=$TM_PROJECT_DIRECTORY/.pylintrc        # or
     TM_PYTHON_FMT_PYLINTRC=/path/to/.pylintrc                     # or
 
+**Update**
+
+Now bundle checks for `~/.pylintrc`. First checks local `pylintrc`, then checks 
+`TM_PYTHON_FMT_PYLINTRC` variable. This overrides local `pylintrc` if `TM_PYTHON_FMT_PYLINTRC`
+is set.
+
 Also, you can set project based configurations for all of the tools. Check
 their official documentations:
 
@@ -239,6 +245,11 @@ This project is licensed under MIT
 
 
 ## Change Log
+
+**2019-08-06**
+
+- Add local `~/.pylintrc` lookup feature
+- Add `bumpversion` config
 
 **2019-07-24**
 

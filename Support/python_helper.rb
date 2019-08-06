@@ -163,6 +163,8 @@ module Python
     ]
     
     pylintrc = nil
+    local_pylintrc = File.join(ENV['HOME'], '.pylintrc')
+    pylintrc = local_pylintrc if File.exists?(local_pylintrc)
     pylintrc = ENV["TM_PYTHON_FMT_PYLINTRC"] if ENV["TM_PYTHON_FMT_PYLINTRC"]
     
     TextMate.exit_show_tool_tip(boxify("pylintrc not found")) unless pylintrc
