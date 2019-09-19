@@ -246,6 +246,10 @@ This project is licensed under MIT
 
 ## Change Log
 
+**2019-09-19**
+
+- Add missing `ENV_NAME` identifier to `.tm_properties` creator snippet
+
 **2019-08-06**
 
 - Add local `~/.pylintrc` lookup feature
