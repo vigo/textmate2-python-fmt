@@ -249,6 +249,7 @@ This project is licensed under MIT
 **2019-09-19**
 
 - Add missing `ENV_NAME` identifier to `.tm_properties` creator snippet
+- Bump version: 3.5.5
 
 **2019-08-06**
 
