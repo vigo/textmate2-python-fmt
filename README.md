@@ -97,18 +97,18 @@ Now you can restart TextMate!
 | Variable                             | Information                                                                                                         |
 |:-------------------------------------|:--------------------------------------------------------------------------------------------------------------------|
 | `TM_PYTHON_FMT_PYTHON_PATH`          | Binary location of your `python` executable :)                                                                      |
-| `TM_PYTHON_FMT_ISORT`                | Binary location for `isort`. To set custom binary, enter full path here. Example: `/path/to/isort`                  |
 | `TM_PYTHON_FMT_VIRTUAL_ENV`          | Good for `isort`. Use `.tm_properties` file to set this. If set, passes `--virtual-env` to `isort` with given value |
+| `TM_PYTHON_FMT_ISORT`                | Binary location for `isort`. To set custom binary, enter full path here. Example: `/path/to/isort`                  |
+| `TM_PYTHON_FMT_ISORT_DEFAULTS`       | Unless `.isort.cfg` doesn’t exists, this parameters will be used if provided                                        |
 | `TM_PYTHON_FMT_BLACK`                | Binary location for `black`. To set custom binary, enter full path here. Example: `/path/to/black`                  |
+| `TM_PYTHON_FMT_BLACK_DEFAULTS`       | Unless `pyproject.toml` doesn’t exists, this parameters will be used if provided                                    |
 | `TM_PYTHON_FMT_FLAKE8`               | Binary location for `flake8`. To set custom binary, enter full path here. Example: `/path/to/black`                 |
 | `TM_PYTHON_FMT_FLAKE8_DEFAULTS`      | Unless `.flake8` or `setup.cfg` doesn’t exists, this parameters will be used as defaults for `flake8` configuration |
 | `TM_PYTHON_FMT_PYLINT`               | Binary location for `pylint`. To set custom binary, enter full path here. Example: `/path/to/pylint`                |
 | `TM_PYTHON_FMT_PYLINTRC`             | Location of `pylintrc` or `.pylintrc` file if you like to set                                                       |
 | `TM_PYTHON_FMT_PYLINT_EXTRA_OPTIONS` | You can pass additional options/params to `pylint`.                                                                 |
-| `TM_PYTHON_FMT_BLACK_DEFAULTS`       | Unless `pyproject.toml` doesn’t exists, this parameters will be used if provided                                    |
-| `TM_PYTHON_FMT_ISORT_DEFAULTS`       | Unless `.isort.cfg` doesn’t exists, this parameters will be used if provided                                        |
 | `TM_PYTHON_FMT_DISABLE`              | You this variable if you need to disable this bundle temporarily                                                    |
-
+| `TM_PYTHON_FMT_DEBUG`                | Enable debug mode |
 
 `pylint` now shows every available error. You can set extra options to
 display compile-time errors only via `TM_PYTHON_FMT_PYLINT_EXTRA_OPTIONS` set
@@ -245,6 +245,11 @@ This project is licensed under MIT
 
 
 ## Change Log
+
+**2019-10-11**
+
+- Add Rakefile for bump version tasks
+- Add missing environment variable description to README
 
 **2019-09-19**
 
