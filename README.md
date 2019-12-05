@@ -246,6 +246,10 @@ This project is licensed under MIT
 
 ## Change Log
 
+**2019-12-05**
+
+- Add version information to debug text
+
 **2019-10-11**
 
 - Add Rakefile for bump version tasks

@@ -94,7 +94,11 @@ module Python
     args += ENV["TM_PYTHON_FMT_ISORT_DEFAULTS"].split if ENV["TM_PYTHON_FMT_ISORT_DEFAULTS"] and !config_file_exist?('.isort.cfg')
     args << "-"
     
-    $DEBUG_OUT << "isort args: #{args.join(' ')}" if ENV['TM_PYTHON_FMT_DEBUG']
+    if ENV['TM_PYTHON_FMT_DEBUG']
+      isort_version = `#{cmd} -vn`.chomp
+      $DEBUG_OUT << "isort version: #{isort_version}" 
+      $DEBUG_OUT << "isort args: #{args.join(' ')}" 
+    end
     
     $OUTPUT, err = TextMate::Process.run(cmd, args, :input => $DOCUMENT)
     TextMate.exit_show_tool_tip(err) unless err.nil? || err == ""
@@ -115,7 +119,11 @@ module Python
     args += ENV["TM_PYTHON_FMT_BLACK_DEFAULTS"].split if ENV["TM_PYTHON_FMT_BLACK_DEFAULTS"] and !config_file_exist?('pyproject.toml')
     args << "-"
     
-    $DEBUG_OUT << "black args: #{args.join(' ')}" if ENV['TM_PYTHON_FMT_DEBUG']
+    if ENV['TM_PYTHON_FMT_DEBUG']
+      black_version = `#{cmd} --version`.chomp
+      $DEBUG_OUT << "black version: #{black_version}" 
+      $DEBUG_OUT << "black args: #{args.join(' ')}" 
+    end
     
     $OUTPUT, err = TextMate::Process.run(cmd, args, :input => $DOCUMENT)
     $DOCUMENT = $OUTPUT
@@ -133,7 +141,11 @@ module Python
       args += ENV["TM_PYTHON_FMT_FLAKE8_DEFAULTS"].split if ENV["TM_PYTHON_FMT_FLAKE8_DEFAULTS"]
     end
 
-    $DEBUG_OUT << "flake8 args: #{args.join(' ')}" if ENV['TM_PYTHON_FMT_DEBUG']
+    if ENV['TM_PYTHON_FMT_DEBUG']
+      flake8_version = `#{cmd} --version`
+      $DEBUG_OUT << "flake8 version: #{flake8_version}" 
+      $DEBUG_OUT << "flake8 args: #{args.join(' ')}" 
+    end
     
     out, err = TextMate::Process.run(cmd, args, ENV["TM_FILEPATH"])
     
