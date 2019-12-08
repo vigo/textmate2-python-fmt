@@ -8,8 +8,8 @@
 	<string>#!/usr/bin/env ruby18 -wKU
 
 TM_PROPERTIES_TEMPLATE = %{# TM_PYTHON_FMT_VIRTUAL_ENV="#{ENV['HOME']}/.virtualenvs/ENV_NAME"
+# TM_PYTHON_FMT_PYTHON_PATH="\${TM_PYTHON_FMT_VIRTUAL_ENV}/bin/python"
 # TM_PYTHON_FMT_PYLINTRC="#{ENV['TM_PROJECT_DIRECTORY']}/.pylintrc"
-# TM_PYTHON_FMT_PYTHON_PATH="#{ENV['HOME']}/.virtualenvs/ENV_NAME/bin/python"
 # TM_PYTHON_FMT_DISABLE=1
 }
 
