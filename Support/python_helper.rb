@@ -186,7 +186,11 @@ module Python
     
     args += ENV["TM_PYTHON_FMT_PYLINT_EXTRA_OPTIONS"].split if ENV["TM_PYTHON_FMT_PYLINT_EXTRA_OPTIONS"]
     
-    $DEBUG_OUT << "pylint args: #{args.join(' ')}" if ENV['TM_PYTHON_FMT_DEBUG']
+    if ENV['TM_PYTHON_FMT_DEBUG']
+      pylint_version = `#{cmd} --version`.chomp
+      $DEBUG_OUT << "pylint args: #{args.join(' ')}"
+      $DEBUG_OUT << "pylint version: #{pylint_version.split("\n").join(' ')}"
+    end
     
     out, err = TextMate::Process.run(cmd, args, ENV["TM_FILEPATH"])
     TextMate.exit_show_tool_tip(err) unless err.nil? || err == ""
