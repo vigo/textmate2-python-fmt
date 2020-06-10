@@ -109,6 +109,10 @@ Now you can restart TextMate!
 | `TM_PYTHON_FMT_PYLINT_EXTRA_OPTIONS` | You can pass additional options/params to `pylint`.                                                                 |
 | `TM_PYTHON_FMT_DISABLE`              | You this variable if you need to disable this bundle temporarily                                                    |
 | `TM_PYTHON_FMT_DEBUG`                | Enable debug mode |
+| `TM_PYTHON_FMT_NOISORT`              | Disable isort |
+| `TM_PYTHON_FMT_NOBLACK`              | Disable black |
+| `TM_PYTHON_FMT_NOFLAKE8`             | Disable flake8 |
+| `TM_PYTHON_FMT_NOPYLINT`             | Disable pylint |
 
 `pylint` now shows every available error. You can set extra options to
 display compile-time errors only via `TM_PYTHON_FMT_PYLINT_EXTRA_OPTIONS` set

@@ -31,7 +31,7 @@ module Python
     ENV["PATH"] = "#{File.dirname(ENV["TM_PYTHON_FMT_PYTHON_PATH"])}:#{ENV["PATH"]}" if err.nil?
     err
   end
-  
+
   def boxify(text)
     "#{"-" * 80}\n #{text}\n#{"-" * 80}"
   end
@@ -46,7 +46,7 @@ module Python
       "--clear-mark=error"
     )
   end
-  
+
   def set_markers
     $ERROR_LINES.each do |line_number, errs|
       out_message = []
@@ -64,7 +64,7 @@ module Python
       system(ENV["TM_MATE"], *tm_args)
     end
   end
-  
+
   def update_errors(input)
     input.split("\n").each do |line|
       line_result = line.split(" || ")
@@ -86,6 +86,11 @@ module Python
 
   # callback.document.will-save
   def isort
+    if ENV["TM_PYTHON_FMT_NOISORT"]
+      $OUTPUT = $DOCUMENT
+      return
+    end
+
     cmd = ENV["TM_PYTHON_FMT_ISORT"] || `command -v isort`.chomp
     TextMate.exit_show_tool_tip(boxify("isort binary not found!")) if cmd.empty?
 
@@ -93,16 +98,16 @@ module Python
     args << "--virtual-env" << ENV["TM_PYTHON_FMT_VIRTUAL_ENV"] if ENV["TM_PYTHON_FMT_VIRTUAL_ENV"]
     args += ENV["TM_PYTHON_FMT_ISORT_DEFAULTS"].split if ENV["TM_PYTHON_FMT_ISORT_DEFAULTS"] and !config_file_exist?('.isort.cfg')
     args << "-"
-    
+
     if ENV['TM_PYTHON_FMT_DEBUG']
       isort_version = `#{cmd} -vn`.chomp
-      $DEBUG_OUT << "isort version: #{isort_version}" 
-      $DEBUG_OUT << "isort args: #{args.join(' ')}" 
+      $DEBUG_OUT << "isort version: #{isort_version}"
+      $DEBUG_OUT << "isort args: #{args.join(' ')}"
     end
-    
+
     $OUTPUT, err = TextMate::Process.run(cmd, args, :input => $DOCUMENT)
     TextMate.exit_show_tool_tip(err) unless err.nil? || err == ""
-    
+
     unless $OUTPUT.empty?
       $DOCUMENT = $OUTPUT
     else
@@ -112,25 +117,32 @@ module Python
 
   # callback.document.will-save
   def black
+    if ENV["TM_PYTHON_FMT_NOBLACK"]
+      $OUTPUT = $DOCUMENT
+      return
+    end
     cmd = ENV["TM_PYTHON_FMT_BLACK"] || `command -v black`.chomp
     TextMate.exit_show_tool_tip(boxify("black binary not found!")) if cmd.empty?
-    
+
     args = []
     args += ENV["TM_PYTHON_FMT_BLACK_DEFAULTS"].split if ENV["TM_PYTHON_FMT_BLACK_DEFAULTS"] and !config_file_exist?('pyproject.toml')
     args << "-"
-    
+
     if ENV['TM_PYTHON_FMT_DEBUG']
       black_version = `#{cmd} --version`.chomp
-      $DEBUG_OUT << "black version: #{black_version}" 
-      $DEBUG_OUT << "black args: #{args.join(' ')}" 
+      $DEBUG_OUT << "black version: #{black_version}"
+      $DEBUG_OUT << "black args: #{args.join(' ')}"
     end
-    
+
     $OUTPUT, err = TextMate::Process.run(cmd, args, :input => $DOCUMENT)
     $DOCUMENT = $OUTPUT
   end
-  
+
   # callback.document.did-save
   def flake8
+    if ENV["TM_PYTHON_FMT_NOFLAKE8"]
+      return
+    end
     cmd = ENV["TM_PYTHON_FMT_FLAKE8"] || `command -v flake8`.chomp
     TextMate.exit_show_tool_tip(boxify("flake8 binary not found!")) if cmd.empty?
     args = [
@@ -143,12 +155,14 @@ module Python
 
     if ENV['TM_PYTHON_FMT_DEBUG']
       flake8_version = `#{cmd} --version`
-      $DEBUG_OUT << "flake8 version: #{flake8_version}" 
-      $DEBUG_OUT << "flake8 args: #{args.join(' ')}" 
+      $DEBUG_OUT << "flake8 version: #{flake8_version}"
+      $DEBUG_OUT << "flake8 args: #{args.join(' ')}"
     end
-    
-    out, err = TextMate::Process.run(cmd, args, ENV["TM_FILEPATH"])
-    
+
+    args << ENV["TM_FILEPATH"]
+
+    out, err = TextMate::Process.run(cmd, args)
+
     err = nil if err && err.include?("\n") && err.split("\n").first && err.split("\n").first.downcase.start_with?("possible nested set")
     TextMate.exit_show_tool_tip(err) unless err.nil? || err == ""
 
@@ -158,9 +172,12 @@ module Python
       update_errors(out)
     end
   end
-  
+
   # callback.document.did-save
   def pylint
+    if ENV["TM_PYTHON_FMT_NOPYLINT"]
+      return
+    end
     cmd = ENV["TM_PYTHON_FMT_PYLINT"] || `command -v pylint`.chomp
     if ENV["TM_PYTHON_FMT_VIRTUAL_ENV"]
       pylint_path_venv = "#{ENV["TM_PYTHON_FMT_VIRTUAL_ENV"]}/bin/pylint"
@@ -173,42 +190,43 @@ module Python
       "--msg-template",
       "{line} || {column} || {msg_id} || {msg}",
     ]
-    
+
     pylintrc = nil
     local_pylintrc = File.join(ENV['HOME'], '.pylintrc')
     pylintrc = local_pylintrc if File.exists?(local_pylintrc)
     pylintrc = ENV["TM_PYTHON_FMT_PYLINTRC"] if ENV["TM_PYTHON_FMT_PYLINTRC"]
-    
+
     TextMate.exit_show_tool_tip(boxify("pylintrc not found")) unless pylintrc
     TextMate.exit_show_tool_tip(boxify("pylintrc not found")) unless File.exists?(pylintrc)
-    
+
     args << "--rcfile" << pylintrc if pylintrc
-    
+
     args += ENV["TM_PYTHON_FMT_PYLINT_EXTRA_OPTIONS"].split if ENV["TM_PYTHON_FMT_PYLINT_EXTRA_OPTIONS"]
-    
+
     if ENV['TM_PYTHON_FMT_DEBUG']
       pylint_version = `#{cmd} --version`.chomp
       $DEBUG_OUT << "pylint args: #{args.join(' ')}"
       $DEBUG_OUT << "pylint version: #{pylint_version.split("\n").join(' ')}"
     end
-    
-    out, err = TextMate::Process.run(cmd, args, ENV["TM_FILEPATH"])
+
+    args << ENV["TM_FILEPATH"]
+
+    out, err = TextMate::Process.run(cmd, args)
     TextMate.exit_show_tool_tip(err) unless err.nil? || err == ""
 
     if out.include?("||")
       update_errors(out)
     end
-    
+
     success_msg = ""
     if out.include?("has been rated")
       success_msg += "\t" + out.gsub(/[-\n]/, '') + "\n\n"
     end
     success_msg+= "\t pylint 👍" if out.empty? or !args.include?("--errors-only")
 
-    
     $TOOLTIP_OUTPUT << success_msg unless success_msg.empty?
   end
-  
+
   # before save
   def run_document_will_save
     return if $DOCUMENT.empty?
@@ -216,14 +234,14 @@ module Python
     TextMate.exit_discard if ENV["TM_PYTHON_FMT_DISABLE"] or $DOCUMENT.split('\n').first.include?('# TM_PYTHON_FMT_DISABLE')
     err = setup
     TextMate.exit_show_tool_tip(err) unless err.nil?
-    
+
     black
     isort
 
     puts "#{$DEBUG_OUT.map{|i| "# #{i}"}.join("\n")}" if ENV['TM_PYTHON_FMT_DEBUG']
     print $OUTPUT
   end
-  
+
   # after save
   def run_document_did_save
     return if $DOCUMENT.empty?
