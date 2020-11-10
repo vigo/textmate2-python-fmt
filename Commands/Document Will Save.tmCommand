@@ -19,7 +19,7 @@ Python.run_document_will_save
 	<key>name</key>
 	<string>Document Will Save</string>
 	<key>outputCaret</key>
-	<string>interpolateByChar</string>
+	<string>interpolateByLine</string>
 	<key>outputFormat</key>
 	<string>text</string>
 	<key>outputLocation</key>

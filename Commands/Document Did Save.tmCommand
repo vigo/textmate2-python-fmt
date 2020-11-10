@@ -18,7 +18,7 @@ Python.run_document_did_save
 	<key>name</key>
 	<string>Document Did Save</string>
 	<key>outputCaret</key>
-	<string>interpolateByChar</string>
+	<string>interpolateByLine</string>
 	<key>outputFormat</key>
 	<string>text</string>
 	<key>outputLocation</key>
