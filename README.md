@@ -3,6 +3,7 @@
 ![Python 3.7+](https://img.shields.io/badge/python-3.7+-blue.svg)
 ![macOS](https://img.shields.io/badge/macos-HighSierra-yellow.svg)
 ![macOS](https://img.shields.io/badge/macos-Mojave-yellow.svg)
+![macOS](https://img.shields.io/badge/macos-Catalina-yellow.svg)
 ![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)
 
 # Python FMT bundle for TextMate
@@ -76,6 +77,7 @@ Bundled `flake8` plugins are:
 * `flake8-print`: Checks for `print` statements in python files.
 * `flake8-quotes`: Install this if you are single quote person like me!
 * `flake8-string-format`: Checks for strings and parameters using `str.format`
+* `flake8-return`: Checks return statements.
 
 Now you can restart TextMate!
 
