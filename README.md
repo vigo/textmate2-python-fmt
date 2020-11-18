@@ -53,7 +53,8 @@ $ pyenv which python
 ```
 
 You need to set `TM_PYTHON_FMT_PYTHON_PATH` variable (**TextMate > Preferences > Variables**)
-and set the value according to the result above.
+and set the value according to the result above. If `TM_PYTHON` exists, bundle
+will fall back to `TM_PYTHON` value as python executable.
 
 
 ```bash
@@ -65,8 +66,61 @@ Now install python packages:
 
 ```bash
 $ cd Python-FMT.tmbundle/
+$ mkvirtualenv textmate-python-fmt
 $ pip install -r requirements.txt
 ```
+
+Now, you can add all the config files inside of the `textmate-python-fmt` env:
+
+```bash
+$ cdvirtualenv # or
+$ cd ~/.virtualenvs/textmate-python-fmt
+$ pylint --generate-rcfile > pylintrc
+$ touch isort flake8
+```
+
+Now, here are example config files:
+
+`isort`
+
+```toml
+[isort]
+line_length = 60
+multi_line_output = 3
+use_parentheses = true
+include_trailing_comma = true
+quiet = true
+force_grid_wrap = 0
+sections = FUTURE,STDLIB,THIRDPARTY,FIRSTPARTY,LOCALFOLDER
+```
+
+`flake8`
+
+```toml
+[flake8]
+max-line-length = 88
+ignore = W503
+exclude =
+    .git,
+    __pycache__,
+    build,
+    dist,
+    migrations
+```
+
+Now you can set `TM_` variables:
+
+    TM_PYTHON                               /Users/YOUR-USER-NAME/.pyenv/versions/3.8.0/bin/python
+    TM_PYTHON_FMT_PYLINTRC                  /Users/YOUR-USER-NAME/.virtualenvs/textmate-python-fmt/pylintrc
+    TM_PYTHON_FMT_PYLINT_EXTRA_OPTIONS      --disable missing-module-docstring,missing-function-docstring
+    TM_PYTHON_FMT_BLACK_DEFAULTS            --skip-string-normalization --target-version py38 --quiet
+    TM_PYTHON_FMT_PYLINTRC                  /Users/YOUR-USER-NAME/.virtualenvs/textmate-python-fmt/pylintrc
+    TM_PYTHON_FMT_FLAKE8_DEFAULTS           --config /Users/YOUR-USER-NAME/.virtualenvs/textmate-python-fmt/flake8
+    TM_PYTHON_FMT_ISORT_DEFAULTS            --settings-file /Users/YOUR-USER-NAME/.virtualenvs/textmate-python-fmt/isort
+
+This variable setup helps you to run/check/lint your python code without
+any project requirement. For bigger apps/projects please consider using
+of `.tm_properties` file...
 
 Bundled `flake8` plugins are:
 
@@ -78,6 +132,23 @@ Bundled `flake8` plugins are:
 * `flake8-quotes`: Install this if you are single quote person like me!
 * `flake8-string-format`: Checks for strings and parameters using `str.format`
 * `flake8-return`: Checks return statements.
+
+Current package versions are:
+
+```bash
+black==20.8b1
+isort==5.6.4
+pylint==2.6.0
+flake8==3.8.4
+flake8-bandit==2.1.2
+flake8-blind-except==0.1.1
+flake8-bugbear==20.1.4
+flake8-builtins==1.5.3
+flake8-print==3.1.4
+flake8-quotes==3.2.0
+flake8-string-format==0.3.0
+flake8-return==1.1.2
+```
 
 Now you can restart TextMate!
 
@@ -247,6 +318,12 @@ This project is licensed under MIT
 
 
 ## Change Log
+
+**2020-11-18**
+
+- Add `TM_PYTHON` fall-back unless `TM_PYTHON_FMT_PYTHON_PATH` exists
+- Add virtualenv/config examples to README
+- Fix `isort` version display on debug mode.
 
 **2019-12-05**
 

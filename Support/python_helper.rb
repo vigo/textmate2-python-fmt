@@ -14,7 +14,7 @@ $DEBUG_OUT = []
 module Python
   module_function
   def env_err(var)
-    "err: #{var}"
+    "Error: #{var} variable is not set"
   end
 
   def config_file_exist?(filename)
@@ -29,6 +29,12 @@ module Python
   def setup
     err = check_env("TM_PYTHON_FMT_PYTHON_PATH")
     ENV["PATH"] = "#{File.dirname(ENV["TM_PYTHON_FMT_PYTHON_PATH"])}:#{ENV["PATH"]}" if err.nil?
+
+    unless err.nil?
+      check_tm_python = check_env("TM_PYTHON")
+      err = check_tm_python if check_tm_python.nil?
+    end
+
     err
   end
   
@@ -95,8 +101,8 @@ module Python
     args << "-"
     
     if ENV['TM_PYTHON_FMT_DEBUG']
-      isort_version = `#{cmd} -vn`.chomp
-      $DEBUG_OUT << "isort version: #{isort_version}" 
+      isort_version = `#{cmd} --vn`.chomp
+      $DEBUG_OUT << "isort version: #{isort_version}"
       $DEBUG_OUT << "isort args: #{args.join(' ')}" 
     end
     
@@ -133,10 +139,12 @@ module Python
   def flake8
     cmd = ENV["TM_PYTHON_FMT_FLAKE8"] || `command -v flake8`.chomp
     TextMate.exit_show_tool_tip(boxify("flake8 binary not found!")) if cmd.empty?
+
     args = [
       "--format",
       "%(row)d || %(col)d || %(code)s || %(text)s",
     ]
+
     unless [config_file_exist?('setup.cfg'), config_file_exist?('.flake8')].any?
       args += ENV["TM_PYTHON_FMT_FLAKE8_DEFAULTS"].split if ENV["TM_PYTHON_FMT_FLAKE8_DEFAULTS"]
     end
@@ -162,6 +170,7 @@ module Python
   # callback.document.did-save
   def pylint
     cmd = ENV["TM_PYTHON_FMT_PYLINT"] || `command -v pylint`.chomp
+
     if ENV["TM_PYTHON_FMT_VIRTUAL_ENV"]
       pylint_path_venv = "#{ENV["TM_PYTHON_FMT_VIRTUAL_ENV"]}/bin/pylint"
       pylint_cmd_exist = `command -v #{pylint_path_venv}`.chomp
@@ -169,6 +178,7 @@ module Python
     end
 
     TextMate.exit_show_tool_tip(boxify("pylint binary not found!")) if cmd.empty?
+
     args = [
       "--msg-template",
       "{line} || {column} || {msg_id} || {msg}",
@@ -212,8 +222,8 @@ module Python
   # before save
   def run_document_will_save
     return if $DOCUMENT.empty?
-
     TextMate.exit_discard if ENV["TM_PYTHON_FMT_DISABLE"] or $DOCUMENT.split('\n').first.include?('# TM_PYTHON_FMT_DISABLE')
+
     err = setup
     TextMate.exit_show_tool_tip(err) unless err.nil?
     
@@ -227,8 +237,8 @@ module Python
   # after save
   def run_document_did_save
     return if $DOCUMENT.empty?
-
     TextMate.exit_discard if ENV["TM_PYTHON_FMT_DISABLE"] or $DOCUMENT.split('\n').first.include?('# TM_PYTHON_FMT_DISABLE')
+
     err = setup
     TextMate.exit_show_tool_tip(err) unless err.nil?
 
