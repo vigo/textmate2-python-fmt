@@ -101,7 +101,7 @@ module Python
     args << "-"
     
     if ENV['TM_PYTHON_FMT_DEBUG']
-      isort_version = `#{cmd} --vn`.chomp
+      isort_version = `#{cmd} -vn`.chomp
       $DEBUG_OUT << "isort version: #{isort_version}"
       $DEBUG_OUT << "isort args: #{args.join(' ')}" 
     end
