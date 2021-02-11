@@ -30,6 +30,8 @@
             <string>851B49B5-557C-4C43-A680-ED74C10CB894</string>
             <string>------------------------------------</string>
             <string>87248C7B-254C-4013-A14B-A3C34D74FEC1</string>
+            <string>0212E9D6-77C1-479A-9562-BB7ED9FFA7D7</string>
+            <string>------------------------------------</string>
         </array>
         
         <key>submenus</key>
@@ -62,7 +64,21 @@
                 <key>name</key>
                 <string>tm_properties Helper</string>
             </dict>
-
+            
+            <key>0212E9D6-77C1-479A-9562-BB7ED9FFA7D7</key>
+            <dict>
+                <key>items</key>
+                <array>
+                    <string>83DB9C46-D78E-481F-B4DB-B60880AA022D</string>
+                    <string>D48DB41A-4D90-4E0C-A859-D5165DA1320A</string>
+                    <string>B4BA5D42-D938-49A4-BD9E-759D197A7F63</string>
+                    <string>CD267774-FC65-4EDE-BF38-799E648A459C</string>
+                </array>
+                <key>name</key>
+                <string>Config files helper</string>
+            </dict>
+            
+            
         </dict>
         
     </dict>

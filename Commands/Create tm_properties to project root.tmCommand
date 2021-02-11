@@ -15,12 +15,18 @@ TM_PROPERTIES_TEMPLATE = %{# TM_PYTHON_FMT_VIRTUAL_ENV="#{ENV['HOME']}/.virtuale
 
 TM_PROPERTY_FILE = "#{ENV['TM_PROJECT_DIRECTORY']}/.tm_properties"
 
-f = File.open(TM_PROPERTY_FILE, "w")
-f.puts(TM_PROPERTIES_TEMPLATE)
-f.close
+unless File.exists? TM_PROPERTY_FILE
+  f = File.open(TM_PROPERTY_FILE, "w")
+  f.puts(TM_PROPERTIES_TEMPLATE)
+  f.close
 
-puts "  .tm_properties created at: \n\n"
-puts "  #{TM_PROPERTY_FILE}"
+  puts "  .tm_properties created at: \n\n"
+  puts "  #{TM_PROPERTY_FILE}"
+else
+  puts "  #{TM_PROPERTY_FILE} already exists!\n\n"
+  puts "  Please remove file first!"
+end
+
 
 </string>
 	<key>input</key>

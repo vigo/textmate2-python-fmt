@@ -22,6 +22,7 @@ module Python
   end
 
   def check_env(var)
+    $DEBUG_OUT << "var: #{var} -> #{ENV[var]}" if ENV['TM_PYTHON_FMT_DEBUG']
     return nil if ENV[var]
     return env_err(var)
   end
@@ -34,7 +35,9 @@ module Python
       check_tm_python = check_env("TM_PYTHON")
       err = check_tm_python if check_tm_python.nil?
     end
-
+    
+    $DEBUG_OUT << "TM_PYTHON -> #{ENV['TM_PYTHON']}" if ENV['TM_PYTHON_FMT_DEBUG']
+    $DEBUG_OUT << "PATH -> #{ENV['PATH']}" if ENV['TM_PYTHON_FMT_DEBUG']
     err
   end
   
@@ -101,7 +104,7 @@ module Python
     args << "-"
     
     if ENV['TM_PYTHON_FMT_DEBUG']
-      isort_version = `#{cmd} -vn`.chomp
+      isort_version = `#{cmd} --version-number`.chomp
       $DEBUG_OUT << "isort version: #{isort_version}"
       $DEBUG_OUT << "isort args: #{args.join(' ')}" 
     end

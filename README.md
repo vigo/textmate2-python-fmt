@@ -62,13 +62,22 @@ $ cd ~/Library/Application\ Support/TextMate/Bundles/
 $ git clone https://github.com/vigo/textmate2-python-fmt.git Python-FMT.tmbundle
 ```
 
-Now install python packages:
+If your project already contains lint/format config files (such as `.pylintrc`
+etc...) or packages (such as `pylint`, `flake8` binaries etc..) You don’t need
+to install anything. Just create `.tm_properties` and fill the config variables.
+Try with <kbd>⌥</kbd> + <kbd>T</kbd> (option + T)
+
+For global usage, you can install python packages and config files for any
+python file/project:
 
 ```bash
 $ cd Python-FMT.tmbundle/
 $ mkvirtualenv textmate-python-fmt
 $ pip install -r requirements.txt
 ```
+
+When you open any single python file or project, when you hit save, bundle
+checks for local or global linter binaries and config files.
 
 Now, you can add all the config files inside of the `textmate-python-fmt` env:
 
@@ -79,34 +88,14 @@ $ pylint --generate-rcfile > pylintrc
 $ touch isort flake8
 ```
 
-Now, here are example config files:
+You can create
 
-`isort`
-
-```toml
-[isort]
-line_length = 60
-multi_line_output = 3
-use_parentheses = true
-include_trailing_comma = true
-quiet = true
-force_grid_wrap = 0
-sections = FUTURE,STDLIB,THIRDPARTY,FIRSTPARTY,LOCALFOLDER
-```
-
-`flake8`
-
-```toml
-[flake8]
-max-line-length = 88
-ignore = W503
-exclude =
-    .git,
-    __pycache__,
-    build,
-    dist,
-    migrations
-```
+- `.isort.cfg` 
+- `.pylintrc`
+- `.flake8`
+- `pyproject.toml`
+ 
+via <kbd>⌥</kbd> + <kbd>T</kbd> and choose from list!
 
 Now you can set `TM_` variables:
 
@@ -120,7 +109,7 @@ Now you can set `TM_` variables:
 
 This variable setup helps you to run/check/lint your python code without
 any project requirement. For bigger apps/projects please consider using
-of `.tm_properties` file...
+of `.tm_properties` file. Hit <kbd>⌥</kbd> + <kbd>T</kbd> to create!
 
 Bundled `flake8` plugins are:
 
@@ -159,10 +148,10 @@ Now you can restart TextMate!
 | Hot Keys and TAB Completions       | Description                                                                                                                                                                                           |
 |:-----------------------------------|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | <kbd>⌘</kbd> + <kbd>{</kbd>       | Bypass selection while formatting with `black`. This adds `# fmt: off` and `# fmt: on` to beginning and ending of selection.<br>Used James Edward Gray II’s commenting tool which ships with TextMate. |
-| <kbd>noq</kbd> + <kbd>⇥</kbd>     | Choose desired bypass method                                                                                                                                                                           |
-| <kbd>envi</kbd> + <kbd>⇥</kbd>    | Inserts helpful environment variables if you are editing on `.tm_properties` file. Try :)                                                                                                              |
-| <kbd>disable</kbd> + <kbd>⇥</kbd> | Inserts `# TM_PYTHON_FMT_DISABLE`, put this in to first line if you want to disable this bundle                                                                                                        |
-| <kbd>⌥</kbd> + <kbd>T</kbd>       | Create `.tm_properties` file to project root directory                                                                                                                                                 |
+| <kbd>noq</kbd> + <kbd>⇥</kbd>     | Choose desired bypass method |
+| <kbd>envi</kbd> + <kbd>⇥</kbd>    | Inserts helpful environment variables if you are editing on `.tm_properties` file. Try :) |
+| <kbd>disable</kbd> + <kbd>⇥</kbd> | Inserts `# TM_PYTHON_FMT_DISABLE`, put this in to first line if you want to disable this bundle |
+| <kbd>⌥</kbd> + <kbd>T</kbd>       | Create `.tm_properties` or linter config files |
 
 
 ## TextMate Variables
@@ -218,73 +207,6 @@ their official documentations:
 - http://flake8.pycqa.org/en/latest/user/configuration.html#configuration-locations
 - https://pylint.readthedocs.io/en/latest/user_guide/run.html#command-line-options
 
-### Example Configurations
-
-For a Django project, `pyproject.toml`:
-
-```toml
-[tool.black]
-line-length = 119
-py36 = true
-skip-string-normalization = true
-quiet = true
-exclude='''
-/(
-    \.git
-  | \.hg
-  | \.tox
-  | \.venv
-  | _build
-  | buck-out
-  | build
-  | dist
-)/
-'''
-```
-
-and `setup.cfg`:
-
-```cfg
-[flake8]
-max-line-length = 119
-
-[isort]
-line_length = 60
-multi_line_output = 3
-use_parentheses = true
-include_trailing_comma = true
-quiet = true
-force_grid_wrap = 0
-known_django = django
-sections = FUTURE,STDLIB,DJANGO,THIRDPARTY,FIRSTPARTY,LOCALFOLDER
-```
-
-I like **Vertical Hanging Ident**, If you use this `isort` configuration,
-you’ll have something like this:
-
-```python
-from django.contrib.postgres.fields import (
-    ArrayField,
-    JSONField
-)
-from django.db import models
-from django.utils.translation import ugettext_lazy as _
-from mptt.models import (
-    MPTTModel,
-    TreeForeignKey,
-    TreeManyToManyField
-)
-
-from ..models import (
-    BaseModelWithSoftDelete,
-    BaseModelWithSoftDeleteQuerySet
-)
-```
-
-
----
-
-
 ---
 
 ## Contributer(s)
@@ -318,6 +240,12 @@ This project is licensed under MIT
 
 
 ## Change Log
+
+**2021-02-11**
+
+- Add linter config generator: <kbd>⌥</kbd> + <kbd>T</kbd>
+- Add config existence check, now you can’t overwrite file!
+- Remove config examples
 
 **2020-11-18**
 

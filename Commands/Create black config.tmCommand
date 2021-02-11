@@ -7,27 +7,38 @@
 	<key>command</key>
 	<string>#!/usr/bin/env ruby18 -wKU
 
-TM_PROPERTIES_TEMPLATE = %{# TM_PYTHON_FMT_VIRTUAL_ENV="#{ENV['HOME']}/.virtualenvs/ENV_NAME"
-# TM_PYTHON_FMT_PYTHON_PATH="\${TM_PYTHON_FMT_VIRTUAL_ENV}/bin/python"
-# TM_PYTHON_FMT_PYLINTRC="#{ENV['TM_PROJECT_DIRECTORY']}/.pylintrc"
-# TM_PYTHON_FMT_DISABLE=1
+FILE_TEMPLATE = %{[tool.black]
+line-length = 119
+target-version = ['py36','py37','py38']
+skip-string-normalization = true
+quiet = true
+exclude='''
+/(
+    \.git
+  | \.hg
+  | \.tox
+  | \.venv
+  | _build
+  | buck-out
+  | build
+  | dist
+)/
+'''
 }
 
-TM_PROPERTY_FILE = "#{ENV['PWD']}/.tm_properties"
+CONFIG_FILE_NAME = "pyproject.toml"
+TARGET_FILE = "#{ENV['TM_PROJECT_DIRECTORY']}/#{CONFIG_FILE_NAME}"
 
-unless File.exists? TM_PROPERTY_FILE
-  f = File.open(TM_PROPERTY_FILE, "w")
-  f.puts(TM_PROPERTIES_TEMPLATE)
+unless File.exists? TARGET_FILE
+  f = File.open(TARGET_FILE, "w")
+  f.puts(FILE_TEMPLATE)
   f.close
-
-  puts "  .tm_properties created at: \n\n"
-  puts "  #{TM_PROPERTY_FILE}"
+  puts "  #{CONFIG_FILE_NAME} created at: \n\n"
+  puts "  #{TARGET_FILE}"
 else
-  puts "  #{TM_PROPERTY_FILE} already exists!\n\n"
+  puts "  #{CONFIG_FILE_NAME} already exists!\n\n"
   puts "  Please remove file first!"
 end
-
-
 </string>
 	<key>input</key>
 	<string>none</string>
@@ -36,7 +47,7 @@ end
 	<key>keyEquivalent</key>
 	<string>~t</string>
 	<key>name</key>
-	<string>Create .tm_properties to current working directory</string>
+	<string>Create black config</string>
 	<key>outputCaret</key>
 	<string>afterOutput</string>
 	<key>outputFormat</key>
@@ -44,7 +55,7 @@ end
 	<key>outputLocation</key>
 	<string>toolTip</string>
 	<key>uuid</key>
-	<string>90FC9364-C414-4F62-9E16-05CB2B7A0EBD</string>
+	<string>CD267774-FC65-4EDE-BF38-799E648A459C</string>
 	<key>version</key>
 	<integer>2</integer>
 </dict>

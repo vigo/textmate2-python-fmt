@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>command</key>
+	<string>#!/usr/bin/env ruby18 -wKU
+
+require ENV['TM_SUPPORT_PATH'] + '/lib/tm/process'
+
+CONFIG_FILE_NAME = ".pylintrc"
+TARGET_FILE = "#{ENV['TM_PROJECT_DIRECTORY']}/#{CONFIG_FILE_NAME}"
+
+cmd = ENV["TM_PYTHON_FMT_PYLINT"] || `command -v pylint`.chomp
+if ENV["TM_PYTHON_FMT_VIRTUAL_ENV"]
+  pylint_path_venv = "#{ENV["TM_PYTHON_FMT_VIRTUAL_ENV"]}/bin/pylint"
+  pylint_cmd_exist = `command -v #{pylint_path_venv}`.chomp
+  cmd = pylint_path_venv unless pylint_cmd_exist.empty?
+end
+
+if cmd
+  unless File.exists? TARGET_FILE
+    file_template, err = TextMate::Process.run(cmd, ["--generate-rcfile"])
+  
+    if err.empty? and file_template.length &gt; 0
+    
+      pylint_version = `#{cmd} --version`.chomp
+      pylint_version_info = pylint_version.split("\n").map{|x| "# #{x}"}.join("\n")
+      
+      file_template = pylint_version_info + "\n\n" + file_template
+      
+      f = File.open(TARGET_FILE, "w")
+      f.puts(file_template)
+      f.close
+
+      puts "  #{CONFIG_FILE_NAME} created at: \n\n"
+      puts "  #{TARGET_FILE}"
+    else
+      puts "  Sorry, error occured: \n\n"
+      puts "  #{err}"
+    end
+  else
+    puts "  #{CONFIG_FILE_NAME} already exists!\n\n"
+    puts "  Please remove file first!"
+  end
+else
+  puts "  pylint executable not found..."
+end
+
+</string>
+	<key>input</key>
+	<string>none</string>
+	<key>keyEquivalent</key>
+	<string>~t</string>
+	<key>name</key>
+	<string>Create pylintrc config</string>
+	<key>outputLocation</key>
+	<string>toolTip</string>
+	<key>uuid</key>
+	<string>B4BA5D42-D938-49A4-BD9E-759D197A7F63</string>
+</dict>
+</plist>
