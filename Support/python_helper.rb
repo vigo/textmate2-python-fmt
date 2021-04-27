@@ -11,6 +11,18 @@ $DOCUMENT = STDIN.read
 $ERROR_LINES = {}
 $DEBUG_OUT = []
 
+TM_PYTHON_FMT_DISABLE_ISORT = ENV['TM_PYTHON_FMT_DISABLE_ISORT'] || false
+TM_PYTHON_FMT_DISABLE_BLACK = ENV['TM_PYTHON_FMT_DISABLE_BLACK'] || false
+TM_PYTHON_FMT_DISABLE_FLAKE8 = ENV['TM_PYTHON_FMT_DISABLE_FLAKE8'] || false
+TM_PYTHON_FMT_DISABLE_PYLINT = ENV['TM_PYTHON_FMT_DISABLE_PYLINT'] || false
+
+if ENV['TM_PYTHON_FMT_DEBUG']
+  $DEBUG_OUT << "TM_PYTHON_FMT_DISABLE_ISORT: #{TM_PYTHON_FMT_DISABLE_ISORT}"
+  $DEBUG_OUT << "TM_PYTHON_FMT_DISABLE_BLACK: #{TM_PYTHON_FMT_DISABLE_BLACK}"
+  $DEBUG_OUT << "TM_PYTHON_FMT_DISABLE_FLAKE8: #{TM_PYTHON_FMT_DISABLE_FLAKE8}"
+  $DEBUG_OUT << "TM_PYTHON_FMT_DISABLE_PYLINT: #{TM_PYTHON_FMT_DISABLE_PYLINT}"
+end
+
 module Python
   module_function
   def env_err(var)
@@ -111,7 +123,7 @@ module Python
     
     $OUTPUT, err = TextMate::Process.run(cmd, args, :input => $DOCUMENT)
     TextMate.exit_show_tool_tip(err) unless err.nil? || err == ""
-    
+
     unless $OUTPUT.empty?
       $DOCUMENT = $OUTPUT
     else
@@ -224,14 +236,25 @@ module Python
   
   # before save
   def run_document_will_save
+    reset_markers
+
     return if $DOCUMENT.empty?
     TextMate.exit_discard if ENV["TM_PYTHON_FMT_DISABLE"] or $DOCUMENT.split('\n').first.include?('# TM_PYTHON_FMT_DISABLE')
 
     err = setup
     TextMate.exit_show_tool_tip(err) unless err.nil?
     
-    black
-    isort
+    if TM_PYTHON_FMT_DISABLE_BLACK
+      $OUTPUT = $DOCUMENT
+    else
+      black
+    end
+    
+    if TM_PYTHON_FMT_DISABLE_ISORT
+      $OUTPUT = $DOCUMENT
+    else
+      isort
+    end
 
     puts "#{$DEBUG_OUT.map{|i| "# #{i}"}.join("\n")}" if ENV['TM_PYTHON_FMT_DEBUG']
     print $OUTPUT
@@ -245,14 +268,14 @@ module Python
     err = setup
     TextMate.exit_show_tool_tip(err) unless err.nil?
 
-    reset_markers
-
-    pylint
-    flake8
+    pylint unless TM_PYTHON_FMT_DISABLE_PYLINT
+    flake8 unless TM_PYTHON_FMT_DISABLE_FLAKE8
 
     set_markers
 
     if $ERROR_LINES.empty?
+      $TOOLTIP_OUTPUT.unshift("\t black 👍") unless TM_PYTHON_FMT_DISABLE_BLACK
+      $TOOLTIP_OUTPUT.unshift("\t isort 👍") unless TM_PYTHON_FMT_DISABLE_ISORT
       $TOOLTIP_OUTPUT.unshift("Following checks completed:\n")
       $TOOLTIP_OUTPUT << "\nGood to go! ✨ 🍰 ✨"
       result = $TOOLTIP_OUTPUT.join("\n")

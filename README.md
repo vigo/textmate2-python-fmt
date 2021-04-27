@@ -171,6 +171,10 @@ Now you can restart TextMate!
 | `TM_PYTHON_FMT_PYLINT_EXTRA_OPTIONS` | You can pass additional options/params to `pylint`.                                                                 |
 | `TM_PYTHON_FMT_DISABLE`              | You this variable if you need to disable this bundle temporarily                                                    |
 | `TM_PYTHON_FMT_DEBUG`                | Enable debug mode |
+| `TM_PYTHON_FMT_DISABLE_ISORT`  | Disables `isort` import sorting |
+| `TM_PYTHON_FMT_DISABLE_BLACK`  | Disables `black` formattion |
+| `TM_PYTHON_FMT_DISABLE_FLAKE8` | Disables `flake8` checks |
+| `TM_PYTHON_FMT_DISABLE_PYLINT` | Disables `pylint` checks |
 
 `pylint` now shows every available error. You can set extra options to
 display compile-time errors only via `TM_PYTHON_FMT_PYLINT_EXTRA_OPTIONS` set
@@ -192,8 +196,6 @@ Example `.tm_properties` usage:
     TM_PYTHON_FMT_PYLINT_EXTRA_OPTIONS=--py3k
     TM_PYTHON_FMT_PYLINTRC=$TM_PROJECT_DIRECTORY/.pylintrc        # or
     TM_PYTHON_FMT_PYLINTRC=/path/to/.pylintrc                     # or
-
-**Update**
 
 Now bundle checks for `~/.pylintrc`. First checks local `pylintrc`, then checks 
 `TM_PYTHON_FMT_PYLINTRC` variable. This overrides local `pylintrc` if `TM_PYTHON_FMT_PYLINTRC`
@@ -238,8 +240,23 @@ This project is licensed under MIT
 
 ---
 
-
 ## Change Log
+
+**2021-04-27, Covid Days**
+
+Add disable option for each linter/formatter via `TM_PYTHON_FMT_DISABLE_` prefix.
+You can quickly set those variables via `tm_properties Helper` > `Disable linter/formatter`
+from the bundle menu. <kbd>envi</kbd> + <kbd>⇥</kbd>
+
+- `TM_PYTHON_FMT_DISABLE_ISORT` to disable `isort`
+- `TM_PYTHON_FMT_DISABLE_BLACK` to disable `black`
+- `TM_PYTHON_FMT_DISABLE_FLAKE8` to disable `flake8`
+- `TM_PYTHON_FMT_DISABLE_PYLINT` to disable `pylint`
+
+This was the request from [nextmat](https://github.com/nextmat) - [issue 7](https://github.com/vigo/textmate2-python-fmt/issues/7)
+
+Fix reset markers, now resets before anything goes on. Display enabled items
+at the end of the process.
 
 **2021-02-11**
 
