@@ -172,7 +172,7 @@ Now you can restart TextMate!
 | `TM_PYTHON_FMT_DISABLE`              | You this variable if you need to disable this bundle temporarily                                                    |
 | `TM_PYTHON_FMT_DEBUG`                | Enable debug mode |
 | `TM_PYTHON_FMT_DISABLE_ISORT`  | Disables `isort` import sorting |
-| `TM_PYTHON_FMT_DISABLE_BLACK`  | Disables `black` formattion |
+| `TM_PYTHON_FMT_DISABLE_BLACK`  | Disables `black` formatting |
 | `TM_PYTHON_FMT_DISABLE_FLAKE8` | Disables `flake8` checks |
 | `TM_PYTHON_FMT_DISABLE_PYLINT` | Disables `pylint` checks |
 
