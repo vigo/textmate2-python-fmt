@@ -211,7 +211,7 @@ their official documentations:
 
 ---
 
-## Contributer(s)
+## Contributor(s)
 
 * [Uğur "vigo" Özyılmazel](https://github.com/vigo) - Creator, maintainer
 
