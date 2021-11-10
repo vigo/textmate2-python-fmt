@@ -56,6 +56,14 @@ You need to set `TM_PYTHON_FMT_PYTHON_PATH` variable (**TextMate > Preferences >
 and set the value according to the result above. If `TM_PYTHON` exists, bundle
 will fall back to `TM_PYTHON` value as python executable.
 
+You can set TextMate Variable via;
+
+```bash
+$ defaults write com.macromates.TextMate environmentVariables \
+    -array-add "{enabled = 1; value = \"$(command -v python)\"; name = \"TM_PYTHON_FMT_PYTHON_PATH\"; }"
+```
+
+You need to restart TextMate to take effect.
 
 ```bash
 $ cd ~/Library/Application\ Support/TextMate/Bundles/
