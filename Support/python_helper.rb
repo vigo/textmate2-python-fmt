@@ -138,6 +138,7 @@ module Python
     
     args = []
     args += ENV["TM_PYTHON_FMT_BLACK_DEFAULTS"].split if ENV["TM_PYTHON_FMT_BLACK_DEFAULTS"] and !config_file_exist?('pyproject.toml')
+    args << "--pyi" if ENV["TM_FILENAME"].end_with?(".pyi")
     args << "-"
     
     if ENV['TM_PYTHON_FMT_DEBUG']
