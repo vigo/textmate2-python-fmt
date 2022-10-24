@@ -23,6 +23,16 @@ Python code. Integrated tools are:
 
 ---
 
+## Update
+
+**2022-10-24**
+
+- `black` formatter now checks for local config: `~/.black`. Good for working
+  with single/individual files! Just copy from `pyproject.toml` or create new
+  one!
+
+---
+
 Before Python FMT for TextMate
 
 ![Before Python FMT for TextMate bundle](Screenshots/before.png?2 "before Python FMT for TextMate")
@@ -96,6 +106,12 @@ $ pylint --generate-rcfile > pylintrc
 $ touch isort flake8
 ```
 
+All the `pylint` messages are available via;
+
+```bash
+$ pylint --list-msgs
+```
+
 You can create
 
 - `.isort.cfg` 
@@ -133,18 +149,20 @@ Bundled `flake8` plugins are:
 Current package versions are:
 
 ```bash
-black==20.8b1
-isort==5.6.4
-pylint==2.6.0
-flake8==3.8.4
-flake8-bandit==2.1.2
-flake8-blind-except==0.1.1
-flake8-bugbear==20.1.4
+black==22.6.0
+isort==5.10.1
+pylint==2.15.0
+flake8==5.0.4
+flake8-bandit==4.1.1
+flake8-blind-except==0.2.1
+flake8-bugbear==22.8.23
 flake8-builtins==1.5.3
-flake8-print==3.1.4
-flake8-quotes==3.2.0
+flake8-commas==2.1.0
+flake8-plugin-utils==1.3.2
+flake8-print==5.0.0
+flake8-quotes==3.3.1
+flake8-return==1.1.3
 flake8-string-format==0.3.0
-flake8-return==1.1.2
 ```
 
 Now you can restart TextMate!

@@ -28,7 +28,15 @@ module Python
   def env_err(var)
     "Error: #{var} variable is not set"
   end
-
+  
+  def handle_err_messages(msg)
+    if ENV['TM_PYTHON_FMT_DEBUG']
+      TextMate.exit_create_new_document(msg)
+    else
+      TextMate.exit_show_tool_tip(msg)
+    end
+  end
+  
   def config_file_exist?(filename)
     return File.exists?(File.join(ENV['TM_PROJECT_DIRECTORY'], filename))
   end
@@ -122,7 +130,7 @@ module Python
     end
     
     $OUTPUT, err = TextMate::Process.run(cmd, args, :input => $DOCUMENT)
-    TextMate.exit_show_tool_tip(err) unless err.nil? || err == ""
+    handle_err_messages(err) unless err.nil? || err == ""
 
     unless $OUTPUT.empty?
       $DOCUMENT = $OUTPUT
@@ -136,12 +144,14 @@ module Python
     cmd = ENV["TM_PYTHON_FMT_BLACK"] || `command -v black`.chomp
     TextMate.exit_show_tool_tip(boxify("black binary not found!")) if cmd.empty?
     
+    local_configfile = File.join(ENV['HOME'], ".black")
     args = []
     args += ENV["TM_PYTHON_FMT_BLACK_DEFAULTS"].split if ENV["TM_PYTHON_FMT_BLACK_DEFAULTS"] and !config_file_exist?('pyproject.toml')
+    args += ["--config", local_configfile] if File.exists?(local_configfile) and !config_file_exist?('pyproject.toml')
     args << "-"
     
     if ENV['TM_PYTHON_FMT_DEBUG']
-      black_version = `#{cmd} --version`.chomp
+      black_version = `#{cmd} --version | xargs`.chomp
       $DEBUG_OUT << "black version: #{black_version}" 
       $DEBUG_OUT << "black args: #{args.join(' ')}" 
     end
@@ -165,7 +175,7 @@ module Python
     end
 
     if ENV['TM_PYTHON_FMT_DEBUG']
-      flake8_version = `#{cmd} --version`
+      flake8_version = `#{cmd} --version | xargs`
       $DEBUG_OUT << "flake8 version: #{flake8_version}" 
       $DEBUG_OUT << "flake8 args: #{args.join(' ')}" 
     end
@@ -173,7 +183,7 @@ module Python
     out, err = TextMate::Process.run(cmd, args, ENV["TM_FILEPATH"])
     
     err = nil if err && err.include?("\n") && err.split("\n").first && err.split("\n").first.downcase.start_with?("possible nested set")
-    TextMate.exit_show_tool_tip(err) unless err.nil? || err == ""
+    handle_err_messages(err) unless err.nil? || err == ""
 
     if out.empty?
       $TOOLTIP_OUTPUT << "\t flake8 👍"
@@ -212,13 +222,13 @@ module Python
     args += ENV["TM_PYTHON_FMT_PYLINT_EXTRA_OPTIONS"].split if ENV["TM_PYTHON_FMT_PYLINT_EXTRA_OPTIONS"]
     
     if ENV['TM_PYTHON_FMT_DEBUG']
-      pylint_version = `#{cmd} --version`.chomp
+      pylint_version = `#{cmd} --version | xargs`.chomp
       $DEBUG_OUT << "pylint args: #{args.join(' ')}"
       $DEBUG_OUT << "pylint version: #{pylint_version.split("\n").join(' ')}"
     end
     
     out, err = TextMate::Process.run(cmd, args, ENV["TM_FILEPATH"])
-    TextMate.exit_show_tool_tip(err) unless err.nil? || err == ""
+    handle_err_messages(err) unless err.nil? || err == ""
 
     if out.include?("||")
       update_errors(out)
@@ -242,7 +252,7 @@ module Python
     TextMate.exit_discard if ENV["TM_PYTHON_FMT_DISABLE"] or $DOCUMENT.split('\n').first.include?('# TM_PYTHON_FMT_DISABLE')
 
     err = setup
-    TextMate.exit_show_tool_tip(err) unless err.nil?
+    handle_err_messages(err) unless err.nil?
     
     if TM_PYTHON_FMT_DISABLE_BLACK
       $OUTPUT = $DOCUMENT
@@ -263,10 +273,10 @@ module Python
   # after save
   def run_document_did_save
     return if $DOCUMENT.empty?
-    TextMate.exit_discard if ENV["TM_PYTHON_FMT_DISABLE"] or $DOCUMENT.split('\n').first.include?('# TM_PYTHON_FMT_DISABLE')
-
+    TextMate.exit_discard if ENV["TM_PYTHON_FMT_DISABLE"] or $DOCUMENT.split("\n").first.rstrip == '# TM_PYTHON_FMT_DISABLE'
+    
     err = setup
-    TextMate.exit_show_tool_tip(err) unless err.nil?
+    handle_err_messages(err) unless err.nil?
 
     pylint unless TM_PYTHON_FMT_DISABLE_PYLINT
     flake8 unless TM_PYTHON_FMT_DISABLE_FLAKE8
@@ -292,7 +302,7 @@ module Python
 
     result = "#{result}\n\n#{$DEBUG_OUT.map{|i| "# #{i}"}.join("\n")}" if ENV['TM_PYTHON_FMT_DEBUG']
 
-    TextMate.exit_show_tool_tip(boxify(result))
+    handle_err_messages(boxify(result))
   end
 end
 
