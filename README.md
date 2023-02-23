@@ -4,6 +4,9 @@
 ![macOS](https://img.shields.io/badge/macos-HighSierra-yellow.svg)
 ![macOS](https://img.shields.io/badge/macos-Mojave-yellow.svg)
 ![macOS](https://img.shields.io/badge/macos-Catalina-yellow.svg)
+![macOS](https://img.shields.io/badge/macos-BigSur-yellow.svg)
+![macOS](https://img.shields.io/badge/macos-Monterey-yellow.svg)
+![macOS](https://img.shields.io/badge/macos-Ventura-yellow.svg)
 ![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)
 
 # Python FMT bundle for TextMate
