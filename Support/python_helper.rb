@@ -273,7 +273,7 @@ module Python
   # after save
   def run_document_did_save
     return if $DOCUMENT.empty?
-    TextMate.exit_discard if ENV["TM_PYTHON_FMT_DISABLE"] or $DOCUMENT.split("\n").first.rstrip == '# TM_PYTHON_FMT_DISABLE'
+    TextMate.exit_discard if ENV["TM_PYTHON_FMT_DISABLE"] or $DOCUMENT.split("\n").first.include?('# TM_PYTHON_FMT_DISABLE')
     
     err = setup
     handle_err_messages(err) unless err.nil?
