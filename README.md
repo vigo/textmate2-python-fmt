@@ -8,6 +8,7 @@
 ![macOS](https://img.shields.io/badge/macos-Monterey-yellow.svg)
 ![macOS](https://img.shields.io/badge/macos-Ventura-yellow.svg)
 ![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)
+![Powered by Rake](https://img.shields.io/badge/powered_by-rake-blue?logo=ruby)
 
 # Python FMT bundle for TextMate
 
