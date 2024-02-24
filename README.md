@@ -1,10 +1,14 @@
-![Version](https://img.shields.io/badge/version-3.7.1-orange.svg)
+![Version](https://img.shields.io/badge/version-3.8.2-orange.svg)
 ![Plaftorm](https://img.shields.io/badge/platform-TextMate-blue.svg)
 ![Python 3.7+](https://img.shields.io/badge/python-3.7+-blue.svg)
 ![macOS](https://img.shields.io/badge/macos-HighSierra-yellow.svg)
 ![macOS](https://img.shields.io/badge/macos-Mojave-yellow.svg)
 ![macOS](https://img.shields.io/badge/macos-Catalina-yellow.svg)
+![macOS](https://img.shields.io/badge/macos-BigSur-yellow.svg)
+![macOS](https://img.shields.io/badge/macos-Monterey-yellow.svg)
+![macOS](https://img.shields.io/badge/macos-Ventura-yellow.svg)
 ![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)
+![Powered by Rake](https://img.shields.io/badge/powered_by-rake-blue?logo=ruby)
 
 # Python FMT bundle for TextMate
 
@@ -20,6 +24,16 @@ Python code. Integrated tools are:
 | [black][02]  | Format source code                       |
 | [pylint][03] | Check errors before run it!              |
 | [flake8][04] | Linting, checking source code with ease! |
+
+---
+
+## Update
+
+**2022-10-24**
+
+- `black` formatter now checks for local config: `~/.black`. Good for working
+  with single/individual files! Just copy from `pyproject.toml` or create new
+  one!
 
 ---
 
@@ -96,6 +110,12 @@ $ pylint --generate-rcfile > pylintrc
 $ touch isort flake8
 ```
 
+All the `pylint` messages are available via;
+
+```bash
+$ pylint --list-msgs
+```
+
 You can create
 
 - `.isort.cfg` 
@@ -133,18 +153,20 @@ Bundled `flake8` plugins are:
 Current package versions are:
 
 ```bash
-black==20.8b1
-isort==5.6.4
-pylint==2.6.0
-flake8==3.8.4
-flake8-bandit==2.1.2
-flake8-blind-except==0.1.1
-flake8-bugbear==20.1.4
+black==22.6.0
+isort==5.10.1
+pylint==2.15.0
+flake8==5.0.4
+flake8-bandit==4.1.1
+flake8-blind-except==0.2.1
+flake8-bugbear==22.8.23
 flake8-builtins==1.5.3
-flake8-print==3.1.4
-flake8-quotes==3.2.0
+flake8-commas==2.1.0
+flake8-plugin-utils==1.3.2
+flake8-print==5.0.0
+flake8-quotes==3.3.1
+flake8-return==1.1.3
 flake8-string-format==0.3.0
-flake8-return==1.1.2
 ```
 
 Now you can restart TextMate!
