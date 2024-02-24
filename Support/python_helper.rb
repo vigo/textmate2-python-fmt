@@ -147,6 +147,7 @@ module Python
     local_configfile = File.join(ENV['HOME'], ".black")
     args = []
     args += ENV["TM_PYTHON_FMT_BLACK_DEFAULTS"].split if ENV["TM_PYTHON_FMT_BLACK_DEFAULTS"] and !config_file_exist?('pyproject.toml')
+    args << "--pyi" if ENV["TM_FILENAME"].end_with?(".pyi")
     args += ["--config", local_configfile] if File.exists?(local_configfile) and !config_file_exist?('pyproject.toml')
     args << "-"
     
