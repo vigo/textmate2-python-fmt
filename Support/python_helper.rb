@@ -32,9 +32,9 @@ module Configuration
   TM_PROJECT_DIRECTORY = ENV["TM_PROJECT_DIRECTORY"]
   TM_FILENAME = ENV["TM_FILENAME"]
 
-  TOOLTIP_LINE_LENGTH = ENV["TM_PYTHON_FMT_TOOLTIP_LINE_LENGTH"] || '120'
-  TOOLTIP_LEFT_PADDING = ENV["TM_PYTHON_FMT_TOOLTIP_LEFT_PADDING"] || '20'
-  TOOLTIP_BORDER_CHAR = ENV["TM_PYTHON_FMT_TOOLTIP_BORDER_CHAR"] || '-'
+  TOOLTIP_LINE_LENGTH = ENV["TM_PYTHON_FMT_TOOLTIP_LINE_LENGTH"] || "100"
+  TOOLTIP_LEFT_PADDING = ENV["TM_PYTHON_FMT_TOOLTIP_LEFT_PADDING"] || "2"
+  TOOLTIP_BORDER_CHAR = ENV["TM_PYTHON_FMT_TOOLTIP_BORDER_CHAR"] || "-"
   
   ENABLE_LOGGING = !ENV["ENABLE_LOGGING"].nil?
   TM_PYTHON_FMT_DISABLE = ENV["TM_PYTHON_FMT_DISABLE"].nil?
@@ -150,9 +150,9 @@ module Python
         words_matrix = []
         words_matrix_index = 0
         words_len = 0
-        line.split(' ').each do |word|
+        line.split(" ").each do |word|
           unless words_matrix[words_matrix_index].nil?
-            words_len = words_matrix[words_matrix_index].join(' ').size
+            words_len = words_matrix[words_matrix_index].join(" ").size
           end
 
           if words_len + word.size < max_len
@@ -164,14 +164,14 @@ module Python
             words_matrix[words_matrix_index] << word
           end
         end
-      
+        
         rows = []
+        padding_word = " " * left_padding
         words_matrix.each do |row|
-          rows << row.join(' ')
+          rows << "#{padding_word}#{row.join(" ")}" 
         end
       
-        padding_word = ' ' * left_padding
-        out << rows.join("\n" + padding_word)
+        out << rows.join("\n#{padding_word}↪")
       else
         out << line
       end
@@ -482,7 +482,18 @@ module Python
     
     unless TM_PYTHON_FMT_DISABLE_FLAKE8
       result, err = run_flake8
-      display_err(err) unless err.empty?
+      
+      unless err.empty?
+        if err.include?("Traceback")
+          internal_error = [
+            "⚠️ flake8 internal error / displaying last 10 lines ⚠️",
+            "",
+          ]
+          internal_error.concat(err.split("\n").last(10))
+          err = internal_error.join("\n")
+        end
+        display_err(err) 
+      end
       extract_flake8_errors(result, all_errors)
     end
 
@@ -520,21 +531,20 @@ module Python
       if pylint_error_count > 0
         error_report << "[#{pylint_error_count}] pylint error(s)"
         pylint_errors.each do |err|
-          error_report << "\t- #{err[:message]} in line: #{err[:line_number]}"
+          error_report << "  - #{err[:message]} in line: #{err[:line_number]}"
         end
         error_report << ""
       end
       if flake8_error_count > 0
         error_report << "[#{flake8_error_count}] flake8 error(s)"
         flake8_errors.each do |err|
-          error_report << "\t- #{err[:message]} in line: #{err[:line_number]}"
+          error_report << "  - #{err[:message]} in line: #{err[:line_number]}"
         end
         error_report << ""
       end
     end
     
     error_report << pylint_success_message if pylint_success_message
-    
     return error_report
   end
 
