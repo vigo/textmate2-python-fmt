@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>fileTypes</key>
+	<array/>
+	<key>name</key>
+	<string>Python FMT</string>
+	<key>patterns</key>
+	<array>
+		<dict>
+			<key>include</key>
+			<string>source.python</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>source.python.django</string>
+		</dict>
+	</array>
+	<key>scopeName</key>
+	<string>source.python.fmt</string>
+	<key>uuid</key>
+	<string>D6C3400A-1F05-4F32-A2C0-F17F5FE251CA</string>
+</dict>
+</plist>

@@ -24,9 +24,9 @@ Python.run_document_did_save
 	<key>outputLocation</key>
 	<string>discard</string>
 	<key>scope</key>
-	<string>source.python</string>
+	<string>source.python.fmt</string>
 	<key>semanticClass</key>
-	<string>callback.document.did-save</string>
+	<string>callback.document.did-save.100</string>
 	<key>uuid</key>
 	<string>A884AA08-C483-4484-980B-852D4352256D</string>
 	<key>version</key>
