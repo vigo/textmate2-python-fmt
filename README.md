@@ -130,7 +130,13 @@ the first line of your Python file contains comment **TM\_PYTHON\_FMT_DISABLE**:
 print('ok')
 ```
  
-the bundle will also be disabled for that file.
+the bundle will also be disabled for that file. You can partially disable
+features by setting related environment variable:
+
+- Set `TM_PYTHON_FMT_DISABLE_BLACK=1` to bypass `black` formatter
+- Set `TM_PYTHON_FMT_DISABLE_ISORT=1` to bypass `isort`
+- Set `TM_PYTHON_FMT_DISABLE_PYLINT=1` to disable `pylint` (well a bit useless :)
+- Set `TM_PYTHON_FMT_DISABLE_FLAKE8=1` to disable `flake8`
 
 ---
 

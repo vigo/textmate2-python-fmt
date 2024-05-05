@@ -126,6 +126,8 @@ module LoggingUtility
   BLINK            = "\e[5m"
   OFF              = "\e[0m"
   
+  ROTATION_TIME = 1200 # (20 minutes * 60 seconds = 1200 seconds)
+  
   def severity_color(severity)
     case severity
     when "DEBUG" then BLUE
@@ -141,7 +143,7 @@ module LoggingUtility
   
   def self.logger
     if Configuration.logging_enabled?
-      @logger = Logger.new(LOG_FILE)
+      @logger = Logger.new(LOG_FILE, 'daily', ROTATION_TIME)
       @logger.level = Logger::DEBUG
       @logger.progname = LOG_PROGNAME
       @logger.formatter = proc do |severity, _, progname, msg|
