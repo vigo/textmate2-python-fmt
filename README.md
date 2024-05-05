@@ -76,8 +76,8 @@ cd "${HOME}/Library/Application\ Support/TextMate/Bundles/"
 git clone https://github.com/vigo/textmate2-python-fmt.git Python-FMT.tmbundle
 ```
 
-> **IMPORTANT**: Bundle ships with TextMate grammar: **PYTHON FMT**. You
-**must** set your language scope to **PYTHON FMT** for the bundle to
+> **IMPORTANT**: Bundle ships with TextMate grammar: **Python FMT**. You
+**must** set your language scope to **Python FMT** for the bundle to
 function/work properly. Scope automatically loads `source.python` and 
 `source.python.django` grammars. Due to TextMate’s callback flow, I was forced 
 to create a separate scope. Otherwise, it would conflict with all bundles that 
