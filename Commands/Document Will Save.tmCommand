@@ -25,9 +25,9 @@ Python.run_document_will_save
 	<key>outputLocation</key>
 	<string>replaceDocument</string>
 	<key>scope</key>
-	<string>source.python</string>
+	<string>source.python.fmt</string>
 	<key>semanticClass</key>
-	<string>callback.document.will-save</string>
+	<string>callback.document.will-save.100</string>
 	<key>uuid</key>
 	<string>6B263143-3077-464A-A9DB-EB5C58AB7161</string>
 	<key>version</key>
