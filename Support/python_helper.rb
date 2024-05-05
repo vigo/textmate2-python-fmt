@@ -7,7 +7,85 @@ require ENV['TM_SUPPORT_PATH'] + '/lib/textmate'
 require ENV['TM_SUPPORT_PATH'] + '/lib/tm/executor'
 require ENV['TM_SUPPORT_PATH'] + '/lib/tm/process'
 
-module Colors
+STORAGE_FILE_PREFIX = "/tmp/textmate-python-fmt-"
+LOG_FILE = "/tmp/textmate-python-fmt.log"
+LOG_PROGNAME = "Python-FMT"
+
+module Configuration
+  TM_PROJECT_DIRECTORY = ENV["TM_PROJECT_DIRECTORY"]
+  TM_FILENAME = ENV["TM_FILENAME"]
+
+  TOOLTIP_LINE_LENGTH = ENV["TM_PYTHON_FMT_TOOLTIP_LINE_LENGTH"] || "100"
+  TOOLTIP_LEFT_PADDING = ENV["TM_PYTHON_FMT_TOOLTIP_LEFT_PADDING"] || "2"
+  TOOLTIP_BORDER_CHAR = ENV["TM_PYTHON_FMT_TOOLTIP_BORDER_CHAR"] || "-"
+  
+  ENABLE_LOGGING = !ENV["ENABLE_LOGGING"].nil?
+  TM_PYTHON_FMT_DISABLE = ENV["TM_PYTHON_FMT_DISABLE"].nil?
+
+  TM_PYTHON_FMT_PYTHON_PATH = ENV["TM_PYTHON_FMT_PYTHON_PATH"] || `command -v python`.chomp || nil
+  TM_PYTHON_FMT_VIRTUAL_ENV = ENV["TM_PYTHON_FMT_VIRTUAL_ENV"] || nil
+
+  TM_PYTHON_FMT_BLACK = ENV["TM_PYTHON_FMT_BLACK"] || nil
+  TM_PYTHON_FMT_BLACK_DEFAULTS = ENV["TM_PYTHON_FMT_BLACK_DEFAULTS"] || nil
+  TM_PYTHON_FMT_DISABLE_BLACK = !ENV["TM_PYTHON_FMT_DISABLE_BLACK"].nil?
+  
+  TM_PYTHON_FMT_ISORT = ENV["TM_PYTHON_FMT_ISORT"] || nil
+  TM_PYTHON_FMT_ISORT_DEFAULTS = ENV["TM_PYTHON_FMT_ISORT_DEFAULTS"] | nil
+  TM_PYTHON_FMT_DISABLE_ISORT = !ENV["TM_PYTHON_FMT_DISABLE_ISORT"].nil?
+
+  TM_PYTHON_FMT_PYLINT = ENV["TM_PYTHON_FMT_PYLINT"] || nil
+  TM_PYTHON_FMT_PYLINT_EXTRA_OPTIONS = ENV["TM_PYTHON_FMT_PYLINT_EXTRA_OPTIONS"] || nil
+  TM_PYTHON_FMT_DISABLE_PYLINT = !ENV["TM_PYTHON_FMT_DISABLE_PYLINT"].nil?
+
+  TM_PYTHON_FMT_FLAKE8 = ENV["TM_PYTHON_FMT_FLAKE8"] || nil
+  TM_PYTHON_FMT_FLAKE8_DEFAULTS = ENV["TM_PYTHON_FMT_FLAKE8_DEFAULTS"] || nil
+  TM_PYTHON_FMT_DISABLE_FLAKE8 = !ENV["TM_PYTHON_FMT_DISABLE_FLAKE8"].nil?
+
+  def self.logging_enabled?
+    ENABLE_LOGGING
+  end
+end
+
+
+module Storage
+  def self.file_path(name)
+    "#{STORAGE_FILE_PREFIX}#{name}.error"
+  end
+
+  def self.add(name, error_message)
+    File.open(file_path(name), 'w') do |file|
+      file.puts error_message
+    end
+    logger.info "storage - adding error for #{name}"
+  end
+
+  def self.get(name)
+    path = file_path(name)
+    if File.exist?(path)
+      logger.info "storage - error file exists for #{name}"
+      File.open(path, 'r') do |file|
+        return file.read
+      end
+    end
+    nil
+  end
+
+  def self.destroy(name)
+    path = file_path(name)
+    if File.exist?(path)
+      File.delete(path)
+      logger.info "storage - destroyed error file for #{name}"
+    end
+  end
+  
+  def logger
+    LoggingUtility.logger
+  end
+  
+  module_function :logger
+end
+
+module LoggingUtility
   BLACK            = "\e[30m"
   RED              = "\e[32m"
   RED_BOLD         = "\e[01;32m"
@@ -24,111 +102,52 @@ module Colors
   WHITE            = "\e[37m"
   WHITE_BOLD       = "\e[01;37m"
   EXTENDED         = "\e[38m"
+  BLINK            = "\e[5m"
   OFF              = "\e[0m"
-end
-
-
-module Configuration
-  TM_PROJECT_DIRECTORY = ENV["TM_PROJECT_DIRECTORY"]
-  TM_FILENAME = ENV["TM_FILENAME"]
-
-  TOOLTIP_LINE_LENGTH = ENV["TM_PYTHON_FMT_TOOLTIP_LINE_LENGTH"] || "100"
-  TOOLTIP_LEFT_PADDING = ENV["TM_PYTHON_FMT_TOOLTIP_LEFT_PADDING"] || "2"
-  TOOLTIP_BORDER_CHAR = ENV["TM_PYTHON_FMT_TOOLTIP_BORDER_CHAR"] || "-"
   
-  ENABLE_LOGGING = !ENV["ENABLE_LOGGING"].nil?
-  TM_PYTHON_FMT_DISABLE = ENV["TM_PYTHON_FMT_DISABLE"].nil?
-
-  TM_PYTHON_FMT_PYTHON_PATH = ENV["TM_PYTHON_FMT_PYTHON_PATH"] || nil
-  TM_PYTHON_FMT_VIRTUAL_ENV = ENV["TM_PYTHON_FMT_VIRTUAL_ENV"] || nil
-
-  TM_PYTHON_FMT_BLACK = ENV["TM_PYTHON_FMT_BLACK"] || nil
-  TM_PYTHON_FMT_BLACK_DEFAULTS = ENV["TM_PYTHON_FMT_BLACK_DEFAULTS"] || nil
-  TM_PYTHON_FMT_DISABLE_BLACK = !ENV["TM_PYTHON_FMT_DISABLE_BLACK"].nil?
-  
-  TM_PYTHON_FMT_ISORT = ENV["TM_PYTHON_FMT_ISORT"] || nil
-  TM_PYTHON_FMT_ISORT_DEFAULTS = ENV["TM_PYTHON_FMT_ISORT_DEFAULTS"] | nil
-  TM_PYTHON_FMT_DISABLE_ISORT = !ENV["TM_PYTHON_FMT_DISABLE_ISORT"].nil?
-
-  TM_PYTHON_FMT_DISABLE_PYLINT = !ENV["TM_PYTHON_FMT_DISABLE_PYLINT"].nil?
-  TM_PYTHON_FMT_PYLINT = ENV["TM_PYTHON_FMT_PYLINT"] || nil
-  TM_PYTHON_FMT_PYLINT_EXTRA_OPTIONS = ENV["TM_PYTHON_FMT_PYLINT_EXTRA_OPTIONS"] || nil
-
-  TM_PYTHON_FMT_DISABLE_FLAKE8 = !ENV["TM_PYTHON_FMT_DISABLE_FLAKE8"].nil?
-  TM_PYTHON_FMT_FLAKE8 = ENV["TM_PYTHON_FMT_FLAKE8"] || nil
-  TM_PYTHON_FMT_FLAKE8_DEFAULTS = ENV["TM_PYTHON_FMT_FLAKE8_DEFAULTS"] || nil
-
-  def self.logging_enabled?
-    ENABLE_LOGGING
-  end
-end
-
-
-module Storage
-  def self.file_path(name)
-    "/tmp/textmate-python-fmt-#{name}.error"
-  end
-
-  def self.add(name, error_message)
-    File.open(file_path(name), 'w') do |file|
-      file.puts error_message
+  def severity_color(severity)
+    case severity
+    when "DEBUG" then BLUE
+    when "INFO" then GREEN
+    when "WARN" then YELLOW
+    when "ERROR" then RED
+    when "FATAL" then MAGENTA
+    when "UNKNOWN" then BLINK
     end
   end
-
-  def self.get(name)
-    path = file_path(name)
-    if File.exist?(path)
-      File.open(path, 'r') do |file|
-        return file.read
+  
+  module_function :severity_color
+  
+  def self.logger
+    if Configuration.logging_enabled?
+      @logger = Logger.new(LOG_FILE)
+      @logger.level = Logger::DEBUG
+      @logger.progname = LOG_PROGNAME
+      @logger.formatter = proc do |severity, _, progname, msg|
+        color_code = severity_color(severity)
+        caller_info = caller(5).first
+        method_name = caller_info.match(/`([^']*)'/) ? caller_info.match(/`([^']*)'/)[1] : "unknown"
+        "[#{WHITE_BOLD}#{progname}#{OFF}][#{color_code}#{severity}#{OFF}][#{CYAN_BOLD}#{method_name}#{OFF}]: #{msg}\n"
       end
+    else
+      @logger = Logger.new(nil)
     end
-    nil
-  end
-
-  def self.destroy(name)
-    path = file_path(name)
-    if File.exist?(path)
-      File.delete(path)
-    end
+    @logger
   end
 end
-
+  
 
 module Python
-  include Colors
   include Configuration
+  include LoggingUtility
   include Storage
-  
-  @logger = if Configuration.logging_enabled?
-    Logger.new('/tmp/textmate-python-fmt.log')
-  else
-    Logger.new(nil)
-  end
-
-  # DEBUG < INFO < WARN < ERROR < FATAL < UNKNOWN
-  if Configuration.logging_enabled?
-    @logger.level = Logger::DEBUG
-    @logger.progname = "Python-FMT"
-    @logger.formatter = proc do |severity, _, progname, msg|
-      color_code = case severity
-        when "DEBUG" then BLUE
-        when "INFO" then GREEN
-        when "WARN" then YELLOW
-        when "ERROR" then RED
-        when "FATAL" then MAGENTA
-      end
-      caller_info = caller(5).first
-      method_name = caller_info.match(/`([^']*)'/) ? caller_info.match(/`([^']*)'/)[1] : "unknown"
-      "[#{WHITE_BOLD}#{progname}#{OFF}][#{color_code}#{severity}#{OFF}][#{CYAN_BOLD}#{method_name}#{OFF}]: #{msg}\n"
-    end
-  end
   
   @document = nil
   
   module_function
   
   def logger
-    @logger
+    LoggingUtility.logger
   end
 
   def read_stdin
@@ -232,6 +251,7 @@ module Python
       column_number = $2
       "#{line_number}"
     else
+      logger.warn "could not match error_message: #{error_message}"
       nil
     end
   end
@@ -290,8 +310,11 @@ module Python
   end
   
   def setup_ok?
+    logger.info "TM_PYTHON_FMT_PYTHON_PATH: #{TM_PYTHON_FMT_PYTHON_PATH}"
     return false, "TM_PYTHON_FMT_PYTHON_PATH is not set" unless TM_PYTHON_FMT_PYTHON_PATH
+
     ENV["PATH"] = "#{File.dirname(TM_PYTHON_FMT_PYTHON_PATH)}:#{ENV["PATH"]}"
+    logger.info "PATH: #{ENV["PATH"]}"
     return true, "SETUP OK"
   end
   
@@ -307,10 +330,15 @@ module Python
   
   def run_isort
     cmd = TM_PYTHON_FMT_ISORT || `command -v isort`.chomp
-    if cmd.empty?
-      display_err("isort binary not found")
-    end
+    logger.debug "cmd: #{cmd}"
 
+    if cmd.empty?
+      err = "isort binary not found, you can set TM_PYTHON_FMT_DISABLE_ISORT=1 to bypass"
+      Storage.add("isort", err)
+      display_err(err)
+    end
+    
+    logger.info "running run_isort"
     configfile, configfile_exists = config_file_exists?(".isort.cfg")
 
     args = []
@@ -325,19 +353,28 @@ module Python
     args.concat(TM_PYTHON_FMT_ISORT_DEFAULTS.split) if TM_PYTHON_FMT_ISORT_DEFAULTS && !configfile_exists
     args << "-"
 
-    cmd_version = `#{cmd} --version | xargs`.chomp
+    cmd_version = `#{cmd} --version-number`.chomp
+    logger.debug "cmd: #{cmd} | version: #{cmd_version} | args: #{args.join(" ")}"
     result, err = TextMate::Process.run(cmd, args, :input => document)
     
-    err = "[isort]: #{err}" unless err.empty?
+    unless err.empty?
+      err = "[isort]: #{err}"
+      logger.error "isort has an error: #{err}"
+    end
     return result, err
   end
   
   def run_black_formatter
     cmd = TM_PYTHON_FMT_BLACK || `command -v black`.chomp
+    logger.debug "cmd: #{cmd}"
+
     if cmd.empty?
-      display_err("black binary not found")
+      err = "black binary not found, you can set TM_PYTHON_FMT_DISABLE_BLACK=1 to bypass"
+      Storage.add("black", err)
+      display_err(err)
     end
-    
+
+    logger.info "running run_black_formatter"
     local_configfile, local_configfile_exists = config_file_exists?(".black", true)
     configfile, configfile_exists = config_file_exists?("pyproject.toml")
     
@@ -348,13 +385,18 @@ module Python
     args << "-"
 
     cmd_version = `#{cmd} --version | xargs`.chomp
+    logger.debug "cmd: #{cmd} | version: #{cmd_version} | args: #{args.join(" ")}"
     result, err = TextMate::Process.run(cmd, args, :input => document)
-    err = "[black]: #{err}" unless err.empty?
+    unless err.empty?
+      err = "[black]: #{err}"
+      logger.error "black has an error: #{err}"
+    end
     return result, err
   end
   
   def run_flake8
     cmd = TM_PYTHON_FMT_FLAKE8 || `command -v flake8`.chomp
+    logger.debug "#{cmd}"
 
     if TM_PYTHON_FMT_VIRTUAL_ENV
       flake8_bin_from_virtual_env = File.join(TM_PYTHON_FMT_VIRTUAL_ENV, "bin", "flake8")
@@ -364,7 +406,8 @@ module Python
     if cmd.empty?
       display_err("flake8 binary not found")
     end
-    
+
+    logger.info "running run_flake8"
     _, setup_configfile_exists = config_file_exists?("setup.cfg")
     _, configfile_exists = config_file_exists?(".flake8")
 
@@ -378,13 +421,15 @@ module Python
     end
     
     cmd_version = `#{cmd} --version | xargs`.chomp
+    logger.debug "cmd: #{cmd} | version: #{cmd_version} | args: #{args.join}"
     result, err = TextMate::Process.run(cmd, args, ENV['TM_FILEPATH'])
     return result, err
   end
   
   def run_pylint
     cmd = TM_PYTHON_FMT_PYLINT || `command -v pylint`.chomp
-
+    logger.debug "#{cmd}"
+    
     if TM_PYTHON_FMT_VIRTUAL_ENV
       pylint_bin_from_virtual_env = File.join(TM_PYTHON_FMT_VIRTUAL_ENV, "bin", "pylint")
       cmd = pylint_bin_from_virtual_env unless `command -v #{pylint_bin_from_virtual_env}`.chomp.empty?
@@ -394,6 +439,7 @@ module Python
       display_err("pylint binary not found")
     end
     
+    logger.info "running run_pylint"
     local_configfile, local_configfile_exists = config_file_exists?(".pylintrc", true)
     configfile, configfile_exists = config_file_exists?(".pylintrc")
     
@@ -411,21 +457,22 @@ module Python
     args.concat(TM_PYTHON_FMT_PYLINT_EXTRA_OPTIONS.split) if TM_PYTHON_FMT_PYLINT_EXTRA_OPTIONS && !pylintrc_file
     
     cmd_version = `#{cmd} --version | xargs`.chomp
+    logger.debug "cmd: #{cmd} | version: #{cmd_version} | args: #{args.join}"
     result, _ = TextMate::Process.run(cmd, args, ENV['TM_FILEPATH'])
     return result, ""
   end
   
   # callback.document.will-save.100
   def run_document_will_save
-    TextMate.exit_discard unless bundle_enabled?
+    reset_markers
 
+    TextMate.exit_discard unless bundle_enabled?
+    logger.info "running run_document_will_save"
     read_stdin
     
     TextMate.exit_discard if document_empty?
     TextMate.exit_discard if document.split("\n").first.include?("# TM_PYTHON_FMT_DISABLE")
 
-    reset_markers
-    
     ok, err = setup_ok?
     display_err(err) unless ok
     
@@ -453,22 +500,28 @@ module Python
     end
     
     print document
+    logger.info "run_document_will_save completed"
   end
 
   # callback.document.did-save.100
   def run_document_did_save
     TextMate.exit_discard unless bundle_enabled?
-
+    logger.info "running run_document_did_save"
     read_stdin
     
     TextMate.exit_discard if document_empty?
     TextMate.exit_discard if document.split("\n").first.include?("# TM_PYTHON_FMT_DISABLE")
 
+    ok, err = setup_ok?
+    display_err(err) unless ok
+
     if !Storage.get("black").nil?
+      logger.info "skip running run_document_did_save, due to black error"
       TextMate.exit_discard
     end
 
     if !Storage.get("isort").nil?
+      logger.info "skip running run_document_did_save, due to isort error"
       TextMate.exit_discard
     end
     
@@ -485,6 +538,7 @@ module Python
       
       unless err.empty?
         if err.include?("Traceback")
+          logger.error "flake 8 internal error occured"
           internal_error = [
             "⚠️ flake8 internal error / displaying last 10 lines ⚠️",
             "",
@@ -500,6 +554,7 @@ module Python
     set_markers("error", all_errors)
     error_report = generate_error_report(all_errors, pylint_success_message)
 
+    logger.info "run_document_did_save completed, will popup error_report"
     display_err(error_report.join("\n")) if error_report
   end
 
