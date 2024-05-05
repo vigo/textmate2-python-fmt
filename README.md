@@ -194,6 +194,18 @@ their official documentations:
 
 ---
 
+## Hot Keys and Snippets
+
+| Hot Keys and TAB Completions       | Description                                                                                                                                                                                           |
+|:-----------------------------------|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| <kbd>⌘</kbd> + <kbd>{</kbd>       | Bypass selection while formatting with `black`. This adds `# fmt: off` and `# fmt: on` to beginning and ending of selection.<br>Used James Edward Gray II’s commenting tool which ships with TextMate. |
+| <kbd>noq</kbd> + <kbd>⇥</kbd>     | Choose desired bypass method |
+| <kbd>envi</kbd> + <kbd>⇥</kbd>    | Inserts helpful environment variables if you are editing on `.tm_properties` file. Try :) |
+| <kbd>disable</kbd> + <kbd>⇥</kbd> | Inserts `# TM_PYTHON_FMT_DISABLE`, put this in to first line if you want to disable this bundle |
+| <kbd>⌥</kbd> + <kbd>T</kbd>       | Create `.tm_properties` or linter config files |
+
+---
+
 ## Bug Report
 
 Please set/enable the logger via setting `ENABLE_LOGGING=1`. Logs are written to
