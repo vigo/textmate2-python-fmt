@@ -7,7 +7,7 @@
 	<key>name</key>
 	<string>isort: skip</string>
 	<key>scope</key>
-	<string>source.python</string>
+	<string>source.python.fmt</string>
 	<key>tabTrigger</key>
 	<string>noq</string>
 	<key>uuid</key>
