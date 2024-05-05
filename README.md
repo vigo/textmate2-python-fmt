@@ -39,13 +39,30 @@ command -v python
 ```
 
 Bundle checks the `TM_PYTHON_FMT_PYTHON_PATH` environment variable. This
-variable can be set in `.tm_properties` or via the  **TextMate > Preferences > Variables** 
-menu. If it is not set anywhere, the bundle attempts to locate the python path 
-using the `command -v python` command internally. If the bundle reports that it 
-cannot find the `TM_PYTHON_FMT_PYTHON_PATH`, I recommend setting it manually to 
-the desired python path.
+variable can be set in `.tm_properties` or via the 
+**TextMate > Preferences > Variables** menu. If it is not set anywhere, the 
+bundle attempts to locate the python path using the `command -v python` command 
+and `TM_PYTHON_FMT_VIRTUAL_ENV` environment variable internally. If the bundle
+reports that it cannot find the `TM_PYTHON_FMT_PYTHON_PATH`, you need to set 
+it manually to the desired python path.
 
-You set the values globally from command-line:
+If you are in a virtual environment, all you need is to set
+`TM_PYTHON_FMT_VIRTUAL_ENV` variable. Bundle will handle all the installed
+linters/checkers from the virtual environment.
+
+If you are not in a virtual environment, you need to set all the required
+variables:
+
+- `TM_PYTHON_FMT_PYTHON_PATH`
+- `TM_PYTHON_FMT_BLACK`
+- `TM_PYTHON_FMT_ISORT`
+- `TM_PYTHON_FMT_PYLINT`
+- `TM_PYTHON_FMT_FLAKE8`
+
+if you want to use all of it. You can disable partially by setting
+`TM_PYTHON_FMT_DISABLE_<NAME>` environment variable(s).
+
+You can set the values globally from command-line:
 
 ```bash
 $ defaults write com.macromates.TextMate environmentVariables \

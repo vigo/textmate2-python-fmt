@@ -12,6 +12,27 @@ LOG_FILE = "/tmp/textmate-python-fmt.log"
 LOG_PROGNAME = "Python-FMT"
 
 module Configuration
+  def self.discover_path(cmd)
+    path = ""
+    case cmd
+    when "python" then
+      path = ENV["TM_PYTHON_FMT_PYTHON_PATH"] || ENV["TM_PYTHON"] || `command -v #{cmd}`.chomp || ""
+    when "black" then
+      path = ENV["TM_PYTHON_FMT_BLACK"] || `command -v #{cmd}`.chomp || ""
+    when "isort" then
+      path = ENV["TM_PYTHON_FMT_ISORT"] || `command -v #{cmd}`.chomp || ""
+    when "pylint" then
+      path = ENV["TM_PYTHON_FMT_PYLINT"] || `command -v #{cmd}`.chomp || ""
+    when "flake8" then
+      path = ENV["TM_PYTHON_FMT_FLAKE8"] || `command -v #{cmd}`.chomp || ""
+    end
+    if path.empty?
+      virtual_env = ENV["TM_PYTHON_FMT_VIRTUAL_ENV"] || ""
+      path = File.join(virtual_env, "bin", cmd) unless virtual_env.empty?
+    end
+    path
+  end
+
   TM_PROJECT_DIRECTORY = ENV["TM_PROJECT_DIRECTORY"]
   TM_FILENAME = ENV["TM_FILENAME"]
 
@@ -22,22 +43,22 @@ module Configuration
   ENABLE_LOGGING = !ENV["ENABLE_LOGGING"].nil?
   TM_PYTHON_FMT_DISABLE = ENV["TM_PYTHON_FMT_DISABLE"].nil?
 
-  TM_PYTHON_FMT_PYTHON_PATH = ENV["TM_PYTHON_FMT_PYTHON_PATH"] || `command -v python`.chomp || nil
+  TM_PYTHON_FMT_PYTHON_PATH = discover_path("python")
   TM_PYTHON_FMT_VIRTUAL_ENV = ENV["TM_PYTHON_FMT_VIRTUAL_ENV"] || nil
 
-  TM_PYTHON_FMT_BLACK = ENV["TM_PYTHON_FMT_BLACK"] || nil
+  TM_PYTHON_FMT_BLACK = discover_path("black")
   TM_PYTHON_FMT_BLACK_DEFAULTS = ENV["TM_PYTHON_FMT_BLACK_DEFAULTS"] || nil
   TM_PYTHON_FMT_DISABLE_BLACK = !ENV["TM_PYTHON_FMT_DISABLE_BLACK"].nil?
   
-  TM_PYTHON_FMT_ISORT = ENV["TM_PYTHON_FMT_ISORT"] || nil
+  TM_PYTHON_FMT_ISORT = discover_path("isort")
   TM_PYTHON_FMT_ISORT_DEFAULTS = ENV["TM_PYTHON_FMT_ISORT_DEFAULTS"] | nil
   TM_PYTHON_FMT_DISABLE_ISORT = !ENV["TM_PYTHON_FMT_DISABLE_ISORT"].nil?
 
-  TM_PYTHON_FMT_PYLINT = ENV["TM_PYTHON_FMT_PYLINT"] || nil
+  TM_PYTHON_FMT_PYLINT = discover_path("pylint")
   TM_PYTHON_FMT_PYLINT_EXTRA_OPTIONS = ENV["TM_PYTHON_FMT_PYLINT_EXTRA_OPTIONS"] || nil
   TM_PYTHON_FMT_DISABLE_PYLINT = !ENV["TM_PYTHON_FMT_DISABLE_PYLINT"].nil?
 
-  TM_PYTHON_FMT_FLAKE8 = ENV["TM_PYTHON_FMT_FLAKE8"] || nil
+  TM_PYTHON_FMT_FLAKE8 = discover_path("flake8")
   TM_PYTHON_FMT_FLAKE8_DEFAULTS = ENV["TM_PYTHON_FMT_FLAKE8_DEFAULTS"] || nil
   TM_PYTHON_FMT_DISABLE_FLAKE8 = !ENV["TM_PYTHON_FMT_DISABLE_FLAKE8"].nil?
 
@@ -56,13 +77,13 @@ module Storage
     File.open(file_path(name), 'w') do |file|
       file.puts error_message
     end
-    logger.info "storage - adding error for #{name}"
+    logger.error "storage - adding error for #{name}"
   end
 
   def self.get(name)
     path = file_path(name)
     if File.exist?(path)
-      logger.info "storage - error file exists for #{name}"
+      logger.error "storage - error file exists for #{name}"
       File.open(path, 'r') do |file|
         return file.read
       end
@@ -74,7 +95,7 @@ module Storage
     path = file_path(name)
     if File.exist?(path)
       File.delete(path)
-      logger.info "storage - destroyed error file for #{name}"
+      logger.error "storage - destroyed error file for #{name}"
     end
   end
   
@@ -87,8 +108,8 @@ end
 
 module LoggingUtility
   BLACK            = "\e[30m"
-  RED              = "\e[32m"
-  RED_BOLD         = "\e[01;32m"
+  RED              = "\e[31m"
+  RED_BOLD         = "\e[01;31m"
   GREEN            = "\e[32m"
   GREEN_BOLD       = "\e[01;32m"
   YELLOW           = "\e[33m"
@@ -310,11 +331,7 @@ module Python
   end
   
   def setup_ok?
-    logger.info "TM_PYTHON_FMT_PYTHON_PATH: #{TM_PYTHON_FMT_PYTHON_PATH}"
-    return false, "TM_PYTHON_FMT_PYTHON_PATH is not set" unless TM_PYTHON_FMT_PYTHON_PATH
-
-    ENV["PATH"] = "#{File.dirname(TM_PYTHON_FMT_PYTHON_PATH)}:#{ENV["PATH"]}"
-    logger.info "PATH: #{ENV["PATH"]}"
+    return false, "TM_PYTHON_FMT_PYTHON_PATH is not set" if TM_PYTHON_FMT_PYTHON_PATH.empty?
     return true, "SETUP OK"
   end
   
@@ -365,7 +382,7 @@ module Python
   end
   
   def run_black_formatter
-    cmd = TM_PYTHON_FMT_BLACK || `command -v black`.chomp
+    cmd = TM_PYTHON_FMT_BLACK
     logger.debug "cmd: #{cmd}"
 
     if cmd.empty?
@@ -500,7 +517,7 @@ module Python
     end
     
     print document
-    logger.info "run_document_will_save completed"
+    logger.info "run_document_will_save completed\n"
   end
 
   # callback.document.did-save.100
@@ -516,12 +533,12 @@ module Python
     display_err(err) unless ok
 
     if !Storage.get("black").nil?
-      logger.info "skip running run_document_did_save, due to black error"
+      logger.error "skip running run_document_did_save, due to black error"
       TextMate.exit_discard
     end
 
     if !Storage.get("isort").nil?
-      logger.info "skip running run_document_did_save, due to isort error"
+      logger.error "skip running run_document_did_save, due to isort error"
       TextMate.exit_discard
     end
     
