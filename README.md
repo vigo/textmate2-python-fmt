@@ -245,7 +245,7 @@ After you fix the source code (next run) bundle removes those files if there
 is no error. According to you bug report, you can `tail` or copy/paste the
 contents of error file to issue.
 
-Also, while running bundle script (which is TextMate’s default ruby 1.8.8),
+Also, while running bundle script (which is TextMate’s default ruby 1.8.7),
 if error occurs, TextMate pops up an alert window. Please add that screen shot
 or try to copy error text from modal dialog
 
