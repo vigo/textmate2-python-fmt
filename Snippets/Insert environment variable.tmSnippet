@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>content</key>
+	<string>${1|TM_PYTHON_FMT_DISABLE=1,TM_PYTHON_FMT_VIRTUAL_ENV,TM_PYTHON_FMT_PYTHON_PATH,TM_PYTHON_FMT_BLACK,TM_PYTHON_FMT_ISORT,TM_PYTHON_FMT_PYLINT,TM_PYTHON_FMT_FLAKE8,TM_PYTHON_FMT_DISABLE_BLACK=1,TM_PYTHON_FMT_DISABLE_ISORT=1,TM_PYTHON_FMT_DISABLE_PYLINT=1,TM_PYTHON_FMT_DISABLE_FLAKE8=1}</string>
+	<key>name</key>
+	<string>Insert environment variable</string>
+	<key>scope</key>
+	<string>source.tm-properties</string>
+	<key>tabTrigger</key>
+	<string>envi</string>
+	<key>uuid</key>
+	<string>9C3A7A0D-66A1-402C-8DD3-611D94EEE503</string>
+</dict>
+</plist>

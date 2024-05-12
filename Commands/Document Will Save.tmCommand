@@ -7,9 +7,9 @@
 	<key>command</key>
 	<string>#!/usr/bin/env ruby18
 
-require "#{ENV['TM_BUNDLE_SUPPORT']}/python_helper"
+require "#{ENV['TM_BUNDLE_SUPPORT']}/python_fmt"
 
-Python.run_document_will_save
+PythonFmt.run_document_will_save
 
 </string>
 	<key>input</key>

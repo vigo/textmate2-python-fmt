@@ -4,6 +4,8 @@
 <dict>
 	<key>content</key>
 	<string># isort:skip$0</string>
+	<key>isDisabled</key>
+	<true/>
 	<key>name</key>
 	<string>isort: skip</string>
 	<key>scope</key>
