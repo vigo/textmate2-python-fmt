@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>content</key>
+	<string># pylint: disable-all</string>
+	<key>name</key>
+	<string>pylint: disable all</string>
+	<key>scope</key>
+	<string>source.python.fmt</string>
+	<key>tabTrigger</key>
+	<string>noq</string>
+	<key>uuid</key>
+	<string>EFA14751-22BA-401A-A40A-CF6C9E5ED90B</string>
+</dict>
+</plist>
