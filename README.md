@@ -235,7 +235,7 @@ their official documentations:
 
 | Hot Keys and TAB Completions       | Description                                                                                                                                                                                           |
 |:-----------------------------------|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| <kbd>⌥</kbd> + <kbd>D</kbd>       | Bypass selection while formatting with `black`. This adds `# fmt: off` and `# fmt: on` to beginning and ending of selection.<br>Used James Edward Gray II’s commenting tool which ships with TextMate. |
+| <kbd>⌥</kbd> + <kbd>D</kbd>       | Bypass black formating (toggle) for selection. |
 | <kbd>⌥</kbd> + <kbd>T</kbd>       | Create `.tm_properties` or linter config files |
 | <kbd>⌥</kbd> + <kbd>G</kbd>       | Go to error line! New feature! |
 | <kbd>noq</kbd> + <kbd>⇥</kbd>     | Choose desired bypass method |
