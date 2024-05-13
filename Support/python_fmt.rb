@@ -23,7 +23,7 @@ module PythonFmt
       path = ENV["TM_PYTHON_FMT_FLAKE8"] || `command -v #{cmd}`.chomp
     end
     
-    path = File.join(TM_PYTHON_FMT_VIRTUAL_ENV, "bin", cmd) unless TM_PYTHON_FMT_VIRTUAL_ENV.empty?
+    path = File.join(TM_PYTHON_FMT_VIRTUAL_ENV, "bin", cmd) if TM_PYTHON_FMT_VIRTUAL_ENV
     
     logger.info "#{cmd} -> path: #{path.inspect}"
     
@@ -48,92 +48,59 @@ module PythonFmt
   
   module_function
 
-  def read_stdin
-    @document = STDIN.read
-  end  
-  
-  def document
-    @document
-  end
-
-  def document=(value)
-    @document = value
-  end
-  
   def document_empty?
-    document.nil? || document.empty? || document.match(/\S/).nil?
+    @document.nil? || @document.empty? || @document.match(/\S/).nil?
   end
 
   def document_has_first_line_comment?
-    document.split("\n").first.include?("# TM_PYTHON_FMT_DISABLE")
+    @document.split("\n").first.include?("# TM_PYTHON_FMT_DISABLE")
   end
 
   def enabled?
     !TM_PYTHON_FMT_DISABLE
   end
 
-  def can_run_document_will_save?
-    warning_messages = []
-    any_binary = []
-
-    if TM_PYTHON_FMT_PYTHON_PATH.empty?
-      warning_messages << '"python" is required.'
-    else
-      any_binary << TM_PYTHON_FMT_PYTHON_PATH
-    end
-
-    if TM_PYTHON_FMT_BLACK.empty?
-      warning_messages << '"black" is required.'
-    else
-      any_binary << TM_PYTHON_FMT_BLACK
-    end
-
-    if TM_PYTHON_FMT_ISORT.empty?
-      warning_messages << '"isort" is required.'
-    else
-      any_binary << TM_PYTHON_FMT_ISORT
-    end
+  def can_run_document_will_save
+    messages = []
+    messages << "[black] required" if TM_PYTHON_FMT_BLACK.empty? && !TM_PYTHON_FMT_DISABLE_BLACK
+    messages << "[isort] required" if TM_PYTHON_FMT_ISORT.empty? && !TM_PYTHON_FMT_DISABLE_ISORT
+    can_run = messages.size == 0
     
-    logger.info "any? #{any_binary.any?}"
-    logger.error "warning_messages: #{warning_messages.inspect}"
-
-    return any_binary.any?, warning_messages
+    logger.debug "can_run_document_will_save: #{can_run} | #{messages.inspect}"
+    return can_run, messages
   end
 
-  def can_run_run_document_did_save?
-    warning_messages = []
-    any_binary = []
-
-    if TM_PYTHON_FMT_PYLINT.empty?
-      warning_messages << '"pylint" is required.'
-    else
-      any_binary << TM_PYTHON_FMT_PYLINT
-    end
-
-    logger.info "any? #{any_binary.any?}"
-    logger.error "warning_messages: #{warning_messages.inspect}"
-
-    return any_binary.any?, warning_messages
+  def can_run_run_document_did_save
+    messages = []
+    messages << "[pylint] required" if TM_PYTHON_FMT_PYLINT.empty? && !TM_PYTHON_FMT_DISABLE_PYLINT
+    messages << "[flake8] required" if TM_PYTHON_FMT_FLAKE8.empty? && !TM_PYTHON_FMT_DISABLE_FLAKE8
+    can_run = messages.size == 0
+    
+    logger.debug "can_run_run_document_did_save: #{can_run} | #{messages.inspect}"
+    return can_run, messages
   end
 
   def run_document_will_save(options={})
     Helpers.reset_markers
     Storage.destroy
 
-    can_run_document_will_save, warning_messages = can_run_document_will_save?
-    
-    unless can_run_document_will_save
+    can_run, messages = can_run_document_will_save
+
+    unless can_run
       logger.fatal "can not run run_document_will_save"
-      str_binary = Helpers.pluralize(warning_messages.size, 'binary', 'binaries')
-      errors = ["Warning!\n"] + warning_messages.map{|msg| "\t- #{msg}"}
+
+      str_binary = Helpers.pluralize(messages.size, 'binary', 'binaries')
+      errors = ["Warning!\n"] + messages.map{|msg| "\t- #{msg}"}
       errors += ["\nYou need to install required #{str_binary} to continue."]
+      errors += ["\nIf you are in a virtual environment please set\n\t- TM_PYTHON_FMT_VIRTUAL_ENV"]
+      errors += ["variable or use:\n\t- TM_PYTHON_FMT_DISABLE_<LINTER> convention"]
       Storage.add(errors)
       Helpers.exit_boxify_tool_tip(errors.join("\n"))
     end
     
     Helpers.exit_discard unless enabled?
     
-    read_stdin
+    @document = STDIN.read
     
     Helpers.exit_discard if document_empty?
     Helpers.exit_discard if document_has_first_line_comment?
@@ -144,38 +111,47 @@ module PythonFmt
     errors_isort = nil
     
     unless TM_PYTHON_FMT_DISABLE_BLACK
-      out, errors_black_formatter = Linters.black_formatter :cmd => TM_PYTHON_FMT_BLACK, :input => document
-      document = out
+      logger.info "will run black"
+      out, errors_black_formatter = Linters.black_formatter(:cmd => TM_PYTHON_FMT_BLACK, :input => @document)
+      @document = out
     end
 
     if errors_black_formatter.nil? && !TM_PYTHON_FMT_DISABLE_ISORT
       logger.info "will run isort"
       out, _ = Linters.isort :cmd => TM_PYTHON_FMT_ISORT, 
-                                        :input => document,
+                                        :input => @document,
                                         :black_enabled => !TM_PYTHON_FMT_DISABLE_BLACK,
                                         :virtual_env => TM_PYTHON_FMT_VIRTUAL_ENV
-      document = out
+      @document = out
       
     end
 
-    print document
+    print @document
   end
 
   def run_document_did_save
-    can_run_run_document_did_save, warning_messages = can_run_run_document_did_save?
+    storage_err = Storage.get
+    if storage_err
+      Helpers.exit_boxify_tool_tip(storage_err)
+    end
 
-    unless can_run_run_document_did_save
+    can_run, messages = can_run_run_document_did_save
+
+    unless can_run
       logger.fatal "can not run run_document_did_save"
-      str_binary = Helpers.pluralize(warning_messages.size, 'binary', 'binaries')
-      errors = ["Warning!\n"] + warning_messages.map{|msg| "\t- #{msg}"}
+
+      str_binary = Helpers.pluralize(messages.size, 'binary', 'binaries')
+      errors = ["Warning!\n"] + messages.map{|msg| "\t- #{msg}"}
       errors += ["\nYou need to install required #{str_binary} to continue."]
+      errors += ["\nIf you are in a virtual environment please set\n\t- TM_PYTHON_FMT_VIRTUAL_ENV"]
+      errors += ["variable or use:\n\t- TM_PYTHON_FMT_DISABLE_<LINTER> convention"]
       Storage.add(errors)
       Helpers.exit_boxify_tool_tip(errors.join("\n"))
     end
     
     Helpers.exit_discard unless enabled?
 
-    read_stdin
+    @document = STDIN.read
     
     Helpers.exit_discard if document_empty?
     Helpers.exit_discard if document_has_first_line_comment?
@@ -226,7 +202,7 @@ module PythonFmt
       all_errors,
       pylint_result,
       errors_flake8,
-      document.split("\n").size,
+      @document.split("\n").size,
       linters
     )
     Helpers.exit_boxify_tool_tip(error_report.join("\n"))

@@ -4,8 +4,6 @@
 <dict>
 	<key>content</key>
 	<string># flake8: noqa$0</string>
-	<key>isDisabled</key>
-	<true/>
 	<key>name</key>
 	<string>flake8: noqa + entire file</string>
 	<key>scope</key>
