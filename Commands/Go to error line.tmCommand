@@ -2,45 +2,33 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>beforeRunningCommand</key>
+	<string>nop</string>
 	<key>command</key>
 	<string>#!/usr/bin/env ruby18 -wKU
 
-require ENV['TM_SUPPORT_PATH'] + '/lib/ui'
+require ENV["TM_BUNDLE_SUPPORT"] + "/goto_error_line"
 
-TM_DOCUMENT_UUID = ENV["TM_DOCUMENT_UUID"]
-
-filename = "/tmp/textmate-python-fmt-#{TM_DOCUMENT_UUID}.goto"
-if File.exist?(filename)
-  errors = File.read(filename)
-
-  if errors
-    errors = errors.split("\n").sort
-    selected_index = TextMate::UI.menu(errors)
-
-    unless selected_index.nil?
-      selected_error = errors[selected_index]
-      if selected_error
-        line = selected_error.split(" ").first
-        system(ENV["TM_MATE"], "--uuid", TM_DOCUMENT_UUID, "--line", line)
-      end
-    end
-
-  end
-end
-</string>
+PythonFmt.goto_error</string>
 	<key>input</key>
 	<string>none</string>
+	<key>inputFormat</key>
+	<string>text</string>
 	<key>keyEquivalent</key>
 	<string>~g</string>
 	<key>name</key>
 	<string>Go to error line</string>
 	<key>outputCaret</key>
 	<string>interpolateByChar</string>
+	<key>outputFormat</key>
+	<string>text</string>
 	<key>outputLocation</key>
 	<string>discard</string>
 	<key>scope</key>
 	<string>source.python.fmt</string>
 	<key>uuid</key>
 	<string>A4D9BB59-97E9-4EE5-823A-1913C186FCF0</string>
+	<key>version</key>
+	<integer>2</integer>
 </dict>
 </plist>

@@ -1,3 +1,6 @@
+require ENV["TM_BUNDLE_SUPPORT"] + "/lib/constants"
+require ENV["TM_BUNDLE_SUPPORT"] + "/lib/logger"
+
 module Storage
   extend Logging::ClassMethods
 
@@ -7,7 +10,7 @@ module Storage
   ERROR_FILE = "#{FILE_PREFIX}.error"
   GOTO_FILE = "#{FILE_PREFIX}.goto"
 
-  def self.add(errors, goto=false)
+  def create_storage(errors, goto=false)
     filename = ERROR_FILE
     filename = GOTO_FILE if goto
     File.open(filename, 'a') do |file|
@@ -16,7 +19,7 @@ module Storage
     logger.info "storage.add for #{TM_DOCUMENT_UUID} (#{filename})"
   end
 
-  def self.get(goto=false)
+  def get_storage(goto=false)
     filename = ERROR_FILE
     filename = GOTO_FILE if goto
     if File.exist?(filename)
@@ -28,7 +31,7 @@ module Storage
     nil
   end
   
-  def self.destroy(goto=false)
+  def destroy_storage(goto=false)
     filename = ERROR_FILE
     filename = GOTO_FILE if goto
     if File.exist?(filename)
