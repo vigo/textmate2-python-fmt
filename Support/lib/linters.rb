@@ -1,29 +1,17 @@
 require ENV['TM_SUPPORT_PATH'] + '/lib/tm/process'
 
+require ENV["TM_BUNDLE_SUPPORT"] + "/lib/constants"
+require ENV["TM_BUNDLE_SUPPORT"] + "/lib/storage"
+require ENV["TM_BUNDLE_SUPPORT"] + "/lib/helpers"
+
 module Linters
+  include Constants
+
   extend Logging::ClassMethods
+  extend Storage
+  extend Helpers
 
-  TM_PROJECT_DIRECTORY = ENV["TM_PROJECT_DIRECTORY"]
-  TM_FILENAME = ENV["TM_FILENAME"]
-  TM_FILEPATH = ENV["TM_FILEPATH"]
-  
-  TM_PYTHON_FMT_BLACK_DEFAULTS = ENV["TM_PYTHON_FMT_BLACK_DEFAULTS"]
-  TM_PYTHON_FMT_ISORT_DEFAULTS = ENV["TM_PYTHON_FMT_ISORT_DEFAULTS"]
-  TM_PYTHON_FMT_PYLINT_EXTRA_OPTIONS = ENV["TM_PYTHON_FMT_PYLINT_EXTRA_OPTIONS"]
-  TM_PYTHON_FMT_FLAKE8_DEFAULTS = ENV["TM_PYTHON_FMT_FLAKE8_DEFAULTS"]
-  
   module_function
-
-  def find_config(config_file, check_home=false)
-    path = check_home ? File.join(ENV["HOME"], config_file) : File.join(TM_PROJECT_DIRECTORY, config_file)
-    File.exists?(path) ? path : nil
-  end
-
-  def pad_number(lines_count, line_number)
-    padding = lines_count.to_s.length
-    padding = 2 if lines_count < 10
-    return sprintf("%0#{padding}d", line_number)
-  end
 
   def parse_isort_errors(err, out)
     return nil if err.empty? && !out.empty?
@@ -31,7 +19,7 @@ module Linters
     original_errors = err.split("\n") unless err.empty?
     original_errors = ["check your config or extra options, something is wrong"] if out.empty?
     errors = ["⚠️ isort Error ⚠️\n"] + original_errors
-    Storage.add(errors)
+    create_storage(errors)
     return errors
   end
 
@@ -41,7 +29,7 @@ module Linters
     if err.start_with?("error:") || err.include?("Error") || err.include?("error")
       original_errors = err.split("\n")
       errors = ["⚠️ black Error ⚠️\n"] + original_errors
-      Storage.add(errors)
+      create_storage(errors)
       
       match = original_errors.first.match(/^(.+?)\s(\d+):(\d+):/)
       if match
@@ -63,7 +51,7 @@ module Linters
     
     original_errors = err.split("\n")
     errors = ["⚠️ pylint Error ⚠️\n"] + original_errors
-    Storage.add(errors)
+    create_storage(errors)
     return errors
   end
 
@@ -72,24 +60,8 @@ module Linters
     
     original_errors = err.split("\n")
     errors = ["⚠️ flake8 Error ⚠️\n"] + original_errors
-    Storage.add(errors)
+    create_storage(errors)
     return errors
-  end
-
-  def get_required_config_file(options={})
-    to_use = nil
-    
-    files = options[:files] || []
-    if files.size > 0
-      files.each do |cfg|
-        config_file = cfg[:file]
-        check_home = cfg[:home] || false
-        possible_config = find_config(config_file, check_home)
-        to_use = possible_config if possible_config
-      end
-    end
-    
-    to_use
   end
 
   def black_formatter(options={})
@@ -301,7 +273,7 @@ module Linters
     flake8_errors = []
     go_to_errors = []
 
-    Storage.destroy(true)
+    destroy_storage(true)
 
     all_errors.each do |line_number, errors|
       errors.each do |error|
@@ -376,7 +348,8 @@ module Linters
       total_error_count = pylint_error_count+flake8_error_count
       str_total_error = Helpers.pluralize(total_error_count, "error", "errors")
 
-      error_report << "⚠️ found #{total_error_count} #{str_total_error} ⚠️"
+      error_report << "⚠️ found #{total_error_count} #{str_total_error} ⚠️\n"
+      error_report << "🔍 Use Option ( ⌥ ) + G to jump error line!"
       error_report << ""
 
       if pylint_error_count > 0
@@ -403,8 +376,7 @@ module Linters
     end
     
     error_report << pylint_success_message unless pylint_success_message.nil?
-    Storage.add(go_to_errors, true) if go_to_errors
+    create_storage(go_to_errors, true) if go_to_errors
     return error_report
   end
-
 end

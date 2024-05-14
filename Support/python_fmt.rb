@@ -1,3 +1,4 @@
+require ENV["TM_BUNDLE_SUPPORT"] + "/lib/constants"
 require ENV["TM_BUNDLE_SUPPORT"] + "/lib/logger"
 require ENV["TM_BUNDLE_SUPPORT"] + "/lib/storage"
 require ENV["TM_BUNDLE_SUPPORT"] + "/lib/helpers"
@@ -5,44 +6,10 @@ require ENV["TM_BUNDLE_SUPPORT"] + "/lib/linters"
 
 module PythonFmt
   include Logging
+  include Constants
 
-  TM_PYTHON_FMT_VIRTUAL_ENV = ENV["TM_PYTHON_FMT_VIRTUAL_ENV"]
-
-  def self.find_binary(cmd)
-    path = ""
-    case cmd
-    when "python"
-      path = ENV["TM_PYTHON_FMT_PYTHON_PATH"] || ENV["TM_PYTHON"] || `command -v #{cmd}`.chomp
-    when "black" then
-      path = ENV["TM_PYTHON_FMT_BLACK"] || `command -v #{cmd}`.chomp
-    when "isort" then
-      path = ENV["TM_PYTHON_FMT_ISORT"] || `command -v #{cmd}`.chomp
-    when "pylint" then
-      path = ENV["TM_PYTHON_FMT_PYLINT"] || `command -v #{cmd}`.chomp
-    when "flake8" then
-      path = ENV["TM_PYTHON_FMT_FLAKE8"] || `command -v #{cmd}`.chomp
-    end
-    
-    path = File.join(TM_PYTHON_FMT_VIRTUAL_ENV, "bin", cmd) if TM_PYTHON_FMT_VIRTUAL_ENV
-    
-    logger.info "#{cmd} -> path: #{path.inspect}"
-    
-    path = "" unless File.exists?(path)
-    path
-  end
-
-  TM_PYTHON_FMT_DISABLE = !!ENV["TM_PYTHON_FMT_DISABLE"]
-
-  TM_PYTHON_FMT_PYTHON_PATH = find_binary("python")
-  TM_PYTHON_FMT_BLACK = find_binary("black")
-  TM_PYTHON_FMT_ISORT = find_binary("isort")
-  TM_PYTHON_FMT_PYLINT = find_binary("pylint")
-  TM_PYTHON_FMT_FLAKE8 = find_binary("flake8")
-
-  TM_PYTHON_FMT_DISABLE_BLACK = !!ENV["TM_PYTHON_FMT_DISABLE_BLACK"]
-  TM_PYTHON_FMT_DISABLE_ISORT = !!ENV["TM_PYTHON_FMT_DISABLE_ISORT"]
-  TM_PYTHON_FMT_DISABLE_PYLINT = !!ENV["TM_PYTHON_FMT_DISABLE_PYLINT"]
-  TM_PYTHON_FMT_DISABLE_FLAKE8 = !!ENV["TM_PYTHON_FMT_DISABLE_FLAKE8"]
+  extend Storage
+  extend Helpers
 
   @document = nil
   
@@ -81,29 +48,29 @@ module PythonFmt
   end
 
   def run_document_will_save(options={})
-    Helpers.reset_markers
-    Storage.destroy
+    reset_markers
+    destroy_storage
 
     can_run, messages = can_run_document_will_save
 
     unless can_run
       logger.fatal "can not run run_document_will_save"
 
-      str_binary = Helpers.pluralize(messages.size, 'binary', 'binaries')
+      str_binary = pluralize(messages.size, 'binary', 'binaries')
       errors = ["Warning!\n"] + messages.map{|msg| "\t- #{msg}"}
       errors += ["\nYou need to install required #{str_binary} to continue."]
       errors += ["\nIf you are in a virtual environment please set\n\t- TM_PYTHON_FMT_VIRTUAL_ENV"]
       errors += ["variable or use:\n\t- TM_PYTHON_FMT_DISABLE_<LINTER> convention"]
-      Storage.add(errors)
-      Helpers.exit_boxify_tool_tip(errors.join("\n"))
+      create_storage(errors)
+      exit_boxify_tool_tip(errors.join("\n"))
     end
     
-    Helpers.exit_discard unless enabled?
+    exit_discard unless enabled?
     
     @document = STDIN.read
     
-    Helpers.exit_discard if document_empty?
-    Helpers.exit_discard if document_has_first_line_comment?
+    exit_discard if document_empty?
+    exit_discard if document_has_first_line_comment?
     
     logger.info "running run_document_will_save"
     
@@ -130,38 +97,36 @@ module PythonFmt
   end
 
   def run_document_did_save
-    storage_err = Storage.get
-    if storage_err
-      Helpers.exit_boxify_tool_tip(storage_err)
-    end
+    storage_err = get_storage
+    exit_boxify_tool_tip(storage_err) if storage_err
 
     can_run, messages = can_run_run_document_did_save
 
     unless can_run
       logger.fatal "can not run run_document_did_save"
 
-      str_binary = Helpers.pluralize(messages.size, 'binary', 'binaries')
+      str_binary = pluralize(messages.size, 'binary', 'binaries')
       errors = ["Warning!\n"] + messages.map{|msg| "\t- #{msg}"}
       errors += ["\nYou need to install required #{str_binary} to continue."]
       errors += ["\nIf you are in a virtual environment please set\n\t- TM_PYTHON_FMT_VIRTUAL_ENV"]
       errors += ["variable or use:\n\t- TM_PYTHON_FMT_DISABLE_<LINTER> convention"]
-      Storage.add(errors)
-      Helpers.exit_boxify_tool_tip(errors.join("\n"))
+      create_storage(errors)
+      exit_boxify_tool_tip(errors.join("\n"))
     end
     
-    Helpers.exit_discard unless enabled?
+    exit_discard unless enabled?
 
     @document = STDIN.read
     
-    Helpers.exit_discard if document_empty?
-    Helpers.exit_discard if document_has_first_line_comment?
+    exit_discard if document_empty?
+    exit_discard if document_has_first_line_comment?
     
     logger.info "running run_document_did_save"
     
-    storage_err = Storage.get
+    storage_err = get_storage
     if storage_err
       logger.error "storage_err: #{storage_err.inspect}"
-      Helpers.exit_boxify_tool_tip(storage_err)
+      exit_boxify_tool_tip(storage_err)
     end
     
     all_errors = {}
@@ -189,7 +154,7 @@ module PythonFmt
     end
 
     logger.error "all_errors: #{all_errors.inspect}"
-    Helpers.set_markers("error", all_errors) if all_errors
+    set_markers("error", all_errors) if all_errors
     
     linters = {
       :black => !TM_PYTHON_FMT_DISABLE_BLACK,
@@ -205,6 +170,6 @@ module PythonFmt
       @document.split("\n").size,
       linters
     )
-    Helpers.exit_boxify_tool_tip(error_report.join("\n"))
+    exit_boxify_tool_tip(error_report.join("\n"))
   end
 end

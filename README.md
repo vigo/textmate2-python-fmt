@@ -287,6 +287,12 @@ or try to copy error text from modal dialog.
 
 ## Change Log
 
+**2024-05-14**
+
+- Small improvements in project structure
+
+---
+
 **2024-05-13**
 
 Another refactoring

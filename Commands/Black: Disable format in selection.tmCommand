@@ -17,7 +17,7 @@ PythonFmt.toggle_format</string>
 	<key>keyEquivalent</key>
 	<string>~d</string>
 	<key>name</key>
-	<string>Black: Disable format in selection</string>
+	<string>Black: Disable format (toggle)  in selection</string>
 	<key>outputCaret</key>
 	<string>afterOutput</string>
 	<key>outputFormat</key>

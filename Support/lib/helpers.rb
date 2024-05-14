@@ -116,4 +116,30 @@ module Helpers
     TextMate.exit_show_tool_tip(boxify(msg))
   end
 
+  def find_config(config_file, check_home=false)
+    path = check_home ? File.join(ENV["HOME"], config_file) : File.join(TM_PROJECT_DIRECTORY, config_file)
+    File.exists?(path) ? path : nil
+  end
+
+  def pad_number(lines_count, line_number)
+    padding = lines_count.to_s.length
+    padding = 2 if lines_count < 10
+    return sprintf("%0#{padding}d", line_number)
+  end
+  
+  def get_required_config_file(options={})
+    to_use = nil
+    
+    files = options[:files] || []
+    if files.size > 0
+      files.each do |cfg|
+        config_file = cfg[:file]
+        check_home = cfg[:home] || false
+        possible_config = find_config(config_file, check_home)
+        to_use = possible_config if possible_config
+      end
+    end
+    
+    to_use
+  end
 end
